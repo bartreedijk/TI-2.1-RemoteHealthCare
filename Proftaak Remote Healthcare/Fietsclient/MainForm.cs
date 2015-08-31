@@ -8,13 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Fietsclient
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        private readonly AppGlobal _global;
+        public MainForm(AppGlobal global)
         {
             InitializeComponent();
+            _global = global;
         }
     }
 }
