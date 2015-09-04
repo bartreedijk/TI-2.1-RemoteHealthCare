@@ -16,7 +16,7 @@ namespace Fietsclient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(new AppGlobal()));
+            Application.Run(new MainForm(AppGlobal.Instance));
         }
     }
 }

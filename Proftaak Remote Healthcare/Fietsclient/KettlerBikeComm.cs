@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.Ports;
 
 namespace Fietsclient
 {
     class KettlerBikeComm
     {
+        private string _portname;
+        private int baudrate = 9600;
 
-        private static KettlerBikeComm _instance;
-        public static KettlerBikeComm Instance
+
+        private SerialPort ComPort;
+        public KettlerBikeComm(string port)
         {
-            get { return _instance ?? (_instance = new KettlerBikeComm()); }
+            this._portname = port;
         }
 
-        private KettlerBikeComm()
+        public void initComm()
         {
-
+            ComPort = new SerialPort(_portname, this.baudrate);
+            ComPort.Open();
+            Console.WriteLine("test");
+            ComPort.WriteLine("RS");
+            Console.Write(ComPort.ReadLine());
+            Console.WriteLine("end of message");
         }
     }
 }
