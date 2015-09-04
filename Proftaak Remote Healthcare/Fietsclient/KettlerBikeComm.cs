@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
+using System.Threading;
 
 namespace Fietsclient
 {
@@ -11,6 +12,8 @@ namespace Fietsclient
     {
         private string _portname;
         private int baudrate = 9600;
+        private string _bufferOut;
+        private string[] _bufferIn;
 
 
         private SerialPort ComPort;
@@ -27,6 +30,22 @@ namespace Fietsclient
             ComPort.WriteLine("RS");
             Console.Write(ComPort.ReadLine());
             Console.WriteLine("end of message");
+            ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
+
+            while(true)
+            {
+                Thread.Sleep(1000);
+                ComPort.WriteLine("ST");
+            }
+        }
+
+        private void ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            string buffer = ComPort.ReadLine();
+            buffer = buffer.TrimEnd('\r');
+            Console.WriteLine(buffer);
+            _bufferIn = buffer.Split('\t');
+            
         }
     }
 }
