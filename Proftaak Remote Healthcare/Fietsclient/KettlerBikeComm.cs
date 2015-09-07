@@ -39,13 +39,29 @@ namespace Fietsclient
             }
         }
 
+        public void sendData(string data)
+        {
+            _bufferOut = data;
+            ComPort.WriteLine(data);
+        }
+
         private void ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string buffer = ComPort.ReadLine();
+            switch(buffer) //kijk wat er binnenkomt
+            {
+                case "ERROR": //wanneer "Error"
+                    if (_bufferOut == "RS") sendData("RS"); //gewoon nog een keer proberen...
+                    return;
+                case "ACK": // ACK betekent acknowledged.
+                    return;
+                default:    // alle andere waarden.
+                    return;
+            }
+
             buffer = buffer.TrimEnd('\r');
             Console.WriteLine(buffer);
             _bufferIn = buffer.Split('\t');
-            
         }
     }
 }
