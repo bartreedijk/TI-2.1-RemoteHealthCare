@@ -14,11 +14,14 @@ namespace Fietsclient
             get { return _instance ?? (_instance = new AppGlobal()); }
         }
 
+
         private KettlerBikeComm _bikeComm;
+
 
         private AppGlobal()
         {
-            
+            _bikeComm = new KettlerBikeComm();
+            _bikeComm.IncomingDataEvent += HandleBikeData; //initialize event
         }
 
         public void startComPort()
@@ -28,10 +31,17 @@ namespace Fietsclient
 
         public void startComPort(string portname)
         {
-            _bikeComm = new KettlerBikeComm(portname);
-            _bikeComm.initComm();
+            _bikeComm.initComm(portname);
         }
 
-        
+        //event handler
+        public void HandleBikeData(string[] data) 
+        {
+            //doe iets ermee...
+        }
+
+
+
+
     }
 }
