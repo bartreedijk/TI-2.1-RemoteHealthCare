@@ -21,7 +21,7 @@ namespace Fietsclient
         private AppGlobal()
         {
             _bikeComm = new KettlerBikeComm();
-            _bikeComm.IncomingDataEvent += HandleBikeData; //initialize event
+            KettlerBikeComm.IncomingDataEvent += HandleBikeData; //initialize event
         }
 
         public void startComPort()
@@ -35,7 +35,7 @@ namespace Fietsclient
         }
 
         //event handler
-        public void HandleBikeData(string[] data) 
+        private void HandleBikeData(string[] data) 
         {
             //doe iets ermee...
         }

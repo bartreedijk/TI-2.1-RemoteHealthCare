@@ -37,14 +37,14 @@ namespace Fietsclient
 
         // custom events
         public delegate void DataDelegate(string[] data);
-        public event DataDelegate IncomingDataEvent;
+        public static event DataDelegate IncomingDataEvent;
 
         public KettlerBikeComm()
         {
             
         }
 
-        private void OnIncomingDataEvent(string[] data)
+        private static void OnIncomingDataEvent(string[] data)
         {
             DataDelegate handler = IncomingDataEvent;
             if (handler != null) handler(data);

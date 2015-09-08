@@ -18,6 +18,7 @@ namespace Fietsclient
         {
             InitializeComponent();
             _global = global;
+            KettlerBikeComm.IncomingDataEvent += HandleBikeData;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,6 +26,15 @@ namespace Fietsclient
             _global.startComPort();
         }
 
+        private void HandleBikeData(string[] data)
+        {
+            addTextToLog("pulse: " + data[0] + ", rpm: " + data[1] + ",  speed*10: " + data[2] + ",  distance: " + data[3] +
+                ",  requested_power: " + data[4] + ", energy: " + data[5] + ", mm:ss: " + data[6] + ", actual_power: " + data[7]);
+        }
 
+        private void addTextToLog(string text)
+        {
+            textBox1.AppendText(text);
+        }
     }
 }
