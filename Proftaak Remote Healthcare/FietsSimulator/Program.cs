@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FietsSimulator
 {
@@ -11,7 +12,11 @@ namespace FietsSimulator
     {
         static void Main(string[] args)
         {
-
+            new FietsSimulator("COM6");
+            while(true)
+            {
+                Thread.Sleep(10);
+            }
         }
     }
 
@@ -51,7 +56,8 @@ namespace FietsSimulator
 
         private void ReceiveData(object sender, SerialDataReceivedEventArgs e)
         {
-            String message = comport.ReadLine().Trim();
+            string message = comport.ReadLine().Trim();
+            Console.WriteLine(message);
             if (message == "RS")
             {
                 curmode = Mode.NONE;
@@ -75,12 +81,17 @@ namespace FietsSimulator
                     SendData("ERROR");
                 }
             }
+            else if (message == "ST")
+            {
+                SendData("0\t100\t10\t20\t" + Power.ToString() + "\t600\t0504\t200\r");
+                // pulse rpm speed * 10 distance requested_power energy mm:ss actual_power
+            }
             else
             {
                 SendData("ERROR");
             }
         }
-        private void SendData(String message)
+        private void SendData(string message)
         {
             this.comport.WriteLine(message);
         }
