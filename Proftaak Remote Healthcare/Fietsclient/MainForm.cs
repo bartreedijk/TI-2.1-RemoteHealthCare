@@ -34,6 +34,12 @@ namespace Fietsclient
 
         private void addTextToLog(string text)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((new Action(() => addTextToLog(text))));
+                return;
+            }
+
             textBox1.AppendText(text);
         }
     }
