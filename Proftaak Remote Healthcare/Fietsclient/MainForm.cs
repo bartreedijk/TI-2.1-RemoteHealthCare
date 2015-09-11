@@ -40,7 +40,17 @@ namespace Fietsclient
                 return;
             }
 
-            textBox1.AppendText(text);
+            textBox1.AppendText(text + "\n");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _global.startAskingData();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _global.closeComPort();
         }
     }
 }

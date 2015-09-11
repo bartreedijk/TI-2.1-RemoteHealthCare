@@ -12,13 +12,13 @@ namespace Fietsclient
     {
 
         // vaste waarden
-        private readonly string COMMAND = "CM";
-        private readonly string CMD_TIME = "PT";
-        private readonly string CMD_DISTANCE = "PD";
-        private readonly string CMD_POWER = "PW";
-        private readonly string CMD_ENERGY = "PE";
-        private readonly string RESET = "RS";
-        private readonly string STATUS = "ST";
+        public static readonly string COMMAND = "CM";
+        public static readonly string CMD_TIME = "PT";
+        public static readonly string CMD_DISTANCE = "PD";
+        public static readonly string CMD_POWER = "PW";
+        public static readonly string CMD_ENERGY = "PE";
+        public static readonly string RESET = "RS";
+        public static readonly string STATUS = "ST";
 
         // private fields
         private string _portname;
@@ -52,6 +52,10 @@ namespace Fietsclient
 
         public void initComm(string portname)
         {
+            if (ComPort != null)
+            {
+                ComPort.Close();
+            }
             _portname = portname;
             ComPort = new SerialPort(_portname, this.baudrate);
             ComPort.Open();
@@ -60,12 +64,11 @@ namespace Fietsclient
             Console.Write(ComPort.ReadLine());
             Console.WriteLine("end of message");
             ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
+        }
 
-            while(true)
-            {
-                Thread.Sleep(1000);
-                ComPort.WriteLine("ST");
-            }
+        public void closeComm()
+        {
+            ComPort.Close();
         }
 
         public void sendData(string data)
