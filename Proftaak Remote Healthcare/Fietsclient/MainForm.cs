@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Ports;
 
 
 namespace Fietsclient
@@ -17,13 +18,15 @@ namespace Fietsclient
         public MainForm(AppGlobal global)
         {
             InitializeComponent();
+            getAvailablePorts();
             _global = global;
             KettlerBikeComm.IncomingDataEvent += HandleBikeData;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void getAvailablePorts()
         {
-            _global.startComPort();
+            string[] ports = SerialPort.GetPortNames();
+            ComPortComboBox.Items.AddRange(ports);
         }
 
         private void HandleBikeData(string[] data)
@@ -51,6 +54,21 @@ namespace Fietsclient
         private void button3_Click(object sender, EventArgs e)
         {
             _global.closeComPort();
+            ComPortProgressBar.Value = 0;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ComPortComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!(ComPortComboBox.Text == ""))
+            {
+                _global.startComPort(ComPortComboBox.Text);
+                ComPortProgressBar.Value = 100;
+            }
         }
     }
 }

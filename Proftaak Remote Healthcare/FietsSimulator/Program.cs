@@ -12,7 +12,7 @@ namespace FietsSimulator
     {
         static void Main(string[] args)
         {
-            new FietsSimulator("COM6");
+            new FietsSimulator("COM5");
             while(true)
             {
                 Thread.Sleep(10);

@@ -28,21 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.statusButton = new System.Windows.Forms.Button();
+            this.closeComportButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ComPortProgressBar = new System.Windows.Forms.ProgressBar();
+            this.ComPortComboBox = new System.Windows.Forms.ComboBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "init comport";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
@@ -55,25 +48,55 @@
             this.textBox1.Size = new System.Drawing.Size(806, 142);
             this.textBox1.TabIndex = 1;
             // 
-            // button2
+            // statusButton
             // 
-            this.button2.Location = new System.Drawing.Point(12, 42);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(118, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "start asking for status";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.statusButton.Location = new System.Drawing.Point(10, 46);
+            this.statusButton.Name = "statusButton";
+            this.statusButton.Size = new System.Drawing.Size(119, 23);
+            this.statusButton.TabIndex = 2;
+            this.statusButton.Text = "Status";
+            this.statusButton.UseVisualStyleBackColor = true;
+            this.statusButton.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // closeComportButton
             // 
-            this.button3.Location = new System.Drawing.Point(94, 13);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(88, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "close comport";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.closeComportButton.Location = new System.Drawing.Point(10, 75);
+            this.closeComportButton.Name = "closeComportButton";
+            this.closeComportButton.Size = new System.Drawing.Size(119, 23);
+            this.closeComportButton.TabIndex = 3;
+            this.closeComportButton.Text = "Close port";
+            this.closeComportButton.UseVisualStyleBackColor = true;
+            this.closeComportButton.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.ComPortProgressBar);
+            this.groupBox1.Controls.Add(this.statusButton);
+            this.groupBox1.Controls.Add(this.ComPortComboBox);
+            this.groupBox1.Controls.Add(this.closeComportButton);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(137, 145);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Com port options";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // ComPortProgressBar
+            // 
+            this.ComPortProgressBar.Location = new System.Drawing.Point(10, 104);
+            this.ComPortProgressBar.Name = "ComPortProgressBar";
+            this.ComPortProgressBar.Size = new System.Drawing.Size(119, 30);
+            this.ComPortProgressBar.TabIndex = 8;
+            // 
+            // ComPortComboBox
+            // 
+            this.ComPortComboBox.FormattingEnabled = true;
+            this.ComPortComboBox.Location = new System.Drawing.Point(10, 19);
+            this.ComPortComboBox.Name = "ComPortComboBox";
+            this.ComPortComboBox.Size = new System.Drawing.Size(119, 21);
+            this.ComPortComboBox.TabIndex = 6;
+            this.ComPortComboBox.SelectedIndexChanged += new System.EventHandler(this.ComPortComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -81,23 +104,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(830, 343);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
             this.Name = "MainForm";
             this.Text = "Form1";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button statusButton;
+        private System.Windows.Forms.Button closeComportButton;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox ComPortComboBox;
+        private System.Windows.Forms.ProgressBar ComPortProgressBar;
     }
 }
 
