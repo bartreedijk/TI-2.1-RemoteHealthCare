@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,16 +15,26 @@ namespace Fietsclient
     public partial class MainForm : Form
     {
         private readonly AppGlobal _global;
+        private SerialPort ComPort;
+        string port;
+
         public MainForm(AppGlobal global)
         {
             InitializeComponent();
             _global = global;
             KettlerBikeComm.IncomingDataEvent += HandleBikeData;
+            foreach (String item in getComports())
+            {
+                cmbComport.Items.Add(item);
+            }
+
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _global.startComPort();
+            _global.startComPort(port);
+
         }
 
         private void HandleBikeData(string[] data)
@@ -51,6 +62,16 @@ namespace Fietsclient
         private void button3_Click(object sender, EventArgs e)
         {
             _global.closeComPort();
+        }
+
+        private String[] getComports()
+        {
+            return SerialPort.GetPortNames();
+        }
+
+        private void cmbComport_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            port = cmbComport.SelectedItem.ToString();
         }
     }
 }

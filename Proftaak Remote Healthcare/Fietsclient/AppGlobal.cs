@@ -29,11 +29,12 @@ namespace Fietsclient
 
         public void startComPort()
         {
-            startComPort("COM5");
+            startComPort("COM3");
         }
 
         public void startComPort(string portname)
         {
+            Console.WriteLine(portname);
             _bikeComm.initComm(portname);
         }
 
