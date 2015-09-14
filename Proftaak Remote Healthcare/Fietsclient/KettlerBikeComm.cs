@@ -8,6 +8,9 @@ using System.Threading;
 
 namespace Fietsclient
 {
+    /// <summary>
+    /// Dit is de communicatieklasse met de simulator of de fiets.
+    /// </summary>
     class KettlerBikeComm
     {
 

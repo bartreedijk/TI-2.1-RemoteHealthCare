@@ -9,7 +9,7 @@ namespace Fietsclient
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// 'Hier begint de applicatie met draaien. hij maakt een gui aan en in het gui object geeft hij een instantie mee van AppGlobal.
         /// </summary>
         [STAThread]
         static void Main()
