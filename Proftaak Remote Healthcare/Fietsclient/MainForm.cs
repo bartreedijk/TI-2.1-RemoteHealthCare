@@ -52,5 +52,10 @@ namespace Fietsclient
         {
             _global.closeComPort();
         }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
