@@ -12,8 +12,13 @@ namespace FietsSimulator
     {
         static void Main(string[] args)
         {
-            new FietsSimulator("COM4");
-            while(true)
+            string[] ports = SerialPort.GetPortNames();
+            Console.WriteLine("Availabe Comports: \n" + String.Join(" \n", ports));
+            Console.WriteLine("Enter Comport:");
+            string port = Console.ReadLine();
+            new FietsSimulator(port);
+            Console.WriteLine("Started Simulator");
+            while (true)
             {
                 Thread.Sleep(10);
             }
@@ -29,7 +34,8 @@ namespace FietsSimulator
         public int Power
         {
             get { return _power; }
-            set {
+            set
+            {
                 if (value >= 25 && value <= 400)
                     _power = value;
                 if (value < 25)
@@ -72,7 +78,7 @@ namespace FietsSimulator
             }
             else if (message.Contains("PW"))
             {
-                if(curmode != Mode.NONE && message.Split().Length == 2)
+                if (curmode != Mode.NONE && message.Split().Length == 2)
                 {
                     this.Power = Int32.Parse(message.Split(' ')[1]);
                 }
