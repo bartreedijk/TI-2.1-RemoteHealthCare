@@ -29,7 +29,7 @@ namespace Fietsclient
 
         public void startComPort()
         {
-            startComPort("COM5");
+            startComPort("COM4");
         }
 
         public void startComPort(string portname)

@@ -28,8 +28,17 @@ namespace Fietsclient
 
         private void HandleBikeData(string[] data)
         {
-            addTextToLog("pulse: " + data[0] + ", rpm: " + data[1] + ",  speed*10: " + data[2] + ",  distance: " + data[3] +
-                ",  requested_power: " + data[4] + ", energy: " + data[5] + ", mm:ss: " + data[6] + ", actual_power: " + data[7]);
+            String logString = "";
+            foreach (int indexChecked in checkedListBox1.CheckedIndices)
+            {
+                object item = checkedListBox1.Items[indexChecked];
+                logString +=  item.ToString() + " : " + data[indexChecked] + " ";
+            }
+
+            addTextToLog(logString);
+
+            /*addTextToLog("pulse: " + data[0] + ", rpm: " + data[1] + ",  speed*10: " + data[2] + ",  distance: " + data[3] +
+                ",  requested_power: " + data[4] + ", energy: " + data[5] + ", mm:ss: " + data[6] + ", actual_power: " + data[7]);*/
         }
 
         private void addTextToLog(string text)
@@ -52,5 +61,6 @@ namespace Fietsclient
         {
             _global.closeComPort();
         }
+
     }
 }
