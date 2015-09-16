@@ -79,13 +79,11 @@ namespace Fietsclient
             catch (UnauthorizedAccessException)
             {
                 OnIncomingDebugLineEvent("ERROR: UnauthorizedAccessException throwed");
+                try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
             }
             catch (InvalidOperationException)
             {
                 OnIncomingDebugLineEvent("ERROR: InvalidOperationException throwed");
-            }
-            finally
-            {
                 try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
             }
 
