@@ -36,11 +36,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmbComport = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.comPortProgressBar = new System.Windows.Forms.ProgressBar();
+            this.pgbComport = new System.Windows.Forms.ProgressBar();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
@@ -95,15 +95,16 @@
             this.checkedListBox1.Size = new System.Drawing.Size(210, 124);
             this.checkedListBox1.TabIndex = 4;
             // 
-            // comboBox1
+            // cmbComport
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(11, 39);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 21);
-            this.comboBox1.TabIndex = 5;
+            this.cmbComport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbComport.FormattingEnabled = true;
+            this.cmbComport.Location = new System.Drawing.Point(11, 39);
+            this.cmbComport.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbComport.Name = "cmbComport";
+            this.cmbComport.Size = new System.Drawing.Size(100, 21);
+            this.cmbComport.TabIndex = 5;
+            this.cmbComport.SelectionChangeCommitted += new System.EventHandler(this.cmbComport_SelectionChangeCommitted);
             // 
             // menuStrip1
             // 
@@ -140,12 +141,12 @@
             this.chart1.TabIndex = 7;
             this.chart1.Text = "chart1";
             // 
-            // comPortProgressBar
+            // pgbComport
             // 
-            this.comPortProgressBar.Location = new System.Drawing.Point(13, 66);
-            this.comPortProgressBar.Name = "comPortProgressBar";
-            this.comPortProgressBar.Size = new System.Drawing.Size(207, 23);
-            this.comPortProgressBar.TabIndex = 8;
+            this.pgbComport.Location = new System.Drawing.Point(13, 66);
+            this.pgbComport.Name = "pgbComport";
+            this.pgbComport.Size = new System.Drawing.Size(207, 23);
+            this.pgbComport.TabIndex = 8;
             // 
             // MainForm
             // 
@@ -153,9 +154,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(794, 519);
-            this.Controls.Add(this.comPortProgressBar);
+            this.Controls.Add(this.pgbComport);
             this.Controls.Add(this.chart1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cmbComport);
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -178,11 +179,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbComport;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.ProgressBar comPortProgressBar;
+        private System.Windows.Forms.ProgressBar pgbComport;
     }
 }
 

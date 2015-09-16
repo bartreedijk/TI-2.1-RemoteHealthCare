@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace Fietsclient
             InitializeComponent();
             _global = global;
             KettlerBikeComm.IncomingDataEvent += HandleBikeData;
+            KettlerBikeComm.IncomingDebugLineEvent += addTextToLog;
+            getAvailablePorts();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -61,5 +64,21 @@ namespace Fietsclient
         {
             _global.closeComPort();
         }
+
+        private void getAvailablePorts()
+        {
+            string[] ports = SerialPort.GetPortNames();
+            cmbComport.Items.AddRange(ports);
+        }
+
+        private void cmbComport_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!(cmbComport.Text == ""))
+            {
+                _global.startComPort(cmbComport.Text);
+                pgbComport.Value = 100;
+            }
+        }
+
     }
 }
