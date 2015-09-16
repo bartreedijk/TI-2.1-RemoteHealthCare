@@ -42,6 +42,9 @@ namespace Fietsclient
         public delegate void DataDelegate(string[] data);
         public static event DataDelegate IncomingDataEvent;
 
+        public delegate void DebugDelegate(string debugData);
+        public static event DebugDelegate IncomingDebugLineEvent;
+
         public KettlerBikeComm()
         {
             
@@ -53,6 +56,12 @@ namespace Fietsclient
             if (handler != null) handler(data);
         }
 
+        private static void OnIncomingDebugLineEvent(string debugData)
+        {
+            DebugDelegate handler = IncomingDebugLineEvent;
+            if (handler != null) handler(debugData);
+        }
+
         public void initComm(string portname)
         {
             if (ComPort != null)
@@ -60,13 +69,26 @@ namespace Fietsclient
                 ComPort.Close();
             }
             _portname = portname;
-            ComPort = new SerialPort(_portname, this.baudrate);
-            ComPort.Open();
-            Console.WriteLine("test");
-            ComPort.WriteLine(RESET);
-            Console.Write(ComPort.ReadLine());
-            Console.WriteLine("end of message");
-            ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
+            try
+            {
+                ComPort = new SerialPort(_portname, this.baudrate);
+                ComPort.Open();
+                ComPort.WriteLine(RESET);
+                ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                OnIncomingDebugLineEvent("ERROR: UnauthorizedAccessException throwed");
+            }
+            catch (InvalidOperationException)
+            {
+                OnIncomingDebugLineEvent("ERROR: InvalidOperationException throwed");
+            }
+            finally
+            {
+                try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
+            }
+
         }
 
         public void closeComm()
@@ -86,8 +108,8 @@ namespace Fietsclient
             switch(buffer) //kijk wat er binnenkomt
             {
                 case "ERROR": //wanneer "Error"
-                    //if (_bufferOut == "RS") sendData("RS"); //gewoon nog een keer proberen...
                     returnData = ReturnData.ERROR;
+                    handleError();
                     break;
                 case "ACK": // ACK betekent acknowledged.
                     returnData = ReturnData.ACK;
@@ -99,6 +121,16 @@ namespace Fietsclient
                     returnData = ReturnData.STATUS;
                     handleBikeValues(buffer);
                     break;
+            }
+        }
+
+        int trycount = 0;
+        private void handleError()
+        {
+            if (_bufferOut == "RS" && trycount < 3)
+            {
+                sendData("RS");  //gewoon nog een keer proberen tot 3 keer toe, net zolang totdat hij werkt.
+                trycount++;
             }
         }
 
