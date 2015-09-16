@@ -56,7 +56,7 @@ namespace Fietsclient
             if (handler != null) handler(data);
         }
 
-        private static void OnIncomingDebugLineEvent(string debugData)
+        public static void OnIncomingDebugLineEvent(string debugData)
         {
             DebugDelegate handler = IncomingDebugLineEvent;
             if (handler != null) handler(debugData);
