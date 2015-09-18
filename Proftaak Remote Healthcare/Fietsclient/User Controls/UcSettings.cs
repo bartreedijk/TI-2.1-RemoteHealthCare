@@ -32,16 +32,11 @@ namespace Fietsclient.User_Controls
             _global.startAskingData();
         }
 
-        private void chkChooseData_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void cmbChooseCom_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (!(cmbChooseCom.Text == ""))
+            if ((cmbChooseCom.Text == ""))
             {
-                _global.startComPort(cmbChooseCom.Text);
+                _global.startComPort(cmbChooseCom.SelectedItem.ToString());
                 pgbInit.Value = 100;
             }
         }

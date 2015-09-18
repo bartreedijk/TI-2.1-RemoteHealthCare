@@ -11,6 +11,8 @@ namespace Fietsclient
     {
         private static AppGlobal _instance;
 
+        public int[] StatusItemsChecked;
+
         Thread workerThread;
         public static AppGlobal Instance
         {
