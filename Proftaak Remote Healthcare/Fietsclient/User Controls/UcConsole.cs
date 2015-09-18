@@ -33,8 +33,8 @@ namespace Fietsclient.User_Controls
         private void HandleBikeData(string[] data)
         {
 
-            addTextToLog("pulse: " + data[0] + ", rpm: " + data[1] + ",  speed*10: " + data[2] + ",  distance: " + data[3] +
-                ",  requested_power: " + data[4] + ", energy: " + data[5] + ", mm:ss: " + data[6] + ", actual_power: " + data[7]);
+            addTextToLog("Pulse: " + data[0] + ", Rpm: " + data[1] + ",  Speed: " + data[2] + ",  Distance: " + data[3] +
+                ",  Requestedpower: " + data[4] + ", Energy: " + data[5] + ", Time: " + data[6] + ", Actualpower: " + data[7]);
         }
     }
 }

@@ -30,7 +30,6 @@
         {
             this.cmbChooseCom = new System.Windows.Forms.ComboBox();
             this.pgbInit = new System.Windows.Forms.ProgressBar();
-            this.chkChooseData = new System.Windows.Forms.CheckedListBox();
             this.btnCloseCom = new System.Windows.Forms.Button();
             this.btnStartAsking = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -50,24 +49,6 @@
             this.pgbInit.Name = "pgbInit";
             this.pgbInit.Size = new System.Drawing.Size(129, 23);
             this.pgbInit.TabIndex = 1;
-            // 
-            // chkChooseData
-            // 
-            this.chkChooseData.FormattingEnabled = true;
-            this.chkChooseData.Items.AddRange(new object[] {
-            "Pulse",
-            "Rpm",
-            "Speed",
-            "Distance",
-            "Requestedpower",
-            "Energy",
-            "Time",
-            "Actualpower"});
-            this.chkChooseData.Location = new System.Drawing.Point(23, 435);
-            this.chkChooseData.Name = "chkChooseData";
-            this.chkChooseData.Size = new System.Drawing.Size(153, 140);
-            this.chkChooseData.TabIndex = 2;
-            this.chkChooseData.SelectedIndexChanged += new System.EventHandler(this.chkChooseData_SelectedIndexChanged);
             // 
             // btnCloseCom
             // 
@@ -95,7 +76,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnStartAsking);
             this.Controls.Add(this.btnCloseCom);
-            this.Controls.Add(this.chkChooseData);
             this.Controls.Add(this.pgbInit);
             this.Controls.Add(this.cmbChooseCom);
             this.Name = "UcSettings";
@@ -108,7 +88,6 @@
 
         private System.Windows.Forms.ComboBox cmbChooseCom;
         private System.Windows.Forms.ProgressBar pgbInit;
-        private System.Windows.Forms.CheckedListBox chkChooseData;
         private System.Windows.Forms.Button btnCloseCom;
         private System.Windows.Forms.Button btnStartAsking;
     }
