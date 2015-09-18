@@ -20,6 +20,7 @@ namespace Fietsclient
         {
             InitializeComponent();
             _global = global;
+            ucSettings1.Visible = true;
             
         }
 
