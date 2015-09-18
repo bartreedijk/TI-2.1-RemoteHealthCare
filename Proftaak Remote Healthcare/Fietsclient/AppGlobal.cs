@@ -17,6 +17,7 @@ namespace Fietsclient
             get { return _instance ?? (_instance = new AppGlobal()); }
         }
 
+        
 
         private KettlerBikeComm _bikeComm;
 
