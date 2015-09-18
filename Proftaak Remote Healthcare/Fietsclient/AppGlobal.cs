@@ -28,6 +28,24 @@ namespace Fietsclient
             KettlerBikeComm.IncomingDataEvent += HandleBikeData; //initialize event
         }
 
+        public void setTimeMode(string time)
+        {
+            _bikeComm.sendData("CU");
+            _bikeComm.sendData("PT " + time);
+        }
+
+        public void setPower(string power)
+        {
+            _bikeComm.sendData("CU");
+            _bikeComm.sendData("PW " + power);
+        }
+
+        public void setDistanceMode(string distance)
+        {
+            _bikeComm.sendData("CU");
+            _bikeComm.sendData("PD " + distance);
+        }
+
         public void startComPort()
         {
             startComPort("COM4");

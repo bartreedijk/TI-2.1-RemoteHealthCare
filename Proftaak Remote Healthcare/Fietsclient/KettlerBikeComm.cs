@@ -15,7 +15,7 @@ namespace Fietsclient
     {
 
         // vaste waarden
-        public static readonly string COMMAND = "CM";
+        public static readonly string COMMAND = "CU";
         public static readonly string CMD_TIME = "PT";
         public static readonly string CMD_DISTANCE = "PD";
         public static readonly string CMD_POWER = "PW";
