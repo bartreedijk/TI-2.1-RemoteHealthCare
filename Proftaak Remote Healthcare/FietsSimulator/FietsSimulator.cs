@@ -15,7 +15,8 @@ namespace FietsSimulator
         private SerialPort comport;
         private Mode curmode; 
         private int _power, _heartbeat, rpm, speed, distance, energy;
-        private Stopwatch stopwatch = new Stopwatch();
+        private long maxtime;
+        private Stopwatch stopwatch;
         private Random r = new Random();
 
         public int Power
@@ -51,6 +52,8 @@ namespace FietsSimulator
             this.comport = new SerialPort(addr, 9600);
             comport.DataReceived += new SerialDataReceivedEventHandler(ReceiveData);
             comport.Open();
+            stopwatch= new Stopwatch();
+            stopwatch.Stop();
             System.Timers.Timer aTimer = new System.Timers.Timer();
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             aTimer.Interval = 1000;
@@ -64,20 +67,39 @@ namespace FietsSimulator
             if (message == "RS")
             {
                 curmode = Mode.NONE;
-
+                rpm = speed = distance = energy = 0;
                 Power = 25;
+                stopwatch.Stop();
                 SendData("ACK");
             }
             else if (message == "CU")
             {
                 curmode = Mode.CONSOLE;
                 SendData("ACK");
-            }else if (message == "PD")
+            }else if (message.Contains("PD"))
             {
                 if (curmode == Mode.CONSOLE && message.Split().Length == 2)
                 {
                     distance = Int32.Parse(message.Split(' ')[1]);
                     curmode = Mode.DISTANCE;
+                    stopwatch.Reset();
+                    stopwatch.Start();
+                    rpm = 100;
+                    speed = 10;
+                }
+                else
+                {
+                    SendData("ERROR");
+                }
+            }
+            else if (message.Contains("PT"))
+            {
+                if (curmode == Mode.CONSOLE && message.Split().Length == 2)
+                {
+                    string[] time = message.Split(' ')[1].Split(':');
+                    maxtime = Int32.Parse(time[0]) * 60000 + Int32.Parse(time[1]) * 1000;
+                    curmode = Mode.TIME;
+                    stopwatch.Reset();
                     stopwatch.Start();
                     rpm = 100;
                     speed = 10;
@@ -110,6 +132,7 @@ namespace FietsSimulator
 
         private void SendData(string message)
         {
+            Console.WriteLine("RETURN:" + message);
             this.comport.WriteLine(message);
         }
         private void SendStatus()
@@ -124,6 +147,11 @@ namespace FietsSimulator
                 long seconds = (stopwatch.ElapsedMilliseconds / 1000) % 60;
                 long minutes = ((stopwatch.ElapsedMilliseconds - seconds) / 1000) / 60;
                 return minutes + ":" + seconds;
+            }else if(curmode == Mode.TIME)
+            {
+                long seconds = ((maxtime - stopwatch.ElapsedMilliseconds) / 1000) % 60;
+                long minutes = (((maxtime -stopwatch.ElapsedMilliseconds) - seconds) / 1000) / 60;
+                return minutes + ":" + seconds;
             }
             else
             {
@@ -135,6 +163,10 @@ namespace FietsSimulator
            if(curmode == Mode.DISTANCE)
             {
                 distance -= 1;
+            }
+            else if (curmode == Mode.TIME)
+            {
+                distance += 1;
             }
         }
     }
