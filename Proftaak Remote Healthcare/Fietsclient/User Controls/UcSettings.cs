@@ -50,14 +50,14 @@ namespace Fietsclient.User_Controls
 
         private void cmbMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbMode.SelectedItem.ToString() == "Distance" )
+            if (cmbMode.SelectedItem.ToString() == "Distance")
             {
                 modeTXTBox.Visible = true;
                 modeMinutes.Visible = false;
                 modeSeconds.Visible = false;
                 modeField.Text = cmbMode.SelectedItem.ToString() + " ( x 10 KM )";
             }
-            else if(cmbMode.SelectedItem.ToString() == "Time")
+            else if (cmbMode.SelectedItem.ToString() == "Time")
             {
                 modeTXTBox.Visible = false;
                 modeMinutes.Visible = true;
@@ -65,7 +65,7 @@ namespace Fietsclient.User_Controls
                 modeField.Text = cmbMode.SelectedItem.ToString() + " ( Min:Sec )";
             }
 
-            
+
         }
 
         private void setModeBTN_Click(object sender, EventArgs e)
@@ -90,10 +90,10 @@ namespace Fietsclient.User_Controls
                 bool isNumericM = int.TryParse(modeMinutes.Text, out m);
 
                 if (isNumericM)
-                {   
+                {
                     if (isNumericS)
                     {
-                        _global.setTimeMode(modeMinutes + ":" + modeSeconds);
+                        _global.setTimeMode(m + ":" + n);
                     }
                     else
                     {
@@ -104,7 +104,7 @@ namespace Fietsclient.User_Controls
                 {
                     MessageBox.Show("Minutes is not a valid number.");
                 }
-                
+
             }
         }
 
@@ -121,6 +121,11 @@ namespace Fietsclient.User_Controls
             {
                 MessageBox.Show("Power is not a valid number.");
             }
+        }
+
+        private void reset_Click(object sender, EventArgs e)
+        {
+            _global.reset();
         }
     }
 }
