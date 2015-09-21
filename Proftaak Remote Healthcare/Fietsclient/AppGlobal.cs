@@ -11,12 +11,15 @@ namespace Fietsclient
     {
         private static AppGlobal _instance;
 
+        public int[] StatusItemsChecked;
+
         Thread workerThread;
         public static AppGlobal Instance
         {
             get { return _instance ?? (_instance = new AppGlobal()); }
         }
 
+        
 
         private KettlerBikeComm _bikeComm;
 
@@ -25,6 +28,24 @@ namespace Fietsclient
         {
             _bikeComm = new KettlerBikeComm();
             KettlerBikeComm.IncomingDataEvent += HandleBikeData; //initialize event
+        }
+
+        public void setTimeMode(string time)
+        {
+            _bikeComm.sendData("CU");
+            _bikeComm.sendData("PT " + time);
+        }
+
+        public void setPower(string power)
+        {
+            _bikeComm.sendData("CU");
+            _bikeComm.sendData("PW " + power);
+        }
+
+        public void setDistanceMode(string distance)
+        {
+            _bikeComm.sendData("CU");
+            _bikeComm.sendData("PD " + distance);
         }
 
         public void startComPort()
