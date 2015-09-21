@@ -48,6 +48,11 @@ namespace Fietsclient
             _bikeComm.sendData("PD " + distance);
         }
 
+        public void reset()
+        {
+            _bikeComm.sendData("RS");
+        }
+
         public void startComPort()
         {
             startComPort("COM4");
