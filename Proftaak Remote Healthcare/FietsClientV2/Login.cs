@@ -24,7 +24,7 @@ namespace FietsClientV2
             PasswordBox.Text = "";
 
             //temporary fake login as patient
-            if (false)
+            if (true)
             {
                 PatientForm patientForm = new PatientForm();
                 this.Hide();

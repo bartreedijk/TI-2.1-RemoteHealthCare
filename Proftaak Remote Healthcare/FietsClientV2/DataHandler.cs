@@ -63,11 +63,10 @@ namespace FietsClientV2
 
         public void initComm(string portname)
         {
-            if (ComPort != null)
-            {
-                ComPort.Close();
-            }
             this.portname = portname;
+            if (ComPort.IsOpen)
+                ComPort.Close();
+
             try
             {
                 ComPort = new SerialPort(this.portname, this.baudrate);
@@ -75,16 +74,12 @@ namespace FietsClientV2
                 ComPort.WriteLine(RESET);
                 ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception)
             {
-                OnIncomingDebugLineEvent("ERROR: UnauthorizedAccessException throwed");
+                OnIncomingDebugLineEvent("ERROR: Exception throwed");
                 try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
             }
-            catch (InvalidOperationException)
-            {
-                OnIncomingDebugLineEvent("ERROR: InvalidOperationException throwed");
-                try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
-            }
+
 
         }
 
