@@ -67,9 +67,9 @@ namespace FietsClientV2
             {
                 if (isNumericS)
                     patienModel.setTimeMode(minutes + ":" + seconds);
-                else MessageBox.Show("Seconds is not a valid number.");
+                else MessageBox.Show("Minutes is not a valid number.");
             }
-            else MessageBox.Show("Minutes is not a valid number.");
+            else MessageBox.Show("Seconds is not a valid number.");
         }
 
         private void stopTrainingToolStripMenuItem_Click(object sender, EventArgs e)
