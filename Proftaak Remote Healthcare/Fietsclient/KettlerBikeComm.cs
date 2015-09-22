@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Threading;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Fietsclient
 {
@@ -199,6 +201,18 @@ namespace Fietsclient
             if (!checkBikeState())
                 return;
             sendData(CMD_ENERGY);
+        }
+
+        public void saveToJson(string path,Meetsessie sessie)
+        {
+            string json = JsonConvert.SerializeObject(sessie);
+            File.WriteAllText(path, json);    
+        }
+        public Meetsessie loadFromJson(string path){
+            string jsonFile = File.ReadAllText(path);
+
+            Meetsessie sessieFromJson = JsonConvert.DeserializeObject<Meetsessie>(jsonFile);
+            return sessieFromJson;
         }
     }
 }
