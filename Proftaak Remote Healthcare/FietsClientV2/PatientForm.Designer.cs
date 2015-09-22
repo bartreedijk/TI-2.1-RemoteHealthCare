@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archiefToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +44,8 @@
             this.bicycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.requestDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closePortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBox = new System.Windows.Forms.GroupBox();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.bpmBox = new System.Windows.Forms.GroupBox();
@@ -83,8 +85,7 @@
             this.messageBox = new System.Windows.Forms.TextBox();
             this.chatArea = new System.Windows.Forms.GroupBox();
             this.sendButton = new System.Windows.Forms.Button();
-            this.requestDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closePortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.speedBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).BeginInit();
@@ -141,6 +142,7 @@
             // 
             this.selectPortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox1,
+            this.openPortToolStripMenuItem,
             this.requestDataToolStripMenuItem,
             this.closePortToolStripMenuItem});
             this.selectPortToolStripMenuItem.Name = "selectPortToolStripMenuItem";
@@ -149,9 +151,25 @@
             // 
             // toolStripComboBox1
             // 
+            this.toolStripComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
-            this.toolStripComboBox1.Click += new System.EventHandler(this.toolStripComboBox1_Click);
+            // 
+            // requestDataToolStripMenuItem
+            // 
+            this.requestDataToolStripMenuItem.Enabled = false;
+            this.requestDataToolStripMenuItem.Name = "requestDataToolStripMenuItem";
+            this.requestDataToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.requestDataToolStripMenuItem.Text = "Request data";
+            this.requestDataToolStripMenuItem.Click += new System.EventHandler(this.requestDataToolStripMenuItem_Click);
+            // 
+            // closePortToolStripMenuItem
+            // 
+            this.closePortToolStripMenuItem.Enabled = false;
+            this.closePortToolStripMenuItem.Name = "closePortToolStripMenuItem";
+            this.closePortToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.closePortToolStripMenuItem.Text = "Close port";
+            this.closePortToolStripMenuItem.Click += new System.EventHandler(this.closePortToolStripMenuItem_Click);
             // 
             // speedBox
             // 
@@ -165,16 +183,16 @@
             // 
             // speedChart
             // 
-            chartArea10.Name = "ChartArea1";
-            this.speedChart.ChartAreas.Add(chartArea10);
-            legend10.Name = "Legend1";
-            this.speedChart.Legends.Add(legend10);
+            chartArea4.Name = "ChartArea1";
+            this.speedChart.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.speedChart.Legends.Add(legend4);
             this.speedChart.Location = new System.Drawing.Point(6, 19);
             this.speedChart.Name = "speedChart";
-            series10.ChartArea = "ChartArea1";
-            series10.Legend = "Legend1";
-            series10.Name = "Series1";
-            this.speedChart.Series.Add(series10);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.speedChart.Series.Add(series4);
             this.speedChart.Size = new System.Drawing.Size(388, 285);
             this.speedChart.TabIndex = 0;
             this.speedChart.Text = "Speed chart";
@@ -191,16 +209,16 @@
             // 
             // bpmChart
             // 
-            chartArea11.Name = "ChartArea1";
-            this.bpmChart.ChartAreas.Add(chartArea11);
-            legend11.Name = "Legend1";
-            this.bpmChart.Legends.Add(legend11);
+            chartArea5.Name = "ChartArea1";
+            this.bpmChart.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.bpmChart.Legends.Add(legend5);
             this.bpmChart.Location = new System.Drawing.Point(6, 19);
             this.bpmChart.Name = "bpmChart";
-            series11.ChartArea = "ChartArea1";
-            series11.Legend = "Legend1";
-            series11.Name = "Series1";
-            this.bpmChart.Series.Add(series11);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.bpmChart.Series.Add(series5);
             this.bpmChart.Size = new System.Drawing.Size(388, 285);
             this.bpmChart.TabIndex = 1;
             this.bpmChart.Text = "beats per second";
@@ -506,16 +524,16 @@
             // 
             // rpmChart
             // 
-            chartArea12.Name = "ChartArea1";
-            this.rpmChart.ChartAreas.Add(chartArea12);
-            legend12.Name = "Legend1";
-            this.rpmChart.Legends.Add(legend12);
+            chartArea6.Name = "ChartArea1";
+            this.rpmChart.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.rpmChart.Legends.Add(legend6);
             this.rpmChart.Location = new System.Drawing.Point(6, 19);
             this.rpmChart.Name = "rpmChart";
-            series12.ChartArea = "ChartArea1";
-            series12.Legend = "Legend1";
-            series12.Name = "Series1";
-            this.rpmChart.Series.Add(series12);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.rpmChart.Series.Add(series6);
             this.rpmChart.Size = new System.Drawing.Size(388, 285);
             this.rpmChart.TabIndex = 2;
             this.rpmChart.Text = "rounds per minute";
@@ -557,21 +575,12 @@
             this.sendButton.Text = "send";
             this.sendButton.UseVisualStyleBackColor = true;
             // 
-            // requestDataToolStripMenuItem
+            // openPortToolStripMenuItem
             // 
-            this.requestDataToolStripMenuItem.Enabled = false;
-            this.requestDataToolStripMenuItem.Name = "requestDataToolStripMenuItem";
-            this.requestDataToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.requestDataToolStripMenuItem.Text = "Request data";
-            this.requestDataToolStripMenuItem.Click += new System.EventHandler(this.requestDataToolStripMenuItem_Click);
-            // 
-            // closePortToolStripMenuItem
-            // 
-            this.closePortToolStripMenuItem.Enabled = false;
-            this.closePortToolStripMenuItem.Name = "closePortToolStripMenuItem";
-            this.closePortToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.closePortToolStripMenuItem.Text = "Close port";
-            this.closePortToolStripMenuItem.Click += new System.EventHandler(this.closePortToolStripMenuItem_Click);
+            this.openPortToolStripMenuItem.Name = "openPortToolStripMenuItem";
+            this.openPortToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.openPortToolStripMenuItem.Text = "Open port";
+            this.openPortToolStripMenuItem.Click += new System.EventHandler(this.openPortToolStripMenuItem_Click);
             // 
             // PatientForm
             // 
@@ -656,6 +665,7 @@
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
         private System.Windows.Forms.ToolStripMenuItem requestDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closePortToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPortToolStripMenuItem;
     }
 }
 

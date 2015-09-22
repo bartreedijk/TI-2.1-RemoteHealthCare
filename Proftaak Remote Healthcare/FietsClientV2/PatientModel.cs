@@ -9,7 +9,10 @@ namespace FietsClientV2
 {
     class PatientModel
     {
-        public static PatientModel patientModel { get; private set; } = new PatientModel();
+
+        private static PatientModel _patientModel;
+        public static PatientModel patientModel { get { return _patientModel ?? (_patientModel = new PatientModel()); } }
+
         private DataHandler dataHandler;
         private Thread workerThread;
 
@@ -17,7 +20,7 @@ namespace FietsClientV2
         {
             dataHandler = new DataHandler();
             DataHandler.IncomingDataEvent += HandleBikeData; //initialize event
-        } 
+        }
 
         public void startComPort(string portname)
         {

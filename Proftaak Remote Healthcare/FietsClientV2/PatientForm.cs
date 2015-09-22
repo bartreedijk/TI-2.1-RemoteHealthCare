@@ -26,14 +26,6 @@ namespace FietsClientV2
             toolStripComboBox1.Items.AddRange(ports);
         }
 
-        private void toolStripComboBox1_Click(object sender, EventArgs e)
-        {
-            if (!(toolStripComboBox1.Text == ""))
-                patienModel.startComPort(toolStripComboBox1.SelectedItem.ToString());
-            requestDataToolStripMenuItem.Enabled = true;
-            closePortToolStripMenuItem.Enabled = true;
-        }
-
         private void requestDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             patienModel.startAskingData();
@@ -42,6 +34,13 @@ namespace FietsClientV2
         private void closePortToolStripMenuItem_Click(object sender, EventArgs e)
         {
             patienModel.closeComPort();
+        }
+
+        private void openPortToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            patienModel.startComPort(toolStripComboBox1.SelectedItem.ToString());
+            requestDataToolStripMenuItem.Enabled = true;
+            closePortToolStripMenuItem.Enabled = true;
         }
     }
 }

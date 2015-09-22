@@ -63,10 +63,10 @@ namespace FietsClientV2
 
         public void initComm(string portname)
         {
-            this.portname = portname;
-            if (ComPort.IsOpen)
+            if (ComPort != null)
                 ComPort.Close();
 
+            this.portname = portname;
             try
             {
                 ComPort = new SerialPort(this.portname, this.baudrate);
@@ -116,11 +116,14 @@ namespace FietsClientV2
             }
         }
 
+        int trycount = 0;
         private void handleError()
         {
-            for (int i = 0; i < 3; i++)
-                if (bufferOut == "RS")
-                    sendData("RS");  //gewoon nog een keer proberen tot 3 keer toe, net zolang totdat hij werkt.
+            if (bufferOut == "RS" && trycount < 3)
+            {
+                sendData("RS");  //gewoon nog een keer proberen tot 3 keer toe, net zolang totdat hij werkt.
+                trycount++;
+            }
         }
 
         private void handleBikeValues(string buffer)
