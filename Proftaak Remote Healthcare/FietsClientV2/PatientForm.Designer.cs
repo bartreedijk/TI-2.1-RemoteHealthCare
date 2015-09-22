@@ -51,11 +51,41 @@
             this.chatBox = new System.Windows.Forms.TextBox();
             this.messageBox = new System.Windows.Forms.TextBox();
             this.chatArea = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.requestedPowerLabel = new System.Windows.Forms.Label();
+            this.actualPowerLabel = new System.Windows.Forms.Label();
+            this.timeLabel = new System.Windows.Forms.Label();
+            this.energyLabel = new System.Windows.Forms.Label();
+            this.distanceLabel = new System.Windows.Forms.Label();
+            this.speedLabel = new System.Windows.Forms.Label();
+            this.rpmLabel = new System.Windows.Forms.Label();
+            this.pulseLabel = new System.Windows.Forms.Label();
+            this.sessionLabel = new System.Windows.Forms.Label();
+            this.naamLabel = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.sendButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.speedBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).BeginInit();
             this.bpmBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bpmChart)).BeginInit();
+            this.sessionInfoBox.SuspendLayout();
             this.rpmBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rpmChart)).BeginInit();
             this.chatArea.SuspendLayout();
@@ -147,6 +177,34 @@
             // 
             // sessionInfoBox
             // 
+            this.sessionInfoBox.Controls.Add(this.label18);
+            this.sessionInfoBox.Controls.Add(this.label17);
+            this.sessionInfoBox.Controls.Add(this.label16);
+            this.sessionInfoBox.Controls.Add(this.label15);
+            this.sessionInfoBox.Controls.Add(this.label14);
+            this.sessionInfoBox.Controls.Add(this.label13);
+            this.sessionInfoBox.Controls.Add(this.label12);
+            this.sessionInfoBox.Controls.Add(this.label11);
+            this.sessionInfoBox.Controls.Add(this.naamLabel);
+            this.sessionInfoBox.Controls.Add(this.sessionLabel);
+            this.sessionInfoBox.Controls.Add(this.pulseLabel);
+            this.sessionInfoBox.Controls.Add(this.rpmLabel);
+            this.sessionInfoBox.Controls.Add(this.speedLabel);
+            this.sessionInfoBox.Controls.Add(this.distanceLabel);
+            this.sessionInfoBox.Controls.Add(this.energyLabel);
+            this.sessionInfoBox.Controls.Add(this.timeLabel);
+            this.sessionInfoBox.Controls.Add(this.actualPowerLabel);
+            this.sessionInfoBox.Controls.Add(this.requestedPowerLabel);
+            this.sessionInfoBox.Controls.Add(this.label10);
+            this.sessionInfoBox.Controls.Add(this.label9);
+            this.sessionInfoBox.Controls.Add(this.label8);
+            this.sessionInfoBox.Controls.Add(this.label7);
+            this.sessionInfoBox.Controls.Add(this.label6);
+            this.sessionInfoBox.Controls.Add(this.label5);
+            this.sessionInfoBox.Controls.Add(this.label4);
+            this.sessionInfoBox.Controls.Add(this.label3);
+            this.sessionInfoBox.Controls.Add(this.label2);
+            this.sessionInfoBox.Controls.Add(this.label1);
             this.sessionInfoBox.Location = new System.Drawing.Point(418, 27);
             this.sessionInfoBox.Name = "sessionInfoBox";
             this.sessionInfoBox.Size = new System.Drawing.Size(400, 310);
@@ -186,18 +244,19 @@
             this.chatBox.Multiline = true;
             this.chatBox.Name = "chatBox";
             this.chatBox.ReadOnly = true;
-            this.chatBox.Size = new System.Drawing.Size(228, 581);
+            this.chatBox.Size = new System.Drawing.Size(228, 546);
             this.chatBox.TabIndex = 3;
             // 
             // messageBox
             // 
-            this.messageBox.Location = new System.Drawing.Point(0, 606);
+            this.messageBox.Location = new System.Drawing.Point(0, 571);
             this.messageBox.Name = "messageBox";
             this.messageBox.Size = new System.Drawing.Size(228, 20);
             this.messageBox.TabIndex = 6;
             // 
             // chatArea
             // 
+            this.chatArea.Controls.Add(this.sendButton);
             this.chatArea.Controls.Add(this.chatBox);
             this.chatArea.Controls.Add(this.messageBox);
             this.chatArea.Location = new System.Drawing.Point(824, 27);
@@ -206,6 +265,267 @@
             this.chatArea.TabIndex = 5;
             this.chatArea.TabStop = false;
             this.chatArea.Text = "Chat:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Naam:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Pulse:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Session:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 55);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "RPM:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 68);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Speed:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 81);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Distance:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 94);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Energy:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 107);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(33, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Time:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 120);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(94, 13);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Requested power:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 133);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(69, 13);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "Actual power";
+            // 
+            // requestedPowerLabel
+            // 
+            this.requestedPowerLabel.AutoSize = true;
+            this.requestedPowerLabel.Location = new System.Drawing.Point(106, 120);
+            this.requestedPowerLabel.Name = "requestedPowerLabel";
+            this.requestedPowerLabel.Size = new System.Drawing.Size(53, 13);
+            this.requestedPowerLabel.TabIndex = 10;
+            this.requestedPowerLabel.Text = "Unknown";
+            // 
+            // actualPowerLabel
+            // 
+            this.actualPowerLabel.AutoSize = true;
+            this.actualPowerLabel.Location = new System.Drawing.Point(106, 133);
+            this.actualPowerLabel.Name = "actualPowerLabel";
+            this.actualPowerLabel.Size = new System.Drawing.Size(53, 13);
+            this.actualPowerLabel.TabIndex = 11;
+            this.actualPowerLabel.Text = "Unknown";
+            // 
+            // timeLabel
+            // 
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Location = new System.Drawing.Point(106, 107);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(53, 13);
+            this.timeLabel.TabIndex = 12;
+            this.timeLabel.Text = "Unknown";
+            // 
+            // energyLabel
+            // 
+            this.energyLabel.AutoSize = true;
+            this.energyLabel.Location = new System.Drawing.Point(106, 94);
+            this.energyLabel.Name = "energyLabel";
+            this.energyLabel.Size = new System.Drawing.Size(53, 13);
+            this.energyLabel.TabIndex = 13;
+            this.energyLabel.Text = "Unknown";
+            // 
+            // distanceLabel
+            // 
+            this.distanceLabel.AutoSize = true;
+            this.distanceLabel.Location = new System.Drawing.Point(106, 81);
+            this.distanceLabel.Name = "distanceLabel";
+            this.distanceLabel.Size = new System.Drawing.Size(53, 13);
+            this.distanceLabel.TabIndex = 14;
+            this.distanceLabel.Text = "Unknown";
+            // 
+            // speedLabel
+            // 
+            this.speedLabel.AutoSize = true;
+            this.speedLabel.Location = new System.Drawing.Point(106, 68);
+            this.speedLabel.Name = "speedLabel";
+            this.speedLabel.Size = new System.Drawing.Size(53, 13);
+            this.speedLabel.TabIndex = 15;
+            this.speedLabel.Text = "Unknown";
+            // 
+            // rpmLabel
+            // 
+            this.rpmLabel.AutoSize = true;
+            this.rpmLabel.Location = new System.Drawing.Point(106, 55);
+            this.rpmLabel.Name = "rpmLabel";
+            this.rpmLabel.Size = new System.Drawing.Size(53, 13);
+            this.rpmLabel.TabIndex = 16;
+            this.rpmLabel.Text = "Unknown";
+            // 
+            // pulseLabel
+            // 
+            this.pulseLabel.AutoSize = true;
+            this.pulseLabel.Location = new System.Drawing.Point(106, 42);
+            this.pulseLabel.Name = "pulseLabel";
+            this.pulseLabel.Size = new System.Drawing.Size(53, 13);
+            this.pulseLabel.TabIndex = 17;
+            this.pulseLabel.Text = "Unknown";
+            // 
+            // sessionLabel
+            // 
+            this.sessionLabel.AutoSize = true;
+            this.sessionLabel.Location = new System.Drawing.Point(106, 29);
+            this.sessionLabel.Name = "sessionLabel";
+            this.sessionLabel.Size = new System.Drawing.Size(53, 13);
+            this.sessionLabel.TabIndex = 18;
+            this.sessionLabel.Text = "Unknown";
+            // 
+            // naamLabel
+            // 
+            this.naamLabel.AutoSize = true;
+            this.naamLabel.Location = new System.Drawing.Point(106, 16);
+            this.naamLabel.Name = "naamLabel";
+            this.naamLabel.Size = new System.Drawing.Size(53, 13);
+            this.naamLabel.TabIndex = 19;
+            this.naamLabel.Text = "Unknown";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(165, 42);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(86, 13);
+            this.label11.TabIndex = 20;
+            this.label11.Text = "Beats per minute";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(165, 55);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(91, 13);
+            this.label12.TabIndex = 21;
+            this.label12.Text = "rounds per minute";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(165, 68);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 13);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "kilometers per hour";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(165, 81);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(54, 13);
+            this.label14.TabIndex = 23;
+            this.label14.Text = "kilometers";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(165, 94);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(30, 13);
+            this.label15.TabIndex = 24;
+            this.label15.Text = "Watt";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(165, 133);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(30, 13);
+            this.label16.TabIndex = 25;
+            this.label16.Text = "Watt";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(165, 120);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(30, 13);
+            this.label17.TabIndex = 26;
+            this.label17.Text = "Watt";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(165, 107);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(42, 13);
+            this.label18.TabIndex = 27;
+            this.label18.Text = "MM:SS";
+            // 
+            // sendButton
+            // 
+            this.sendButton.Location = new System.Drawing.Point(0, 597);
+            this.sendButton.Name = "sendButton";
+            this.sendButton.Size = new System.Drawing.Size(228, 23);
+            this.sendButton.TabIndex = 7;
+            this.sendButton.Text = "send";
+            this.sendButton.UseVisualStyleBackColor = true;
             // 
             // PatientForm
             // 
@@ -229,6 +549,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).EndInit();
             this.bpmBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bpmChart)).EndInit();
+            this.sessionInfoBox.ResumeLayout(false);
+            this.sessionInfoBox.PerformLayout();
             this.rpmBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rpmChart)).EndInit();
             this.chatArea.ResumeLayout(false);
@@ -254,6 +576,35 @@
         private System.Windows.Forms.TextBox chatBox;
         private System.Windows.Forms.TextBox messageBox;
         private System.Windows.Forms.GroupBox chatArea;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label naamLabel;
+        private System.Windows.Forms.Label sessionLabel;
+        private System.Windows.Forms.Label pulseLabel;
+        private System.Windows.Forms.Label rpmLabel;
+        private System.Windows.Forms.Label speedLabel;
+        private System.Windows.Forms.Label distanceLabel;
+        private System.Windows.Forms.Label energyLabel;
+        private System.Windows.Forms.Label timeLabel;
+        private System.Windows.Forms.Label actualPowerLabel;
+        private System.Windows.Forms.Label requestedPowerLabel;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button sendButton;
     }
 }
 
