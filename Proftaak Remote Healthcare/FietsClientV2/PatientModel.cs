@@ -11,6 +11,8 @@ namespace FietsClientV2
     {
 
         private static PatientModel _patientModel;
+        public PatientForm patientform { private get; set; }
+
         public static PatientModel patientModel { get { return _patientModel ?? (_patientModel = new PatientModel()); } }
 
         private DataHandler dataHandler;
@@ -41,11 +43,27 @@ namespace FietsClientV2
                 dataHandler.sendData(DataHandler.STATUS);
             }
         }
-
+        delegate void trySetText(string[] text);
         //event handler
         private void HandleBikeData(string[] data)
         {
-            //doe iets ermee...
+            if (patientform.pulseBox.InvokeRequired)
+            {
+                trySetText t = new trySetText(HandleBikeData);
+                patientform.Invoke(t, new object[] { data });
+            }
+            else
+            {
+                patientform.pulseBox.Text = data[0];
+                patientform.rpmInfoBox.Text = data[1];
+                patientform.speedInfoBox.Text = data[2];
+                patientform.distanceInfoBox.Text = data[3];
+                patientform.requestedBox.Text = data[4];
+                patientform.energyInfoBox.Text = data[5];
+                patientform.timeBox.Text = data[6];
+                patientform.actualBox.Text = data[7];
+            }
+            
         }
 
         public void closeComPort()
@@ -53,6 +71,30 @@ namespace FietsClientV2
             if (workerThread != null)
                 workerThread.Interrupt();
             dataHandler.closeComm();
+        }
+
+        //change bike values
+        public void setTimeMode(string time)
+        {
+            dataHandler.sendData("CU");
+            dataHandler.sendData("PT " + time);
+        }
+
+        public void setPower(string power)
+        {
+            dataHandler.sendData("CU");
+            dataHandler.sendData("PW " + power);
+        }
+
+        public void setDistanceMode(string distance)
+        {
+            dataHandler.sendData("CU");
+            dataHandler.sendData("PD " + distance);
+        }
+
+        public void reset()
+        {
+            dataHandler.sendData("RS");
         }
     }
 }

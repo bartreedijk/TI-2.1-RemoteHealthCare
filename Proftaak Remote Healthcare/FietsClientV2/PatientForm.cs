@@ -18,6 +18,7 @@ namespace FietsClientV2
         {
             InitializeComponent();
             patienModel = PatientModel.patientModel;
+            patienModel.patientform = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,6 +42,48 @@ namespace FietsClientV2
             patienModel.startComPort(toolStripComboBox1.SelectedItem.ToString());
             requestDataToolStripMenuItem.Enabled = true;
             closePortToolStripMenuItem.Enabled = true;
+        }
+
+        private void confirmDistanceBox_Click(object sender, EventArgs e)
+        {
+            int n;
+            if (int.TryParse(distanceBox.Text, out n))
+            {
+                patienModel.setDistanceMode(distanceBox.Text);
+            }
+            else
+            {
+                MessageBox.Show("Distance is not a valid number.");
+            }
+        }
+
+        private void confirmTimeBox_Click(object sender, EventArgs e)
+        {
+            int minutes, seconds;
+            bool isNumericS = int.TryParse(minuteBox.Text, out minutes);
+            bool isNumericM = int.TryParse(secondBox.Text, out seconds);
+
+            if (isNumericM)
+            {
+                if (isNumericS)
+                    patienModel.setTimeMode(minutes + ":" + seconds);
+                else MessageBox.Show("Seconds is not a valid number.");
+            }
+            else MessageBox.Show("Minutes is not a valid number.");
+        }
+
+        private void stopTrainingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            patienModel.reset();
+        }
+
+        private void setPower_Click(object sender, EventArgs e)
+        {
+            int n;
+            if (int.TryParse(powerBox.Text, out n))
+                patienModel.setPower(powerBox.Text);
+            else
+                MessageBox.Show("Power is not a valid number.");
         }
     }
 }

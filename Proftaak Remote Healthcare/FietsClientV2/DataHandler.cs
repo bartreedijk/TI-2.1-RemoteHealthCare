@@ -129,7 +129,6 @@ namespace FietsClientV2
         private void handleBikeValues(string buffer)
         {
             buffer = buffer.TrimEnd('\r');
-            Console.WriteLine(buffer);
             bufferIn = buffer.Split('\t');
             OnIncomingDataEvent(bufferIn);
         }
