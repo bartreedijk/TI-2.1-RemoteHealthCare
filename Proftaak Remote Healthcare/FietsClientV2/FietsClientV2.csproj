@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppGlobal.cs" />
+    <Compile Include="DataHandler.cs" />
+    <Compile Include="KettlerBikeComm.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
