@@ -121,14 +121,11 @@ namespace FietsClientV2
             }
         }
 
-        int trycount = 0;
         private void handleError()
         {
-            if (bufferOut == "RS" && trycount < 3)
-            {
-                sendData("RS");  //gewoon nog een keer proberen tot 3 keer toe, net zolang totdat hij werkt.
-                trycount++;
-            }
+            for (int i = 0; i < 3; i++)
+                if (bufferOut == "RS")
+                    sendData("RS");  //gewoon nog een keer proberen tot 3 keer toe, net zolang totdat hij werkt.
         }
 
         private void handleBikeValues(string buffer)
@@ -141,30 +138,24 @@ namespace FietsClientV2
 
         private bool checkBikeState()
         {
-            bool success = false;
             switch (state)
             {
                 case State.reset:
                     setCommandMode();
-
                     if (returnData != ReturnData.ERROR)
-                    {
-                        success = true;
-                    }
-                    break;
+                        return true;
+                    return false;
                 case State.connected:
                     setCommandMode();
-                    success = true;
-                    break;
+                    return true;
                 case State.command:
-                    success = true;
-                    break;
+                    return true;
                 case State.notConnected:
                     Console.WriteLine("ERROR: not connected to bike.");
-                    success = false;
-                    break;
+                    return false;
+                default:
+                    return false;
             }
-            return success;
         }
 
         public void setCommandMode()
