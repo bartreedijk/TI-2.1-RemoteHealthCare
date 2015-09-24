@@ -30,6 +30,8 @@ namespace Server
     {
         TcpClient client;
         NetworkStream networkStream;
+        private String response;
+
         public Client(TcpClient socket)
         {
             client = socket;
@@ -45,7 +47,7 @@ namespace Server
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
                 networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
-                String response = Encoding.ASCII.GetString(bytesFrom);
+                response = Encoding.ASCII.GetString(bytesFrom);
                 //Hier moet wat met de response gedaan worden.
             }
         }
@@ -54,6 +56,43 @@ namespace Server
             byte[] b = Encoding.ASCII.GetBytes(s);
             networkStream.Write(b, 0, b.Length);
             networkStream.Flush();
+        }
+
+        public Boolean LoginClient(String username, String password, out String GUI_switch)
+        {
+            GUI_switch = null;
+            Boolean signed_in = false;  
+            String ip = "192.168.1.1"; //log maar in op die kutrouter van je HERPADERP
+            int port = 0;
+
+            try
+            {
+               client.Connect(ip, port);
+            } catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+            }
+
+            if (client.Connected)
+            {
+                String sendData = "0|" + username + "|" + password;
+                sendString(sendData);
+
+                receive();
+
+                if (response == "0|1|1")
+                {
+                    signed_in = true;
+                    GUI_switch = "docter";
+                }
+                if (response == "0|1|0")
+                {
+                    signed_in = true;
+                    GUI_switch = "patient";
+                }
+            }
+
+            return signed_in;
         }
     }
 }
