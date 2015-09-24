@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 namespace Fietsclient
 {
     [Serializable]
-    class Meetsessie
+    public class Meetsessie
     {
         //public List<Meting> metingen = new List<Meting>()
         public int idMeting;
+        public int idUser;
         public string name;
         public Boolean active;
         public List<Meting> metingen { get; private set; } = new List<Meting>();

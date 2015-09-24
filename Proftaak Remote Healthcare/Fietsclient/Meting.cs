@@ -8,7 +8,7 @@ namespace Fietsclient
 
 {
     [Serializable]
-    class Meting
+    public class Meting
     {
         public int pulse { get; private set; }          //BPM
         public int rpm { get; private set; }            //RPM
