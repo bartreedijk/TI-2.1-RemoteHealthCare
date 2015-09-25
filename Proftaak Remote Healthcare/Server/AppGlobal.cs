@@ -2,6 +2,7 @@
 using System.Threading;
 using Fietsclient;
 using System.Threading.Tasks;
+using System;
 
 namespace Server
 {
@@ -21,6 +22,7 @@ namespace Server
         private AppGlobal()
         {
             users = new List<User>();
+            users.Add(new User("no", "no", "no", false));
             users.Add(new User("Janco Kock", "jancoow", "test", true));
             users.Add(new User("Tom Remeeus", "tommie", "jemoeder", false));
         }
@@ -31,7 +33,7 @@ namespace Server
             admin = 0;
             foreach (User u in users)
             {
-                if(u.name == username && u.password == password)
+                if (u.username == username && u.password == password)
                 {
                     admin = u.admin ? 1 : 0;
                     id = users.IndexOf(u);
