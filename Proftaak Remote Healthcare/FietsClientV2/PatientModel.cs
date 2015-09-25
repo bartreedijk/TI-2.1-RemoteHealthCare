@@ -97,7 +97,7 @@ namespace FietsClientV2
 
         public void setPower(string power)
         {
-	    powerLog = power;
+	        powerLog = power;
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PW " + power);

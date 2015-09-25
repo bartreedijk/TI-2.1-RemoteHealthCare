@@ -142,9 +142,10 @@ namespace FietsClientV2
 
         public bool checkBikeState(bool commandMode)
         {
-            if (ComPort == null)
+            if (ComPort == null || ComPort.IsOpen)
             {
                 return false;
+                state = State.notConnected;
             }
             switch (state)
             {
