@@ -42,8 +42,8 @@ namespace FietsClientV2
         public delegate void DataDelegate(string[] data);
         public static event DataDelegate IncomingDataEvent;
 
-        public delegate void DebugDelegate(string debugData);
-        public static event DebugDelegate IncomingDebugLineEvent;
+        public delegate void ErrorDelegate(string error);
+        public static event ErrorDelegate IncomingErrorEvent;
 
         public DataHandler()
         {
@@ -56,10 +56,10 @@ namespace FietsClientV2
             if (handler != null) handler(data);
         }
 
-        public static void OnIncomingDebugLineEvent(string debugData)
+        public static void OnIncomingErrorEvent(string error)
         {
-            DebugDelegate handler = IncomingDebugLineEvent;
-            if (handler != null) handler(debugData);
+            ErrorDelegate handler = IncomingErrorEvent;
+            if (handler != null) handler(error);
         }
 
         public void initComm(string portname)
@@ -82,7 +82,7 @@ namespace FietsClientV2
             }
             catch (Exception)
             {
-                OnIncomingDebugLineEvent("ERROR: Exception throwed");
+                OnIncomingErrorEvent("WrongComPort");
                 try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
                 state = State.notConnected;
             }
@@ -144,6 +144,7 @@ namespace FietsClientV2
         {
             if (ComPort == null || !ComPort.IsOpen)
             {
+                OnIncomingErrorEvent("NotConnectedToBike");
                 state = State.notConnected;
                 return false;
             }
@@ -160,11 +161,11 @@ namespace FietsClientV2
                 case State.command:
                     return true;
                 case State.notConnected:
-                    MessageBox.Show("ERROR: not connected to bike.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    OnIncomingErrorEvent("NotConnectedToBike");
                     Console.WriteLine("ERROR: not connected to bike.");
                     return false;
                 default:
-                    MessageBox.Show("ERROR: unknown error.", "ËRROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    OnIncomingErrorEvent("NotConnectedToBike");
                     Console.WriteLine("ERROR: unknown error.");
                     return false;
             }
