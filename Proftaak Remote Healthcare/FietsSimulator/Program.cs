@@ -12,16 +12,18 @@ namespace FietsSimulator
     {
         static void Main(string[] args)
         {
-            string[] ports = SerialPort.GetPortNames();
-            Console.WriteLine("Availabe Comports: \n" + String.Join(" \n", ports));
+            //show available ports
+            Console.WriteLine("Availabe Comports: \n" + String.Join(" \n", SerialPort.GetPortNames()));
+
+            //ask for port
             Console.WriteLine("Enter Comport:");
-            string port = Console.ReadLine();
-            new FietsSimulator(port);
+
+            //start simulator on entered port 
+            new FietsSimulator(Console.ReadLine());
             Console.WriteLine("Started Simulator");
             while (true)
-            {
                 Thread.Sleep(10);
-            }
+            
         }
     }
 
