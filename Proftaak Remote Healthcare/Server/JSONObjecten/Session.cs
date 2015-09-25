@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server.JSONObjecten
 {
-    class Session
+    public class Session
     {
         public int id { get; private set; }
         public List<Measurement> session { get; private set; }

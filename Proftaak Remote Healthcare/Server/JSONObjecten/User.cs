@@ -41,5 +41,6 @@ namespace Server
             this.weight = weight;
             this.isDoctor = isDoctor;
         }
+
     }
 }

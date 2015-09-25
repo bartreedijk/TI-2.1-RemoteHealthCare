@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using Fietsclient;
 using System.Threading.Tasks;
+using Server.JSONObjecten;
 
 namespace Server
 {
@@ -9,20 +9,20 @@ namespace Server
     {
         private static AppGlobal _instance;
 
-        Thread workerThread;
         private List<User> users;
-        private List<Meetsessie> meetsessies;
 
         public static AppGlobal Instance
         {
             get { return _instance ?? (_instance = new AppGlobal()); }
         }
 
-        private AppGlobal()
+        public AppGlobal()
         {
             users = new List<User>();
-            users.Add(new User("Janco Kock", "jancoow", "test", true));
-            users.Add(new User("Tom Remeeus", "tommie", "jemoeder", false));
+            users.Add(new User("no", "no", 0, false, 0));
+            users.Add(new User("JK123", "jancoow", 5, true, 100));
+            users.Add(new User("TOM", "tommie", 80, false, 77, true));
+            
         }
 
         public void CheckLogin(string username, string password, out int admin, out int id)
@@ -31,24 +31,25 @@ namespace Server
             admin = 0;
             foreach (User u in users)
             {
-                if(u.name == username && u.password == password)
+                if(u.id == username && u.password == password)
                 {
-                    admin = u.admin ? 1 : 0;
+                    admin = u.isDoctor ? 1 : 0;
                     id = users.IndexOf(u);
                 }
             }
         }
 
-        public List<Meetsessie> GetMeetsessies(int patientid)
+        public List<Session> GetTests(string patientid)
         {
-            List<Meetsessie> sessies = new List<Meetsessie>();
-            foreach(Meetsessie m in meetsessies){
-                if(m.idUser == patientid)
+            foreach (User u in users)
+            {
+                if (u.id == patientid)
                 {
-                    sessies.Add(m);
+                    return u.tests;
                 }
             }
-            return sessies;
+
+            return null;
         }
     }
 }
