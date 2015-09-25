@@ -74,24 +74,28 @@ namespace FietsClientV2
         //change bike values
         public void setTimeMode(string time)
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
         }
 
         public void setPower(string power)
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PW " + power);
         }
 
         public void setDistanceMode(string distance)
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
         }
 
         public void reset()
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("RS");
         }
     }
