@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FietsClientV2
 {
@@ -44,6 +46,9 @@ namespace FietsClientV2
             }
         }
         //event handler
+        private List<DataPoint> speedPoints = new List<DataPoint>();
+        private List<DataPoint> bpmPoints = new List<DataPoint>();
+        private List<DataPoint> rpmPoints = new List<DataPoint>();
         private void HandleBikeData(string[] data)
         {
             if (patientform.InvokeRequired)
@@ -52,6 +57,7 @@ namespace FietsClientV2
             }
             else
             {
+                //fill fields
                 patientform.pulseBox.Text = data[0];
                 patientform.rpmInfoBox.Text = data[1];
                 patientform.speedInfoBox.Text = data[2];
@@ -60,6 +66,33 @@ namespace FietsClientV2
                 patientform.energyInfoBox.Text = data[5];
                 patientform.timeBox.Text = data[6];
                 patientform.actualBox.Text = data[7];
+                
+                //fill graph speed
+                speedPoints.Add(new DataPoint(Convert.ToDateTime(data[6]).ToOADate(), Convert.ToDouble(data[2])));
+                patientform.speedChart.Series[0].Points.Clear();
+                for (int i = 0; i < speedPoints.Count; i++)
+                    patientform.speedChart.Series[0].Points.Add(speedPoints[i]);
+                if (speedPoints.Count > 25)
+                    speedPoints.RemoveAt(0);
+                patientform.speedChart.Update();
+
+                //fill graph pulse
+                bpmPoints.Add(new DataPoint(Convert.ToDateTime(data[6]).ToOADate(), Convert.ToDouble(data[0])));
+                patientform.bpmChart.Series[0].Points.Clear();
+                for (int i = 0; i < bpmPoints.Count; i++)
+                    patientform.bpmChart.Series[0].Points.Add(bpmPoints[i]);
+                if (bpmPoints.Count > 25)
+                    bpmPoints.RemoveAt(0);
+                patientform.speedChart.Update();
+
+                //fill graph rpm
+                rpmPoints.Add(new DataPoint(Convert.ToDateTime(data[6]).ToOADate(), Convert.ToDouble(data[1])));
+                patientform.rpmChart.Series[0].Points.Clear();
+                for (int i = 0; i < rpmPoints.Count; i++)
+                    patientform.rpmChart.Series[0].Points.Add(rpmPoints[i]);
+                if (rpmPoints.Count > 25)
+                    rpmPoints.RemoveAt(0);
+                patientform.rpmChart.Update();
             }
             
         }
@@ -70,7 +103,6 @@ namespace FietsClientV2
                 workerThread.Interrupt();
             dataHandler.closeComm();
         }
-
         //change bike values
         public void setTimeMode(string time)
         {
