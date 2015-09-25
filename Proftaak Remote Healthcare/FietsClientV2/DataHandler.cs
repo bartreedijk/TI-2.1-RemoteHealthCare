@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FietsClientV2
 {
@@ -41,8 +42,8 @@ namespace FietsClientV2
         public delegate void DataDelegate(string[] data);
         public static event DataDelegate IncomingDataEvent;
 
-        public delegate void DebugDelegate(string debugData);
-        public static event DebugDelegate IncomingDebugLineEvent;
+        public delegate void ErrorDelegate(string error);
+        public static event ErrorDelegate IncomingErrorEvent;
 
         public DataHandler()
         {
@@ -55,29 +56,35 @@ namespace FietsClientV2
             if (handler != null) handler(data);
         }
 
-        public static void OnIncomingDebugLineEvent(string debugData)
+        public static void OnIncomingErrorEvent(string error)
         {
-            DebugDelegate handler = IncomingDebugLineEvent;
-            if (handler != null) handler(debugData);
+            ErrorDelegate handler = IncomingErrorEvent;
+            if (handler != null) handler(error);
         }
 
         public void initComm(string portname)
         {
             if (ComPort != null)
+            {
                 ComPort.Close();
+                state = State.notConnected;
+            }
 
             this.portname = portname;
             try
             {
                 ComPort = new SerialPort(this.portname, this.baudrate);
                 ComPort.Open();
+                state = State.connected;
                 ComPort.WriteLine(RESET);
+                state = State.reset;
                 ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
             }
             catch (Exception)
             {
-                OnIncomingDebugLineEvent("ERROR: Exception throwed");
+                OnIncomingErrorEvent("WrongComPort");
                 try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
+                state = State.notConnected;
             }
 
 
@@ -133,24 +140,33 @@ namespace FietsClientV2
             OnIncomingDataEvent(bufferIn);
         }
 
-        private bool checkBikeState()
+        public bool checkBikeState(bool commandMode)
         {
+            if (ComPort == null || !ComPort.IsOpen)
+            {
+                OnIncomingErrorEvent("NotConnectedToBike");
+                state = State.notConnected;
+                return false;
+            }
             switch (state)
             {
                 case State.reset:
-                    setCommandMode();
+                    if (commandMode) setCommandMode();
                     if (returnData != ReturnData.ERROR)
                         return true;
                     return false;
                 case State.connected:
-                    setCommandMode();
+                    if (commandMode) setCommandMode();
                     return true;
                 case State.command:
                     return true;
                 case State.notConnected:
+                    OnIncomingErrorEvent("NotConnectedToBike");
                     Console.WriteLine("ERROR: not connected to bike.");
                     return false;
                 default:
+                    OnIncomingErrorEvent("NotConnectedToBike");
+                    Console.WriteLine("ERROR: unknown error.");
                     return false;
             }
         }
@@ -158,34 +174,6 @@ namespace FietsClientV2
         public void setCommandMode()
         {
             sendData(COMMAND);
-        }
-
-        public void setTime()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_TIME);
-        }
-
-        public void setDistance()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_DISTANCE);
-        }
-
-        public void setPower()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_POWER);
-        }
-
-        public void setEnergy()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_ENERGY);
         }
     }
 }

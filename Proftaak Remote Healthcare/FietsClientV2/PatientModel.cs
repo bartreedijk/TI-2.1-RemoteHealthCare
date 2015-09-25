@@ -20,6 +20,8 @@ namespace FietsClientV2
         private DataHandler dataHandler;
         private Thread workerThread;
 
+        private String powerLog;
+
         private PatientModel()
         {
             dataHandler = new DataHandler();
@@ -42,7 +44,21 @@ namespace FietsClientV2
             while (true)
             {
                 Thread.Sleep(1000);
-                dataHandler.sendData(DataHandler.STATUS);
+
+                if(patientform.actualBox.Text != powerLog)
+                {
+                    setPower(powerLog);
+                }
+
+                try
+                {
+                    dataHandler.sendData(DataHandler.STATUS);
+                }
+                catch (Exception e)
+                {
+                    dataHandler.closeComm();
+                }
+                
             }
         }
         //event handler
@@ -106,24 +122,29 @@ namespace FietsClientV2
         //change bike values
         public void setTimeMode(string time)
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
         }
 
         public void setPower(string power)
         {
+	        powerLog = power;
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PW " + power);
         }
 
         public void setDistanceMode(string distance)
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
         }
 
         public void reset()
         {
+            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("RS");
         }
     }

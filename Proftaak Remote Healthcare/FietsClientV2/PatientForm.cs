@@ -19,6 +19,23 @@ namespace FietsClientV2
             InitializeComponent();
             patienModel = PatientModel.patientModel;
             patienModel.patientform = this;
+            DataHandler.IncomingErrorEvent += HandleError; //initialize event
+        }
+
+        private void HandleError(string error)
+        {
+            switch (error)
+            {
+                case "WrongComPort":
+                    toolStripComboBox1.Text = "";
+                    MessageBox.Show("ERROR: Comport not initialized... trying to close the comport", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "NotConnectedToBike":
+                    MessageBox.Show("ERROR: Not connected to bike.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
