@@ -83,6 +83,10 @@ namespace FietsSimulator
                     curmode = Mode.CONSOLE;
                     SendData("ACK");
                     break;
+                case "CM":
+                    curmode = Mode.CONSOLE;
+                    SendData("ACK");
+                    break;
                 case "PD":
                     if (curmode == Mode.CONSOLE)
                     {
