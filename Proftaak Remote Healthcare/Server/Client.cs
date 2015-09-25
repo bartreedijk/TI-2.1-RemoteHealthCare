@@ -36,17 +36,17 @@ namespace Server
                     switch (response_parts[0])
                     {
                         case "0":   //login
-                            if (response_parts.Length == 3) { 
+                            if (response_parts.Length == 4) {
                                 int admin, id;
                                 _global.CheckLogin(response_parts[1], response_parts[2], out admin, out id);
                                 if(id > -1)
                                 {
                                     this.iduser = id;
-                                    sendString("0|" + id + "|" + admin);
+                                    sendString("0|" + id + "|" + admin + "|" );
                                 }
                                 else
                                 {
-                                    sendString("0|0|0");
+                                    sendString("0|0|0|");
                                 }
                             }
                             break;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 using Server.JSONObjecten;
 
 namespace Server
@@ -22,7 +23,6 @@ namespace Server
             users.Add(new User("no", "no", 0, false, 0));
             users.Add(new User("JK123", "jancoow", 5, true, 100));
             users.Add(new User("TOM", "tommie", 80, false, 77, true));
-            
         }
 
         public void CheckLogin(string username, string password, out int admin, out int id)
