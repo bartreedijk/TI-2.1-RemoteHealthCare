@@ -97,6 +97,7 @@ namespace FietsClientV2
         private void ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string buffer = ComPort.ReadLine();
+            buffer = buffer.TrimEnd('\r');
             switch (buffer) //kijk wat er binnenkomt
             {
                 case "ERROR": //wanneer "Error"
@@ -128,7 +129,6 @@ namespace FietsClientV2
 
         private void handleBikeValues(string buffer)
         {
-            buffer = buffer.TrimEnd('\r');
             bufferIn = buffer.Split('\t');
             OnIncomingDataEvent(bufferIn);
         }

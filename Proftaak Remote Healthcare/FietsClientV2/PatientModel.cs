@@ -43,14 +43,12 @@ namespace FietsClientV2
                 dataHandler.sendData(DataHandler.STATUS);
             }
         }
-        delegate void trySetText(string[] text);
         //event handler
         private void HandleBikeData(string[] data)
         {
             if (patientform.InvokeRequired)
             {
-                trySetText t = new trySetText(HandleBikeData);
-                patientform.Invoke(t, new object[] { data });
+                patientform.Invoke((new Action(() => HandleBikeData(data))));
             }
             else
             {
@@ -76,19 +74,19 @@ namespace FietsClientV2
         //change bike values
         public void setTimeMode(string time)
         {
-            dataHandler.sendData("CU");
+            dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
         }
 
         public void setPower(string power)
         {
-            dataHandler.sendData("CU");
+            dataHandler.sendData("CM");
             dataHandler.sendData("PW " + power);
         }
 
         public void setDistanceMode(string distance)
         {
-            dataHandler.sendData("CU");
+            dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
         }
 
