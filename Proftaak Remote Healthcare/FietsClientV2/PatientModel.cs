@@ -47,7 +47,7 @@ namespace FietsClientV2
         //event handler
         private void HandleBikeData(string[] data)
         {
-            if (patientform.pulseBox.InvokeRequired)
+            if (patientform.InvokeRequired)
             {
                 trySetText t = new trySetText(HandleBikeData);
                 patientform.Invoke(t, new object[] { data });
