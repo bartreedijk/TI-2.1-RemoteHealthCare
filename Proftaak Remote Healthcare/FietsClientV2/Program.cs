@@ -4,19 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Fietsclient
+namespace FietsClientV2
 {
     static class Program
     {
         /// <summary>
-        /// 'Hier begint de applicatie met draaien. hij maakt een gui aan en in het gui object geeft hij een instantie mee van AppGlobal.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(AppGlobal.Instance));
+            Application.Run(new Login());
         }
     }
 }

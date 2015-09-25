@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Fietsclient.Properties
+namespace FietsClientV2.Properties
 {
 
 

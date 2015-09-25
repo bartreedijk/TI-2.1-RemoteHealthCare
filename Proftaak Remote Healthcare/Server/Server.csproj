@@ -55,12 +55,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fietsclient\Fietsclient.csproj">
-      <Project>{49668592-ed5d-4907-9ea7-2df70ab96271}</Project>
-      <Name>Fietsclient</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="JSONObjecten\JSON Files\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

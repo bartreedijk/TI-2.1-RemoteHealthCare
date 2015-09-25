@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO.Ports;
 using System.Threading;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace Fietsclient
-{
-    /// <summary>
-    /// Dit is de communicatieklasse met de simulator of de fiets.
-    /// </summary>
-    class KettlerBikeComm
-    {
 
+namespace FietsClientV2
+{
+
+    //alle data die ontvagen wordt van de fiets gaat als eerst door de DataHandler klasse heen voordat hij verwerkt wordt door de model klasse.
+    // TLDR: ontvangt fiets data 
+
+    class DataHandler
+    {
         // vaste waarden
         public static readonly string COMMAND = "CU";
         public static readonly string CMD_TIME = "PT";
@@ -26,10 +28,10 @@ namespace Fietsclient
         public static readonly string STATUS = "ST";
 
         // private fields
-        private string _portname;
+        private string portname;
         private int baudrate = 9600;
-        private string _bufferOut;
-        private string[] _bufferIn;
+        private string bufferOut;
+        private string[] bufferIn;
 
         // public fields
         public enum State { notConnected, connected, reset, command }
@@ -44,12 +46,12 @@ namespace Fietsclient
         public delegate void DataDelegate(string[] data);
         public static event DataDelegate IncomingDataEvent;
 
-        public delegate void DebugDelegate(string debugData);
-        public static event DebugDelegate IncomingDebugLineEvent;
+        public delegate void ErrorDelegate(string error);
+        public static event ErrorDelegate IncomingErrorEvent;
 
-        public KettlerBikeComm()
+        public DataHandler()
         {
-            
+
         }
 
         private static void OnIncomingDataEvent(string[] data)
@@ -58,10 +60,10 @@ namespace Fietsclient
             if (handler != null) handler(data);
         }
 
-        public static void OnIncomingDebugLineEvent(string debugData)
+        public static void OnIncomingErrorEvent(string error)
         {
-            DebugDelegate handler = IncomingDebugLineEvent;
-            if (handler != null) handler(debugData);
+            ErrorDelegate handler = IncomingErrorEvent;
+            if (handler != null) handler(error);
         }
 
         public void initComm(string portname)
@@ -69,25 +71,26 @@ namespace Fietsclient
             if (ComPort != null)
             {
                 ComPort.Close();
+                state = State.notConnected;
             }
-            _portname = portname;
+
+            this.portname = portname;
             try
             {
-                ComPort = new SerialPort(_portname, this.baudrate);
+                ComPort = new SerialPort(this.portname, this.baudrate);
                 ComPort.Open();
+                state = State.connected;
                 ComPort.WriteLine(RESET);
+                state = State.reset;
                 ComPort.DataReceived += new SerialDataReceivedEventHandler(ComPort_DataReceived);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception)
             {
-                OnIncomingDebugLineEvent("ERROR: UnauthorizedAccessException throwed");
+                OnIncomingErrorEvent("WrongComPort");
                 try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
+                state = State.notConnected;
             }
-            catch (InvalidOperationException)
-            {
-                OnIncomingDebugLineEvent("ERROR: InvalidOperationException throwed");
-                try { ComPort.Close(); } catch (Exception) { } // probeer om de ComPort wel te sluiten.
-            }
+
 
         }
 
@@ -98,14 +101,15 @@ namespace Fietsclient
 
         public void sendData(string data)
         {
-            _bufferOut = data;
+            bufferOut = data;
             ComPort.WriteLine(data);
         }
 
         private void ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string buffer = ComPort.ReadLine();
-            switch(buffer) //kijk wat er binnenkomt
+            buffer = buffer.TrimEnd('\r');
+            switch (buffer) //kijk wat er binnenkomt
             {
                 case "ERROR": //wanneer "Error"
                     returnData = ReturnData.ERROR;
@@ -127,7 +131,7 @@ namespace Fietsclient
         int trycount = 0;
         private void handleError()
         {
-            if (_bufferOut == "RS" && trycount < 3)
+            if (bufferOut == "RS" && trycount < 3)
             {
                 sendData("RS");  //gewoon nog een keer proberen tot 3 keer toe, net zolang totdat hij werkt.
                 trycount++;
@@ -136,71 +140,44 @@ namespace Fietsclient
 
         private void handleBikeValues(string buffer)
         {
-            buffer = buffer.TrimEnd('\r');
-            Console.WriteLine(buffer);
-            _bufferIn = buffer.Split('\t');
-            OnIncomingDataEvent(_bufferIn);
+            bufferIn = buffer.Split('\t');
+            OnIncomingDataEvent(bufferIn);
         }
 
-        private bool checkBikeState()
+        public bool checkBikeState(bool commandMode)
         {
-            bool success = false;
-            switch(state)
+            if (ComPort == null || !ComPort.IsOpen)
+            {
+                OnIncomingErrorEvent("NotConnectedToBike");
+                state = State.notConnected;
+                return false;
+            }
+            switch (state)
             {
                 case State.reset:
-                    setCommandMode();
-                    
-                    if(returnData != ReturnData.ERROR)
-                    {
-                        success = true;
-                    }
-                    break;
+                    if (commandMode) setCommandMode();
+                    if (returnData != ReturnData.ERROR)
+                        return true;
+                    return false;
                 case State.connected:
-                    setCommandMode();                   
-                    success = true;
-                    break;
+                    if (commandMode) setCommandMode();
+                    return true;
                 case State.command:
-                    success = true;
-                    break;
+                    return true;
                 case State.notConnected:
+                    OnIncomingErrorEvent("NotConnectedToBike");
                     Console.WriteLine("ERROR: not connected to bike.");
-                    success = false;
-                    break;
+                    return false;
+                default:
+                    OnIncomingErrorEvent("NotConnectedToBike");
+                    Console.WriteLine("ERROR: unknown error.");
+                    return false;
             }
-            return success;
         }
 
         public void setCommandMode()
         {
             sendData(COMMAND);
-        }
-
-        public void setTime()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_TIME);
-        }
-
-        public void setDistance()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_DISTANCE);
-        }
-
-        public void setPower()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_POWER);
-        }
-
-        public void setEnergy()
-        {
-            if (!checkBikeState())
-                return;
-            sendData(CMD_ENERGY);
         }
 
         public void saveToJson(string path,Meetsessie sessie)
