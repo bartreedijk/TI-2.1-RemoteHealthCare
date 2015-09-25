@@ -42,5 +42,10 @@ namespace Server
             this.isDoctor = isDoctor;
         }
 
+        public void addSession(int mode, string modevalue)
+        {
+            tests.Add(new Session(0,mode, modevalue));
+        }
+
     }
 }

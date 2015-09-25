@@ -51,5 +51,17 @@ namespace Server
 
             return null;
         }
+
+        public void addMeetsessie(string patientid, int mode, string modevalue)
+        {
+            foreach (User u in users)
+            {
+                if (u.id == patientid)
+                {
+                    u.addSession(mode, modevalue);
+                }
+            }
+
+        }
     }
 }

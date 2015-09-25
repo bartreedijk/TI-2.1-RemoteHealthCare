@@ -17,8 +17,9 @@ namespace Server.JSONObjecten
         public int bikeMode { get; private set; }
         public DateTime date { get; private set; }
         public string note { get; private set; }
+        public string modevalue { get; private set; }
 
-        public Session( int deviceid, int bikeMode  )
+        public Session( int deviceid, int bikeMode, string modevalue )
         {
             string[] fileEntries = Directory.GetFiles("JSONObjecten/JSON Files/");
             this.id = int.Parse(fileEntries[fileEntries.Length]);
@@ -26,6 +27,7 @@ namespace Server.JSONObjecten
             this.isActive = true;
             this.deviceID = deviceid;
             this.bikeMode = bikeMode;
+            this.modevalue = modevalue;
             this.date = DateTime.Now;
             this.note = "";
         }

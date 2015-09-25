@@ -36,13 +36,14 @@ namespace Server
                     switch (response_parts[0])
                     {
                         case "0":   //login
-                            if (response_parts.Length == 4) {
+                            if (response_parts.Length == 4)
+                            {
                                 int admin, id;
                                 _global.CheckLogin(response_parts[1], response_parts[2], out admin, out id);
-                                if(id > -1)
+                                if (id > -1)
                                 {
                                     this.iduser = id;
-                                    sendString("0|" + id + "|" + admin + "|" );
+                                    sendString("0|" + id + "|" + admin + "|");
                                 }
                                 else
                                 {
@@ -51,6 +52,21 @@ namespace Server
                             }
                             break;
                         case "1":   //meetsessies ophalen
+
+                            break;
+                        case "2":   //Livedata opvragen
+
+                            break;
+                        case "3":   //Nieuwe meetsessie aanmaken
+                            if (response_parts.Length == 5 && iduser != -1)
+                            {
+                                _global.addMeetsessie(response_parts[1], Int32.Parse(response_parts[2]), response_parts[3]);
+                            }
+                            break;
+                        case "4":   //Check nieuwe meetsessie
+
+                            break;
+                        case "5":   //data pushen naar meetsessie
 
                             break;
                     }
