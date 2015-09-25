@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.JSONObjecten
 {
+    [Serializable]
     public class Measurement
     {
         public int rpm { get; private set; }
