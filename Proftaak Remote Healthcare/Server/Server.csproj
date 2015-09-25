@@ -45,9 +45,11 @@
   <ItemGroup>
     <Compile Include="AppGlobal.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="JSONObjecten\Measurement.cs" />
+    <Compile Include="JSONObjecten\Session.cs" />
+    <Compile Include="JSONObjecten\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -57,6 +59,9 @@
       <Project>{49668592-ed5d-4907-9ea7-2df70ab96271}</Project>
       <Name>Fietsclient</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JSONObjecten\JSON Files\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

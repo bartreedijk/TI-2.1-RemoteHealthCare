@@ -17,7 +17,7 @@ namespace Server
             get { return _instance ?? (_instance = new AppGlobal()); }
         }
 
-        public AppGlobal()
+        public AppGlobal() 
         {
             users = new List<User>();
             users.Add(new User("no", "no", 0, false, 0));

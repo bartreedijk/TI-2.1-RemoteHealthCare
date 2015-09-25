@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.JSONObjecten
 {
-    class Measurement
+    public class Measurement
     {
         public int rpm { get; private set; }
         public int wattage { get; private set; }
