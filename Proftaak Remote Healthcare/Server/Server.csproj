@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AppGlobal.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="FileIO\JsonConverter.cs" />
     <Compile Include="JSONObjecten\Measurement.cs" />
     <Compile Include="JSONObjecten\Session.cs" />
     <Compile Include="JSONObjecten\User.cs" />
@@ -62,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="JSONObjecten\JSON Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

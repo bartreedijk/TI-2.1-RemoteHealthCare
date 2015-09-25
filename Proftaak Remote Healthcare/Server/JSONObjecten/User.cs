@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Server.JSONObjecten;
 
 namespace Server
 {
-    class User
+    [Serializable]
+    public class User
     {
+        
         public string id { get; private set; }
         public string password { get; private set; }
         public List<Session> tests { get; private set; }
@@ -42,9 +45,25 @@ namespace Server
             this.isDoctor = isDoctor;
         }
 
-        public void addSession(int mode, string modevalue)
+        public void addSession(Session session)
         {
-            tests.Add(new Session(0,mode, modevalue));
+            tests.Add(session);
+        }
+
+        public string ToJSON()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public string getSessions()
+        {
+            string jsonSessions = "";
+            foreach (Session s in tests)
+            {
+                jsonSessions += s.GetJSONString();
+            }
+            return jsonSessions;
+
         }
 
     }

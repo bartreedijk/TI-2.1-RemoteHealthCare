@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
+using Server.FileIO;
 
 namespace Server
 {
@@ -53,14 +54,19 @@ namespace Server
                             break;
                         case "1":   //meetsessies ophalen
 
+                            foreach (User u in _global.testU())
+                            {
+                                JsonConverter.SaveUser(u);
+                            }
+
                             break;
                         case "2":   //Livedata opvragen
 
                             break;
                         case "3":   //Nieuwe meetsessie aanmaken
-                            if (response_parts.Length == 5 && iduser != -1)
+                            if (response_parts.Length == 6 && iduser != -1)
                             {
-                                _global.addMeetsessie(response_parts[1], Int32.Parse(response_parts[2]), response_parts[3]);
+                                _global.addSession(response_parts[1], Int32.Parse(response_parts[2]), response_parts[3]);
                             }
                             break;
                         case "4":   //Check nieuwe meetsessie

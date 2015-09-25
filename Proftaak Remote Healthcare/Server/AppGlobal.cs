@@ -2,7 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 using Server.JSONObjecten;
+
 
 namespace Server
 {
@@ -23,6 +25,11 @@ namespace Server
             users.Add(new User("no", "no", 0, false, 0));
             users.Add(new User("JK123", "jancoow", 5, true, 100));
             users.Add(new User("TOM", "tommie", 80, false, 77, true));
+
+            users.ElementAt(1).tests.Add(new Session(1, "100"));
+            users.ElementAt(1).tests.Add(new Session(2, "110"));
+            users.ElementAt(0).tests.Add(new Session(3, "230"));
+            users.ElementAt(2).tests.Add(new Session(4, "300"));
         }
 
         public void CheckLogin(string username, string password, out int admin, out int id)
@@ -39,6 +46,11 @@ namespace Server
             }
         }
 
+        public List<User> testU()
+        {
+            return users;
+        } 
+
         public List<Session> GetTests(string patientid)
         {
             foreach (User u in users)
@@ -52,13 +64,13 @@ namespace Server
             return null;
         }
 
-        public void addMeetsessie(string patientid, int mode, string modevalue)
+        public void addSession(string patientid, int mode, string modevalue)
         {
             foreach (User u in users)
             {
                 if (u.id == patientid)
                 {
-                    u.addSession(mode, modevalue);
+                    u.addSession(new Session( mode, modevalue ));
                 }
             }
 
