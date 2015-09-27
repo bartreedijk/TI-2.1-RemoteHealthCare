@@ -52,7 +52,6 @@ namespace FietsClient
             {
                 connection.sendLogin(UsernameBox.Text, PasswordBox.Text);
                 PasswordBox.Text = "";
-                this.Dispose();
             }
         }
 

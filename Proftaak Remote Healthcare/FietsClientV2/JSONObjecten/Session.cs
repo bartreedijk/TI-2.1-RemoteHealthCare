@@ -22,16 +22,6 @@ namespace FietsClient.JSONObjecten
 
         public Session(int bikeMode, string modevalue)
         {
-            string[] fileEntries = Directory.GetFiles(@"../../JSONObjecten/JSON Files/");
-
-            if (fileEntries.Length > 0)
-            {
-                this.id = int.Parse(fileEntries[fileEntries.Length]);
-            }
-            else
-            {
-                this.id = 1;
-            }
 
             this.session = new List<Measurement>();
             this.isActive = true;
@@ -46,7 +36,7 @@ namespace FietsClient.JSONObjecten
             session.Add(m);
         }
 
-        public Measurement GetMeasurement()
+        public Measurement GetLastMeasurement()
         {
             return session.Last();
         }

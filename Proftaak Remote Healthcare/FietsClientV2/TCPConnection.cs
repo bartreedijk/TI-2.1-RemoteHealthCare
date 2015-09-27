@@ -1,11 +1,12 @@
-﻿using System;
+﻿using FietsClient.JSONObjecten;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FietsClient
 {
@@ -13,6 +14,7 @@ namespace FietsClient
     {
         public TcpClient client;
         private NetworkStream serverStream;
+        private CurrentData currentData;
         private string userID;
         private bool isConnectedFlag;
 
@@ -67,17 +69,27 @@ namespace FietsClient
                             {
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
+                                    Form.ActiveForm.Dispose();
                                     new DoctorForm().Show();
+                                    currentData = new CurrentData(userID);
                                 }
                                 else if(response_parts[2] == "0" && response_parts[1] == "1")
                                 {
+                                    Form.ActiveForm.Dispose();
                                     new PatientForm().Show();
+                                    currentData = new CurrentData(userID);
                                 }
                                 else
                                 {
                                     new Login("Geen gebruiker gevonden");
                                 }
                             }
+                            break;
+                        case "1":
+                            currentData.setSessionList(JsonConvert.DeserializeObject<List<Session>>(response_parts[1]));
+                            break;
+                        case "2":
+                            currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
                             break;
                     }
                 }
@@ -87,8 +99,28 @@ namespace FietsClient
         public void sendLogin(string username, string password)
         {
             // send command ( cmdID | username | password )
+            this.userID = username;
             sendString("0|" + username + "|" + password);
 
+        }
+
+        public void sendGet(int GetWhat)
+        {
+            // send command ( cmdID | username )
+            sendString( GetWhat + "|" + userID );
+
+        }
+
+        public void sendNewSession()
+        {
+            // send command ( cmdID | username )
+            sendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()));
+        }
+
+        public void sendNewMeasurement()
+        {
+            // send command ( cmdID | username )
+            sendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
         }
 
         public void sendString(string s)

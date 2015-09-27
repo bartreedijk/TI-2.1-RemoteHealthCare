@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.UsernameBox = new System.Windows.Forms.TextBox();
@@ -137,7 +138,7 @@
             // reconnectBTN
             // 
             this.reconnectBTN.BackColor = System.Drawing.Color.Transparent;
-            this.reconnectBTN.BackgroundImage = global::FietsClientV2.Properties.Resources.FeatureIconRebootMachines;
+            this.reconnectBTN.BackgroundImage = global::FietsClient.Properties.Resources.FeatureIconRebootMachines;
             this.reconnectBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.reconnectBTN.FlatAppearance.BorderSize = 0;
             this.reconnectBTN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -187,6 +188,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);

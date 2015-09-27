@@ -38,6 +38,7 @@ namespace Server
                 String[] response_parts = response.Split('|');
                 if (response_parts.Length > 0)
                 {
+                    User currentUser = null;
                     switch (response_parts[0])
                     {
                         case "0":   //login
@@ -64,26 +65,14 @@ namespace Server
                             break;
                         case "1":   //meetsessies ophalen
 
-                            foreach (User u in _global.GetUsers())
-                            {
-                                if (u.id == response_parts[1])
-                                {
-                                    JsonConverter.GetUserSessions(u);
-                                }
-                            }
-
+                            currentUser = _global.GetUsers().First(item => item.id == response_parts[1]);
+                            sendString("1|" + JsonConverter.GetUserSessions(currentUser));
                             break;
                         case "2":   //Livedata opvragen
 
-                            foreach (User u in _global.GetUsers())
-                            {
-                                if (u.id == response_parts[1])
-                                {
-                                    JsonConverter.GetLastMeasurement(u.tests.Last());
-                                    break;
-                                }
-                            }
+                            currentUser = _global.GetUsers().First(item => item.id == response_parts[1]);
 
+                            JsonConverter.GetLastMeasurement(currentUser.tests.Last());
                             break;
                         case "3":   //Nieuwe meetsessie aanmaken
                             if (response_parts.Length == 6 && iduser != -1)
@@ -98,14 +87,8 @@ namespace Server
                             break;
                         case "5":   //data pushen naar meetsessie
 
-                            foreach (User u in _global.GetUsers())
-                            {
-                                if (u.id == response_parts[1])
-                                {
-                                    u.tests.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[2]));
-                                    break;
-                                }
-                            }
+                            currentUser = _global.GetUsers().First(item => item.id == response_parts[1]);
+                            currentUser.tests.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[2]));
 
                             break;
                     }

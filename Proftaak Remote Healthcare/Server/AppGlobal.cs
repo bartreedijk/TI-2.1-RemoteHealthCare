@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 using Server.JSONObjecten;
-
+using JsonConverter = Server.FileIO.JsonConverter;
 
 namespace Server
 {
@@ -30,6 +30,8 @@ namespace Server
             users.ElementAt(1).tests.Add(new Session(2, "110"));
             users.ElementAt(0).tests.Add(new Session(3, "230"));
             users.ElementAt(2).tests.Add(new Session(4, "300"));
+
+            Console.WriteLine(JsonConverter.GetUserSessions(users.ElementAt(1)));
         }
 
         public void CheckLogin(string username, string password, out int admin, out int id)

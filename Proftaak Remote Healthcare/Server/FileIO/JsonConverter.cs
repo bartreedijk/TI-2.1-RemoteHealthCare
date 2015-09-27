@@ -25,6 +25,11 @@ namespace Server.FileIO
         {
             return JsonConvert.SerializeObject(patient.GetSessions());
         }
+    
+        public static string GetSessions(Session session)
+        {
+            return JsonConvert.SerializeObject(session);
+        }
 
         public static string GetLastMeasurement(Session currentSession)
         {
