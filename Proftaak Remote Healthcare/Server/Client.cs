@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
-using Server.FileIO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Server.JSONObjecten;
+using JsonConverter = Server.FileIO.JsonConverter;
 
 namespace Server
 {
@@ -20,11 +24,11 @@ namespace Server
             _global = global;
             iduser = -1;
             Console.WriteLine("New client connected");
-            Thread t = new Thread(receive);
+            Thread t = new Thread(recieve);
             t.Start();
         }
 
-        public void receive()
+        public void recieve()
         {
             while (true)
             {
@@ -37,14 +41,20 @@ namespace Server
                     switch (response_parts[0])
                     {
                         case "0":   //login
-                            if (response_parts.Length == 4)
+                            if (response_parts.Length == 3)
                             {
                                 int admin, id;
                                 _global.CheckLogin(response_parts[1], response_parts[2], out admin, out id);
                                 if (id > -1)
                                 {
-                                    this.iduser = id;
-                                    sendString("0|" + id + "|" + admin + "|");
+                                    if(_global.GetUsers().First(item => item.id == response_parts[1]).isDoctor)
+                                    {
+                                        sendString("0|1|1");   // Doctor
+                                    }
+                                    else
+                                    {
+                                        sendString("0|1|0");   //Patient
+                                    }  
                                 }
                                 else
                                 {
@@ -54,25 +64,48 @@ namespace Server
                             break;
                         case "1":   //meetsessies ophalen
 
-                            foreach (User u in _global.testU())
+                            foreach (User u in _global.GetUsers())
                             {
-                                JsonConverter.SaveUser(u);
+                                if (u.id == response_parts[1])
+                                {
+                                    JsonConverter.GetUserSessions(u);
+                                }
                             }
 
                             break;
                         case "2":   //Livedata opvragen
 
+                            foreach (User u in _global.GetUsers())
+                            {
+                                if (u.id == response_parts[1])
+                                {
+                                    JsonConverter.GetLastMeasurement(u.tests.Last());
+                                    break;
+                                }
+                            }
+
                             break;
                         case "3":   //Nieuwe meetsessie aanmaken
                             if (response_parts.Length == 6 && iduser != -1)
                             {
-                                _global.addSession(response_parts[1], Int32.Parse(response_parts[2]), response_parts[3]);
+                                _global.AddSession(response_parts[1], int.Parse(response_parts[2]), response_parts[3]);
                             }
                             break;
                         case "4":   //Check nieuwe meetsessie
 
+
+
                             break;
                         case "5":   //data pushen naar meetsessie
+
+                            foreach (User u in _global.GetUsers())
+                            {
+                                if (u.id == response_parts[1])
+                                {
+                                    u.tests.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[2]));
+                                    break;
+                                }
+                            }
 
                             break;
                     }

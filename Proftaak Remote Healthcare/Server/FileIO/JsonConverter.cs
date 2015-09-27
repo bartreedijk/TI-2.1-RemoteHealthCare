@@ -13,8 +13,23 @@ namespace Server.FileIO
     {
         public static void SaveUser(User u)
         {
-            File.WriteAllText(Environment.CurrentDirectory + "\\" + u.id + ".json", u.ToJSON());
+            File.WriteAllText(Environment.CurrentDirectory + "\\" + u.id + ".json", GetUser(u));
         }
-        
+
+        public static string GetUser(User u)
+        {
+           return JsonConvert.SerializeObject(u);
+        }
+
+        public static string GetUserSessions(User patient)
+        {
+            return JsonConvert.SerializeObject(patient.GetSessions());
+        }
+
+        public static string GetLastMeasurement(Session currentSession)
+        {
+            return JsonConvert.SerializeObject(currentSession.GetMeasurement());
+        }
+
     }
 }

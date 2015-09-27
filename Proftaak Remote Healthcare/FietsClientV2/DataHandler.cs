@@ -8,9 +8,9 @@ using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
+using FietsClient.JSONObjecten;
 
-
-namespace FietsClientV2
+namespace FietsClient
 {
 
     //alle data die ontvagen wordt van de fiets gaat als eerst door de DataHandler klasse heen voordat hij verwerkt wordt door de model klasse.
@@ -48,11 +48,6 @@ namespace FietsClientV2
 
         public delegate void ErrorDelegate(string error);
         public static event ErrorDelegate IncomingErrorEvent;
-
-        public DataHandler()
-        {
-
-        }
 
         private static void OnIncomingDataEvent(string[] data)
         {
@@ -180,16 +175,16 @@ namespace FietsClientV2
             sendData(COMMAND);
         }
 
-        public void saveToJson(string path,Meetsessie sessie)
+        public void saveToJson(string path, Session session)
         {
-            string json = JsonConvert.SerializeObject(sessie);
+            string json = JsonConvert.SerializeObject(session);
             File.WriteAllText(path, json);    
         }
-        public Meetsessie loadFromJson(string path){
+        public Session loadFromJson(string path){
             string jsonFile = File.ReadAllText(path);
 
-            Meetsessie sessieFromJson = JsonConvert.DeserializeObject<Meetsessie>(jsonFile);
-            return sessieFromJson;
+            Session sessionFromJson = JsonConvert.DeserializeObject<Session>(jsonFile);
+            return sessionFromJson;
         }
     }
 }

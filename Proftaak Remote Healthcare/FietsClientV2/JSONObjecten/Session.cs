@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.IO;
 
-
-namespace Server.JSONObjecten
+namespace FietsClient.JSONObjecten
 {
     [Serializable]
     public class Session
@@ -21,7 +20,7 @@ namespace Server.JSONObjecten
         public string note { get; private set; }
         public string modevalue { get; private set; }
 
-        public Session( int bikeMode, string modevalue )
+        public Session(int bikeMode, string modevalue)
         {
             string[] fileEntries = Directory.GetFiles(@"../../JSONObjecten/JSON Files/");
 
@@ -33,8 +32,6 @@ namespace Server.JSONObjecten
             {
                 this.id = 1;
             }
-
-
 
             this.session = new List<Measurement>();
             this.isActive = true;
@@ -54,5 +51,14 @@ namespace Server.JSONObjecten
             return session.Last();
         }
 
+        public void PrintAll()
+        {
+            Console.WriteLine("pulse" + "\t" + "rpm" + "\t" + "speed" + "\t" + " dist" + "\t" + "req pow" + "\t" + "energy" + "\t" + "time" + "\t\t" + "act pow");
+
+            for (int i = 0; i < session.Count; i++)
+            {
+                Console.WriteLine(session[i].pulse + "\t" + session[i].rpm + "\t" + session[i].speed + "\t " + session[i].distance + "\t" + session[i].requestedPower + "\t" + session[i].energy + "\t" + session[i].time + "\t" + session[i].actualPower);
+            }
+        }
     }
 }

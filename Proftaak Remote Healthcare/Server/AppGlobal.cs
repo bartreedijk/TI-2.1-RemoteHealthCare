@@ -46,7 +46,7 @@ namespace Server
             }
         }
 
-        public List<User> testU()
+        public List<User> GetUsers()
         {
             return users;
         } 
@@ -64,13 +64,13 @@ namespace Server
             return null;
         }
 
-        public void addSession(string patientid, int mode, string modevalue)
+        public void AddSession(string patientid, int mode, string modevalue)
         {
             foreach (User u in users)
             {
                 if (u.id == patientid)
                 {
-                    u.addSession(new Session( mode, modevalue ));
+                    u.AddSession(new Session( mode, modevalue ));
                 }
             }
 

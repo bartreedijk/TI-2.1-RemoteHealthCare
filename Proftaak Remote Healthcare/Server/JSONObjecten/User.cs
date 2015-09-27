@@ -45,25 +45,14 @@ namespace Server
             this.isDoctor = isDoctor;
         }
 
-        public void addSession(Session session)
+        public void AddSession(Session session)
         {
             tests.Add(session);
         }
-
-        public string ToJSON()
+        
+        public List<Session> GetSessions()
         {
-            return JsonConvert.SerializeObject(this);
-        }
-
-        public string getSessions()
-        {
-            string jsonSessions = "";
-            foreach (Session s in tests)
-            {
-                jsonSessions += s.GetJSONString();
-            }
-            return jsonSessions;
-
+            return tests;
         }
 
     }
