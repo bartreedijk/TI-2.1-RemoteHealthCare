@@ -21,9 +21,9 @@ namespace FietsClient
         [DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-        public Login(TcpConnection conn)
+        public Login(TcpConnection connection)
         {
-            connection = conn;
+            this.connection = connection;
             InitializeComponent();
         }
 
@@ -76,7 +76,7 @@ namespace FietsClient
 
         private void checkConnection()
         {
-            if (!connection.isConnected())
+            if (!connection.isConnectedFlag)
             {
                 connLBL.Text = "No Connection established";
             }
@@ -88,7 +88,7 @@ namespace FietsClient
 
         private void reconnectBTN_Click(object sender, EventArgs e)
         {
-            if(!connection.isConnected())
+            if(!connection.isConnectedFlag)
             {
                 connection.connect();
                 checkConnection();

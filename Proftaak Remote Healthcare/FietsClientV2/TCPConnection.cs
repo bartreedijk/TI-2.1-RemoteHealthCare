@@ -13,52 +13,45 @@ namespace FietsClient
     public class TcpConnection
     {
         public TcpClient client;
+        public bool isConnectedFlag { private set; get; }
         private NetworkStream serverStream;
         private CurrentData currentData;
         private string userID;
-        private bool isConnectedFlag;
+        private Thread receiveThread;
 
         public TcpConnection()
         {
-            // create a connection
             client = new TcpClient();
-
             connect();
-        }
-
-        public bool isConnected()
-        {
-            return isConnectedFlag;
         }
 
         public void connect()
         {
-                try
-                {
-                    client.Connect("192.168.178.17", 1288);
+            try
+            {
+                client.Connect("192.168.178.17", 1288);
 
-                    // create streams
-                    serverStream = client.GetStream();
-                    Thread t = new Thread(recieve);
-                    t.Start();
-                    isConnectedFlag = true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    Thread.Sleep(1000);
-                    isConnectedFlag = false;
-                }
+                // create streams
+                serverStream = client.GetStream();
+                receiveThread = new Thread(receive);
+                receiveThread.Start();
+                isConnectedFlag = true;
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(1000);
+                isConnectedFlag = false;
+            }
         }
 
-        public void recieve ()
+        public void receive()
         {
             while (true)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
                 serverStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
-                String response = Encoding.ASCII.GetString(bytesFrom);
-                String[] response_parts = response.Split('|');
+                string response = Encoding.ASCII.GetString(bytesFrom);
+                string[] response_parts = response.Split('|');
 
                 if (response_parts.Length > 0)
                 {
@@ -73,16 +66,14 @@ namespace FietsClient
                                     new DoctorForm().Show();
                                     currentData = new CurrentData(userID);
                                 }
-                                else if(response_parts[2] == "0" && response_parts[1] == "1")
+                                else if (response_parts[2] == "0" && response_parts[1] == "1")
                                 {
                                     Form.ActiveForm.Dispose();
-                                    new PatientForm().Show();
                                     currentData = new CurrentData(userID);
+                                    new PatientForm().Show();
                                 }
                                 else
-                                {
                                     new Login("Geen gebruiker gevonden");
-                                }
                             }
                             break;
                         case "1":
@@ -107,7 +98,7 @@ namespace FietsClient
         public void sendGet(int GetWhat)
         {
             // send command ( cmdID | username )
-            sendString( GetWhat + "|" + userID );
+            sendString(GetWhat + "|" + userID);
 
         }
 
