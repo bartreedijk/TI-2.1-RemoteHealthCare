@@ -33,6 +33,7 @@ namespace FietsClient
             errorLBL.Text = message;
         }
 
+
         public void setError(String message)
         {
             errorLBL.Text = message;

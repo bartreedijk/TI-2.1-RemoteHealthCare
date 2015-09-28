@@ -51,6 +51,7 @@ namespace FietsClient
                 }
         }
 
+
         public void recieve ()
         {
             while (true)
@@ -73,8 +74,17 @@ namespace FietsClient
                                     currentData = new CurrentData(userID);
                                 }
                                 else if(response_parts[2] == "0" && response_parts[1] == "1")
-                                { 
-                                    new PatientForm().Show();
+                                {
+                                    PatientForm form = new PatientForm(this);
+                                    Form activeForm = Form.ActiveForm;
+
+                                    activeForm.Invoke((MethodInvoker)delegate () {
+                                        activeForm.Hide();
+                                        form.Show();
+                                    });
+                                    
+
+
                                     currentData = new CurrentData(userID);
                                 }
                                 else

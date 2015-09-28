@@ -13,9 +13,11 @@ namespace FietsClient
 {
     public partial class PatientForm : Form
     {
+        private TcpConnection _connection;
         private PatientModel patienModel;
-        public PatientForm()
+        public PatientForm(TcpConnection connection)
         {
+            this._connection = connection;
             InitializeComponent();
             patienModel = PatientModel.patientModel;
             patienModel.patientform = this;
