@@ -35,7 +35,7 @@ namespace FietsClient
         {
                 try
                 {
-                    client.Connect("192.168.178.17", 1288);
+                    client.Connect("145.102.71.43", 1288);
 
                     // create streams
                     serverStream = client.GetStream();
@@ -69,13 +69,11 @@ namespace FietsClient
                             {
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
-                                    Form.ActiveForm.Dispose();
                                     new DoctorForm().Show();
                                     currentData = new CurrentData(userID);
                                 }
                                 else if(response_parts[2] == "0" && response_parts[1] == "1")
-                                {
-                                    Form.ActiveForm.Dispose();
+                                { 
                                     new PatientForm().Show();
                                     currentData = new CurrentData(userID);
                                 }
@@ -96,34 +94,34 @@ namespace FietsClient
             }
         }
 
-        public void sendLogin(string username, string password)
+        public void SendLogin(string username, string password)
         {
             // send command ( cmdID | username | password )
             this.userID = username;
-            sendString("0|" + username + "|" + password);
+            SendString("0|" + username + "|" + password + "|");
 
         }
 
-        public void sendGet(int GetWhat)
+        public void SendGet(int GetWhat)
         {
             // send command ( cmdID | username )
-            sendString( GetWhat + "|" + userID );
+            SendString( GetWhat + "|" + userID );
 
         }
 
-        public void sendNewSession()
+        public void SendNewSession()
         {
             // send command ( cmdID | username )
-            sendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()));
+            SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()));
         }
 
-        public void sendNewMeasurement()
+        public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
-            sendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
+            SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
         }
 
-        public void sendString(string s)
+        public void SendString(string s)
         {
             byte[] b = Encoding.ASCII.GetBytes(s);
             serverStream.Write(b, 0, b.Length);

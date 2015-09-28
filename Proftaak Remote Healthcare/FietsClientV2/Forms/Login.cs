@@ -50,7 +50,7 @@ namespace FietsClient
             }
             else
             {
-                connection.sendLogin(UsernameBox.Text, PasswordBox.Text);
+                connection.SendLogin(UsernameBox.Text, PasswordBox.Text);
                 PasswordBox.Text = "";
             }
         }

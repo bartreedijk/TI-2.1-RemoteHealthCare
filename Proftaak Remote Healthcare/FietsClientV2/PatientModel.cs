@@ -13,7 +13,7 @@ namespace FietsClient
     {
 
         private static PatientModel _patientModel;
-        public PatientForm patientform { private get; set; }
+        public PatientForm patientform { get; set; }
 
         public static PatientModel patientModel { get { return _patientModel ?? (_patientModel = new PatientModel()); } }
 

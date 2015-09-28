@@ -42,7 +42,7 @@ namespace Server
                     switch (response_parts[0])
                     {
                         case "0":   //login
-                            if (response_parts.Length == 3)
+                            if (response_parts.Length == 4)
                             {
                                 int admin, id;
                                 _global.CheckLogin(response_parts[1], response_parts[2], out admin, out id);
@@ -50,11 +50,11 @@ namespace Server
                                 {
                                     if(_global.GetUsers().First(item => item.id == response_parts[1]).isDoctor)
                                     {
-                                        sendString("0|1|1");   // Doctor
+                                        sendString("0|1|1|");   // Doctor
                                     }
                                     else
                                     {
-                                        sendString("0|1|0");   //Patient
+                                        sendString("0|1|0|");   //Patient
                                     }  
                                 }
                                 else
