@@ -27,13 +27,13 @@ namespace FietsClient
             InitializeComponent();
         }
 
-        public Login(String message)
+        public Login(string message)
         {
             InitializeComponent();
             errorLBL.Text = message;
         }
 
-        public void setError(String message)
+        public void setError(string message)
         {
             errorLBL.Text = message;
         }
@@ -50,7 +50,7 @@ namespace FietsClient
             }
             else
             {
-                connection.sendLogin(UsernameBox.Text, PasswordBox.Text);
+                connection.SendLogin(UsernameBox.Text, PasswordBox.Text);
                 PasswordBox.Text = "";
             }
         }

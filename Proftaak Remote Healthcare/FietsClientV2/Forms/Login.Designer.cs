@@ -211,7 +211,6 @@
         private System.Windows.Forms.Panel menuBar;
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Label errorLBL;
-        private System.Windows.Forms.Label connectionLBL;
         private System.Windows.Forms.Button reconnectBTN;
         private System.Windows.Forms.Label connLBL;
     }

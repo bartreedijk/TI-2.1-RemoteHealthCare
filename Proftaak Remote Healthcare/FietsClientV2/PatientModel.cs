@@ -13,14 +13,14 @@ namespace FietsClient
     {
 
         private static PatientModel _patientModel;
-        public PatientForm patientform { private get; set; }
+        public PatientForm patientform { get; set; }
 
         public static PatientModel patientModel { get { return _patientModel ?? (_patientModel = new PatientModel()); } }
 
         private DataHandler dataHandler;
         private Thread workerThread;
 
-        private String powerLog;
+        private string powerLog;
 
         private PatientModel()
         {

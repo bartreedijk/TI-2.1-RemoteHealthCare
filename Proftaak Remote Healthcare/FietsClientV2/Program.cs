@@ -14,7 +14,8 @@ namespace FietsClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login(new TcpConnection()));
+            TcpConnection tcpConnection = new TcpConnection();
+            Application.Run(new Login(tcpConnection));
         }
     }
 }
