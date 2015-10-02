@@ -104,5 +104,20 @@ namespace FietsClient
             else
                 MessageBox.Show("Power is not a valid number.");
         }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            if(messageBox.Text != null)
+            {
+                string message = messageBox.Text;
+                messageBox.Clear();
+                _connection.SendChatMessage(message);
+            }
+        }
+
+        private void messageBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            sendButton_Click(sender, e);
+        }
     }
 }

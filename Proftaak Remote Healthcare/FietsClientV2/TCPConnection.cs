@@ -138,5 +138,12 @@ namespace FietsClient
             serverStream.Flush();
         }
 
+        public void SendChatMessage(string message)
+        {
+            // send command ( cmdID | username sender | username patient | message )
+            string protocol = "6 | " + this.userID +" | "/* + idPatient */ + " | " + message;
+            SendString(protocol);
+        }
+
     }
 }
