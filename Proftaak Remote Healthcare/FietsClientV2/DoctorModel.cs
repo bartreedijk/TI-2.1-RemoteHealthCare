@@ -16,9 +16,27 @@ namespace FietsClient
         public DoctorForm doctorform { get; set; }
         public static DoctorModel doctorModel { get { return _doctorModel ?? (_doctorModel = new DoctorModel()); } }
         public TcpConnection tcpConnection { private get; set; }
+        private Thread receiveDataLoop;
 
         public DoctorModel()
         {
+
+        }
+
+        public void startAskingData()
+        {
+            receiveDataLoop = new Thread(() => receiveDataThreadLoop());
+            receiveDataLoop.Start();
+        }
+
+        private void receiveDataThreadLoop()
+        {
+            while (true)
+            {
+                Thread.Sleep(1000);
+                //receive data and display in through handle bike data
+                tcpConnection.
+            }
         }
 
         //display values
