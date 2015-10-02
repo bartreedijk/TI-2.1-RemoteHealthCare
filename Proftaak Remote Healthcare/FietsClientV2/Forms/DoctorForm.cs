@@ -12,9 +12,26 @@ namespace FietsClient
 {
     public partial class DoctorForm : Form
     {
-        public DoctorForm()
+        private TcpConnection connection;
+        private DoctorModel doctorModel;
+
+        public DoctorForm(TcpConnection connection)
         {
+            this.connection = connection;
             InitializeComponent();
+            doctorModel = DoctorModel.doctorModel;
+            doctorModel.doctorform = this;
+            doctorModel.tcpConnection = connection;
+            DataHandler.IncomingErrorEvent += HandleError;
+        }
+
+        private void HandleError(string error)
+        {
+            switch (error)
+            {
+                default:
+                    break;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)

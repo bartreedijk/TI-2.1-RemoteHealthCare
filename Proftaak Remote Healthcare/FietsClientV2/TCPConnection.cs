@@ -31,7 +31,6 @@ namespace FietsClient
             try
             {
                 client.Connect("145.48.226.156", 1288);
-
                 // create streams
                 serverStream = client.GetStream();
                 receiveThread = new Thread(receive);
@@ -63,7 +62,7 @@ namespace FietsClient
                             {
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
-                                    DoctorForm doctorForm = new DoctorForm();
+                                    DoctorForm doctorForm = new DoctorForm(this);
                                     doctorForm.Show();
                                     currentData = new CurrentData(userID);
                                 }
