@@ -20,12 +20,12 @@ namespace Server
             while (true)
             {
                 Console.WriteLine("Waiting for clients..");
-               new Client(serverSocket.AcceptTcpClient(), AppGlobal.Instance);
+                new Client(serverSocket.AcceptTcpClient(), AppGlobal.Instance);
             }
 
             serverSocket.Stop();
             Console.WriteLine("Server afsluiten");
         }
     }
-  
+
 }

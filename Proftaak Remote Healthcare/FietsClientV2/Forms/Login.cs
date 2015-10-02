@@ -40,7 +40,7 @@ namespace FietsClient
 
         private void SubmitButton_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(UsernameBox.Text))
+            if (string.IsNullOrWhiteSpace(UsernameBox.Text))
             {
                 errorLBL.Text = "Username is incorrect";
             }
@@ -77,25 +77,21 @@ namespace FietsClient
         private void checkConnection()
         {
             if (!connection.isConnectedFlag)
-            {
                 connLBL.Text = "No Connection established";
-            }
             else
-            {
                 connLBL.Text = "";
-            }
         }
 
         private void reconnectBTN_Click(object sender, EventArgs e)
         {
-            if(!connection.isConnectedFlag)
+            if (!connection.isConnectedFlag)
             {
                 connection.connect();
                 checkConnection();
                 this.Refresh();
             }
-            
+
         }
     }
-    
+
 }

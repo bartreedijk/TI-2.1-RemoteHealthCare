@@ -14,6 +14,7 @@ namespace FietsClient
 
         private static DoctorModel _doctorModel;
         public DoctorForm doctorform { get; set; }
+
         public static DoctorModel doctorModel { get { return _doctorModel ?? (_doctorModel = new DoctorModel()); } }
         public TcpConnection tcpConnection { private get; set; }
         private Thread receiveDataLoop;
@@ -35,7 +36,7 @@ namespace FietsClient
             {
                 Thread.Sleep(1000);
                 //receive data and display in through handle bike data
-                tcpConnection.
+                HandleBikeData(tcpConnection.currentData.GetSessions().Last().GetLastMeasurement());
             }
         }
 
@@ -43,7 +44,7 @@ namespace FietsClient
         private List<DataPoint> speedPoints = new List<DataPoint>();
         private List<DataPoint> bpmPoints = new List<DataPoint>();
         private List<DataPoint> rpmPoints = new List<DataPoint>();
-        private void HandleBikeData(string[] data)
+        private void HandleBikeData(Measurement data)
         {
             if (doctorform.InvokeRequired)
             {
@@ -52,17 +53,17 @@ namespace FietsClient
             else
             {
                 //fill fields
-                doctorform.pulseBox.Text = data[0];
-                doctorform.rpmInfoBox.Text = data[1];
-                doctorform.speedInfoBox.Text = data[2];
-                doctorform.distanceInfoBox.Text = data[3];
-                doctorform.requestedBox.Text = data[4];
-                doctorform.energyInfoBox.Text = data[5];
-                doctorform.timeBox.Text = data[6];
-                doctorform.actualBox.Text = data[7];
-                
+                doctorform.pulseBox.Text = data.pulse.ToString();
+                doctorform.rpmInfoBox.Text = data.rpm.ToString();
+                doctorform.speedInfoBox.Text = data.speed.ToString();
+                doctorform.distanceInfoBox.Text = data.distance.ToString();
+                doctorform.requestedBox.Text = data.requestedPower.ToString();
+                doctorform.energyInfoBox.Text = data.energy.ToString();
+                doctorform.timeBox.Text = data.time.ToString() ;
+                doctorform.actualBox.Text = data.actualPower.ToString();
+
                 //fill graph speed
-                speedPoints.Add(new DataPoint(Convert.ToDateTime(data[6]).ToOADate(), Convert.ToDouble(data[2])));
+                speedPoints.Add(new DataPoint(Convert.ToDateTime(data.time.ToString()).ToOADate(), Convert.ToDouble(data.speed.ToString())));
                 doctorform.speedChart.Series[0].Points.Clear();
                 for (int i = 0; i < speedPoints.Count; i++)
                     doctorform.speedChart.Series[0].Points.Add(speedPoints[i]);
@@ -71,7 +72,7 @@ namespace FietsClient
                 doctorform.speedChart.Update();
 
                 //fill graph pulse
-                bpmPoints.Add(new DataPoint(Convert.ToDateTime(data[6]).ToOADate(), Convert.ToDouble(data[0])));
+                bpmPoints.Add(new DataPoint(Convert.ToDateTime(data.time.ToString()).ToOADate(), Convert.ToDouble(data.pulse.ToString())));
                 doctorform.bpmChart.Series[0].Points.Clear();
                 for (int i = 0; i < bpmPoints.Count; i++)
                     doctorform.bpmChart.Series[0].Points.Add(bpmPoints[i]);
@@ -80,7 +81,7 @@ namespace FietsClient
                 doctorform.speedChart.Update();
 
                 //fill graph rpm
-                rpmPoints.Add(new DataPoint(Convert.ToDateTime(data[6]).ToOADate(), Convert.ToDouble(data[1])));
+                rpmPoints.Add(new DataPoint(Convert.ToDateTime(data.time.ToString()).ToOADate(), Convert.ToDouble(data.rpm.ToString())));
                 doctorform.rpmChart.Series[0].Points.Clear();
                 for (int i = 0; i < rpmPoints.Count; i++)
                     doctorform.rpmChart.Series[0].Points.Add(rpmPoints[i]);
@@ -88,7 +89,7 @@ namespace FietsClient
                     rpmPoints.RemoveAt(0);
                 doctorform.rpmChart.Update();
             }
-            
+
         }
     }
 }
