@@ -18,12 +18,24 @@ namespace FietsClient
         private string userID;
         private bool isConnectedFlag;
 
+        public delegate void ChatmassegeDelegate(string[] data);
+        public event ChatmassegeDelegate IncomingChatmessageEvent;
+
         public TcpConnection()
         {
             // create a connection
             client = new TcpClient();
 
             connect();
+        }
+
+        private void onIncomingChatMessage(string[] data)
+        {
+            ChatmassegeDelegate cMD = IncomingChatmessageEvent;
+            if (cMD != null)
+            {
+                cMD(data);
+            }
         }
 
         public bool isConnected()
@@ -99,6 +111,9 @@ namespace FietsClient
                         case "2":
                             currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
                             break;
+                        case "7":
+                            string[] data = { response_parts[1], response_parts[2], response_parts[3] };
+                            break;
                     }
                 }
             }
@@ -144,6 +159,5 @@ namespace FietsClient
             string protocol = "6 | " + this.userID +" | "/* + idPatient */ + " | " + message;
             SendString(protocol);
         }
-
     }
 }

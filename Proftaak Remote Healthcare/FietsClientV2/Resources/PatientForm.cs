@@ -126,7 +126,7 @@ namespace FietsClient
         private void printMessage(string[] data)
         {
 
-            string finalMessage = data[1] + ":\t\t" + data[3];
+            string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
             chatBox.AppendText(finalMessage);
         }
 
