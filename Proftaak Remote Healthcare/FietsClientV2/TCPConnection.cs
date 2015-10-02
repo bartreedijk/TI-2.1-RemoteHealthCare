@@ -72,10 +72,11 @@ namespace FietsClient
                                 }
                                 else if (response_parts[2] == "0" && response_parts[1] == "1")
                                 {
-                                    PatientForm patientForm = new PatientForm(this);
+                                    
                                     Form activeForm = Form.ActiveForm;
                                     activeForm.Invoke((MethodInvoker)delegate ()
                                     {
+                                        PatientForm patientForm = new PatientForm(this);
                                         activeForm.Hide();
                                         patientForm.Show();
                                     });
