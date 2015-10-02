@@ -48,7 +48,8 @@ namespace Server
                                 _global.CheckLogin(response_parts[1], response_parts[2], out admin, out id);
                                 if (id > -1)
                                 {
-                                    if(_global.GetUsers().First(item => item.id == response_parts[1]).isDoctor)
+                                    this.iduser = id;
+                                    if (_global.GetUsers().First(item => item.id == response_parts[1]).isDoctor)
                                     {
                                         sendString("0|1|1|");   // Doctor
                                     }
