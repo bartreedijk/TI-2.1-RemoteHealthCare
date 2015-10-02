@@ -25,7 +25,7 @@ namespace Server
             while (true)
             {
                 Console.WriteLine("Waiting for clients..");
-               new Client(serverSocket.AcceptTcpClient(), AppGlobal.Instance);
+               AppGlobal.Instance.Clients.Add(new Client(serverSocket.AcceptTcpClient()));
             }
 
             serverSocket.Stop();
