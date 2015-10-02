@@ -17,11 +17,11 @@ namespace Server
         private readonly AppGlobal _global;
         private int iduser;
 
-        public Client(TcpClient socket, AppGlobal global)
+        public Client(TcpClient socket)
         {
             client = socket;
             networkStream = client.GetStream();
-            _global = global;
+            _global = AppGlobal.Instance;
             iduser = -1;
             Console.WriteLine("New client connected");
             Thread t = new Thread(recieve);

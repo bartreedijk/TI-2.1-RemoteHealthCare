@@ -30,7 +30,7 @@ namespace FietsClient
 
             try
             {
-                client.Connect("145.48.226.156", 1288);
+                client.Connect("127.0.0.1", 1288);
                 // create streams
                 serverStream = client.GetStream();
                 receiveThread = new Thread(receive);

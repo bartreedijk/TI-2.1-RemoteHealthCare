@@ -13,6 +13,7 @@ namespace Server
         private static AppGlobal _instance;
 
         private List<User> users;
+        public List<Client> Clients { get; set; }
 
         public static AppGlobal Instance
         {
