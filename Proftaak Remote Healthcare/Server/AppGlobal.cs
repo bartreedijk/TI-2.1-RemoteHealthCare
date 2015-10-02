@@ -13,6 +13,7 @@ namespace Server
         private static AppGlobal _instance;
 
         private List<User> users;
+        public List<Client> Clients;
 
         public static AppGlobal Instance
         {
@@ -22,6 +23,7 @@ namespace Server
         public AppGlobal() 
         {
             users = new List<User>();
+            Clients = new List<Client>();
             users.Add(new User("no", "no", 0, false, 0));
             users.Add(new User("JK123", "jancoow", 5, true, 100));
             users.Add(new User("TOM", "tommie", 80, false, 77, true));

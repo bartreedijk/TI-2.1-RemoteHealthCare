@@ -348,7 +348,7 @@ namespace FietsClient
             // bpmBox
             // 
             this.bpmBox.Controls.Add(this.bpmChart);
-            this.bpmBox.Location = new System.Drawing.Point(16, 422);
+            this.bpmBox.Location = new System.Drawing.Point(16, 421);
             this.bpmBox.Margin = new System.Windows.Forms.Padding(4);
             this.bpmBox.Name = "bpmBox";
             this.bpmBox.Padding = new System.Windows.Forms.Padding(4);
@@ -688,7 +688,7 @@ namespace FietsClient
             // rpmBox
             // 
             this.rpmBox.Controls.Add(this.rpmChart);
-            this.rpmBox.Location = new System.Drawing.Point(557, 422);
+            this.rpmBox.Location = new System.Drawing.Point(557, 421);
             this.rpmBox.Margin = new System.Windows.Forms.Padding(4);
             this.rpmBox.Name = "rpmBox";
             this.rpmBox.Padding = new System.Windows.Forms.Padding(4);

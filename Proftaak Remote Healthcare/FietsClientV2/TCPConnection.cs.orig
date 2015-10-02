@@ -28,7 +28,8 @@ namespace FietsClient
             connect();
         }
 
-	private void onIncomingChatMessage(string[] data)
+<<<<<<< HEAD
+        private void onIncomingChatMessage(string[] data)
         {
             ChatmassegeDelegate cMD = IncomingChatmessageEvent;
             if (cMD != null)
@@ -50,8 +51,8 @@ namespace FietsClient
 
                     // create streams
                     serverStream = client.GetStream();
-                    receiveThread = new Thread(receive);
-                    receiveThread.Start();
+                    Thread t = new Thread(recieve);
+                    t.Start();
                     isConnectedFlag = true;
                 }
                 catch (Exception ex)
@@ -60,6 +61,24 @@ namespace FietsClient
                     Thread.Sleep(1000);
                     isConnectedFlag = false;
                 }
+=======
+        public void connect()
+        {
+            try
+            {
+                client.Connect("127.0.0.1", 1288);
+                // create streams
+                serverStream = client.GetStream();
+                receiveThread = new Thread(receive);
+                receiveThread.Start();
+                isConnectedFlag = true;
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(1000);
+                isConnectedFlag = false;
+            }
+>>>>>>> feature/prepare
         }
 
         public void receive()
@@ -80,12 +99,11 @@ namespace FietsClient
                             {
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
-                                    
+                                    DoctorForm doctorForm = new DoctorForm(this);
                                     Form activeForm = Form.ActiveForm;
                                     activeForm.Invoke((MethodInvoker)delegate ()
                                     {
-                                        DoctorForm doctorForm = new DoctorForm(this);
-					activeForm.Hide();
+                                        activeForm.Hide();
                                         doctorForm.Show();
                                     });
                                     currentData = new CurrentData(userID);
@@ -144,20 +162,27 @@ namespace FietsClient
             // send command ( cmdID | username )
             SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
         }
-	
-	public void SendChatMessage(string message)
+
+        public void SendString(string s)
+        {
+            byte[] b = Encoding.ASCII.GetBytes(s);
+            serverStream.Write(b, 0, b.Length);
+            serverStream.Flush();
+        }
+
+<<<<<<< HEAD
+        public void SendChatMessage(string message)
         {
             // send command ( cmdID | username sender | username patient | message )
             string protocol = "6 | " + this.userID +" | "/* + idPatient */ + " | " + message;
             SendString(protocol);
-        }
-
-	public void SendDistance(int distance)
+=======
+        public void SendDistance(int distance)
         {
             SendString("10|" + userID + "|" + distance);
         }
-	
-	public void SendTime(int Minutes, int seconds)
+
+        public void SendTime(int Minutes, int seconds)
         {
             SendString("11|" + userID + "|" + Minutes + ":" + seconds);
         }
@@ -165,14 +190,7 @@ namespace FietsClient
         public void SendPower(int power)
         {
             SendString("12|" + userID + "|" + power);
+>>>>>>> feature/prepare
         }
-	
-	public void SendString(string s)
-        {
-            byte[] b = Encoding.ASCII.GetBytes(s);
-            serverStream.Write(b, 0, b.Length);
-            serverStream.Flush();
-        }
-
     }
 }

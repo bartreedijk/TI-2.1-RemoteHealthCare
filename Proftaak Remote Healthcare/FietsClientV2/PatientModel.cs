@@ -20,7 +20,7 @@ namespace FietsClient
         private DataHandler dataHandler;
         private Thread workerThread;
 
-        private String powerLog;
+        private string powerLog;
 
         public PatientModel()
         {
@@ -54,7 +54,7 @@ namespace FietsClient
                 {
                     dataHandler.sendData(DataHandler.STATUS);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     dataHandler.closeComm();
                 }
