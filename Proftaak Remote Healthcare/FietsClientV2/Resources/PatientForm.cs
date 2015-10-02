@@ -15,6 +15,7 @@ namespace FietsClient
     {
         private TcpConnection _connection;
         private PatientModel patienModel;
+        
         public PatientForm(TcpConnection connection)
         {
             this._connection = connection;
@@ -22,6 +23,8 @@ namespace FietsClient
             patienModel = PatientModel.patientModel;
             patienModel.patientform = this;
             DataHandler.IncomingErrorEvent += HandleError; //initialize event
+
+            _connection.IncomingChatmessageEvent += new TcpConnection.ChatmassegeDelegate(printMessage);
         }
 
         private void HandleError(string error)
@@ -119,5 +122,14 @@ namespace FietsClient
         {
             sendButton_Click(sender, e);
         }
+
+        private void printMessage(string[] data)
+        {
+
+            string finalMessage = data[1] + ":\t\t" + data[3];
+            chatBox.AppendText(finalMessage);
+        }
+
+        
     }
 }
