@@ -82,10 +82,10 @@
     </Compile>
     <Compile Include="JSONObjecten\Session.cs" />
     <Compile Include="JSONObjecten\Measurement.cs" />
-    <Compile Include="Resources\PatientForm.cs">
+    <Compile Include="Forms\PatientForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Resources\PatientForm.Designer.cs">
+    <Compile Include="Forms\PatientForm.Designer.cs">
       <DependentUpon>PatientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="lib\JsonConverter.cs" />
@@ -100,7 +100,7 @@
     <EmbeddedResource Include="Forms\DoctorForm.resx">
       <DependentUpon>DoctorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PatientForm.resx">
+    <EmbeddedResource Include="Forms\PatientForm.resx">
       <DependentUpon>PatientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
