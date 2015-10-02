@@ -22,7 +22,7 @@ namespace FietsClient
 
         private string powerLog;
 
-        private PatientModel()
+        public PatientModel()
         {
             dataHandler = new DataHandler();
             DataHandler.IncomingDataEvent += HandleBikeData; //initialize event

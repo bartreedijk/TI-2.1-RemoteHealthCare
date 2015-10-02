@@ -33,7 +33,12 @@ namespace FietsClient
             errorLBL.Text = message;
         }
 
+<<<<<<< HEAD
         public void setError(string message)
+=======
+
+        public void setError(String message)
+>>>>>>> origin/feature/prepare
         {
             errorLBL.Text = message;
         }

@@ -44,7 +44,7 @@ namespace FietsClient
                 isConnectedFlag = false;
             }
         }
-
+        
         public void receive()
         {
             while (true)
@@ -67,10 +67,15 @@ namespace FietsClient
                                     doctorForm.Show();
                                     currentData = new CurrentData(userID);
                                 }
-                                else if (response_parts[2] == "0" && response_parts[1] == "1")
+                                else if(response_parts[2] == "0" && response_parts[1] == "1")
                                 {
-                                    PatientForm patienForm = new PatientForm();
-                                    patienForm.Show();
+                                    PatientForm form = new PatientForm(this);
+                                    Form activeForm = Form.ActiveForm;
+
+                                    activeForm.Invoke((MethodInvoker)delegate () {
+                                        activeForm.Hide();
+                                        form.Show();
+                                    });
                                     currentData = new CurrentData(userID);
                                 }
                                 else
