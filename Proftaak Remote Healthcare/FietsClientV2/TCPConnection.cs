@@ -35,7 +35,7 @@ namespace FietsClient
         {
                 try
                 {
-                    client.Connect("145.102.71.43", 1288);
+                    client.Connect("127.0.0.1", 1288);
 
                     // create streams
                     serverStream = client.GetStream();
