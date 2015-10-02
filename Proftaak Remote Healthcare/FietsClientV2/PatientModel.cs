@@ -54,7 +54,7 @@ namespace FietsClient
                 {
                     dataHandler.sendData(DataHandler.STATUS);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     dataHandler.closeComm();
                 }

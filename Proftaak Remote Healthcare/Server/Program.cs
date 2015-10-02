@@ -24,13 +24,13 @@ namespace Server
 
             while (true)
             {
-               Console.WriteLine("Waiting for clients..");
-               AppGlobal.Instance.Clients.Add(new Client(serverSocket.AcceptTcpClient()));
+                Console.WriteLine("Waiting for clients..");
+               new Client(serverSocket.AcceptTcpClient(), AppGlobal.Instance);
             }
 
             serverSocket.Stop();
             Console.WriteLine("Server afsluiten");
         }
     }
-  
+
 }

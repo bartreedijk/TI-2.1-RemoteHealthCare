@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FietsClient
 {
-    class CurrentData
+    public class CurrentData
     {
         private string userID;
         private List<Session> testResult;
@@ -32,6 +32,11 @@ namespace FietsClient
         public void setSession(Session s)
         {
             testResult.Add(s);
+        }
+
+        public void SetMeasurment(Measurement measurment)
+        {
+            testResult.Last().AddMeasurement(measurment);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace FietsClient
         public TcpClient client;
         public bool isConnectedFlag { private set; get; }
         private NetworkStream serverStream;
-        private CurrentData currentData;
+        public CurrentData currentData { private set; get; }
         private string userID;
         private Thread receiveThread;
 
@@ -27,7 +27,6 @@ namespace FietsClient
 
         public void connect()
         {
-
             try
             {
                 client.Connect("127.0.0.1", 1288);
@@ -43,7 +42,7 @@ namespace FietsClient
                 isConnectedFlag = false;
             }
         }
-        
+
         public void receive()
         {
             while (true)
@@ -57,23 +56,28 @@ namespace FietsClient
                 {
                     switch (response_parts[0])
                     {
-                        case "0":   //login
+                        case "0":   //login and display correct window after login
                             if (response_parts.Length == 4)
                             {
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
                                     DoctorForm doctorForm = new DoctorForm(this);
-                                    doctorForm.Show();
+                                    Form activeForm = Form.ActiveForm;
+                                    activeForm.Invoke((MethodInvoker)delegate ()
+                                    {
+                                        activeForm.Hide();
+                                        doctorForm.Show();
+                                    });
                                     currentData = new CurrentData(userID);
                                 }
-                                else if(response_parts[2] == "0" && response_parts[1] == "1")
+                                else if (response_parts[2] == "0" && response_parts[1] == "1")
                                 {
-                                    PatientForm form = new PatientForm(this);
+                                    PatientForm patientForm = new PatientForm(this);
                                     Form activeForm = Form.ActiveForm;
-
-                                    activeForm.Invoke((MethodInvoker)delegate () {
+                                    activeForm.Invoke((MethodInvoker)delegate ()
+                                    {
                                         activeForm.Hide();
-                                        form.Show();
+                                        patientForm.Show();
                                     });
                                     currentData = new CurrentData(userID);
                                 }
@@ -124,5 +128,19 @@ namespace FietsClient
             serverStream.Flush();
         }
 
+        public void SendDistance(int distance)
+        {
+            SendString("10|" + userID + "|" + distance);
+        }
+
+        public void SendTime(int Minutes, int seconds)
+        {
+            SendString("11|" + userID + "|" + Minutes + ":" + seconds);
+        }
+
+        public void SendPower(int power)
+        {
+            SendString("12|" + userID + "|" + power);
+        }
     }
 }

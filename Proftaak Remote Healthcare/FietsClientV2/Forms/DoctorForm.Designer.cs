@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archiefToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,12 +46,13 @@
             this.messageBox = new System.Windows.Forms.TextBox();
             this.chatArea = new System.Windows.Forms.GroupBox();
             this.messageButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.setPowerButton = new System.Windows.Forms.Button();
+            this.setTimeButton = new System.Windows.Forms.Button();
+            this.setDistanceButton = new System.Windows.Forms.Button();
             this.sessionInfoBox = new System.Windows.Forms.GroupBox();
+            this.setTimeSecondsBox = new System.Windows.Forms.TextBox();
             this.setPowerBox = new System.Windows.Forms.TextBox();
-            this.setTimeBox = new System.Windows.Forms.TextBox();
+            this.setTimeMinutesBox = new System.Windows.Forms.TextBox();
             this.setDistanceBox = new System.Windows.Forms.TextBox();
             this.requestedBox = new System.Windows.Forms.TextBox();
             this.actualBox = new System.Windows.Forms.TextBox();
@@ -202,45 +203,49 @@
             this.messageButton.Text = "send";
             this.messageButton.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // setPowerButton
             // 
-            this.button1.Location = new System.Drawing.Point(299, 270);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 28);
-            this.button1.TabIndex = 86;
-            this.button1.Text = "Set power";
-            this.button1.UseVisualStyleBackColor = true;
+            this.setPowerButton.Location = new System.Drawing.Point(299, 270);
+            this.setPowerButton.Margin = new System.Windows.Forms.Padding(4);
+            this.setPowerButton.Name = "setPowerButton";
+            this.setPowerButton.Size = new System.Drawing.Size(100, 28);
+            this.setPowerButton.TabIndex = 86;
+            this.setPowerButton.Text = "Set power";
+            this.setPowerButton.UseVisualStyleBackColor = true;
+            this.setPowerButton.Click += new System.EventHandler(this.setPowerButton_Click);
             // 
-            // button2
+            // setTimeButton
             // 
-            this.button2.Location = new System.Drawing.Point(299, 240);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 28);
-            this.button2.TabIndex = 85;
-            this.button2.Text = "Set time";
-            this.button2.UseVisualStyleBackColor = true;
+            this.setTimeButton.Location = new System.Drawing.Point(299, 240);
+            this.setTimeButton.Margin = new System.Windows.Forms.Padding(4);
+            this.setTimeButton.Name = "setTimeButton";
+            this.setTimeButton.Size = new System.Drawing.Size(100, 28);
+            this.setTimeButton.TabIndex = 85;
+            this.setTimeButton.Text = "Set time";
+            this.setTimeButton.UseVisualStyleBackColor = true;
+            this.setTimeButton.Click += new System.EventHandler(this.setTimeButton_Click);
             // 
-            // button3
+            // setDistanceButton
             // 
-            this.button3.Location = new System.Drawing.Point(299, 173);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 28);
-            this.button3.TabIndex = 84;
-            this.button3.Text = "Set distance";
-            this.button3.UseVisualStyleBackColor = true;
+            this.setDistanceButton.Location = new System.Drawing.Point(299, 173);
+            this.setDistanceButton.Margin = new System.Windows.Forms.Padding(4);
+            this.setDistanceButton.Name = "setDistanceButton";
+            this.setDistanceButton.Size = new System.Drawing.Size(100, 28);
+            this.setDistanceButton.TabIndex = 84;
+            this.setDistanceButton.Text = "Set distance";
+            this.setDistanceButton.UseVisualStyleBackColor = true;
+            this.setDistanceButton.Click += new System.EventHandler(this.setDistanceButton_Click);
             // 
             // sessionInfoBox
             // 
+            this.sessionInfoBox.Controls.Add(this.setTimeSecondsBox);
             this.sessionInfoBox.Controls.Add(this.setPowerBox);
-            this.sessionInfoBox.Controls.Add(this.setTimeBox);
+            this.sessionInfoBox.Controls.Add(this.setTimeMinutesBox);
             this.sessionInfoBox.Controls.Add(this.setDistanceBox);
-            this.sessionInfoBox.Controls.Add(this.button1);
+            this.sessionInfoBox.Controls.Add(this.setPowerButton);
             this.sessionInfoBox.Controls.Add(this.requestedBox);
-            this.sessionInfoBox.Controls.Add(this.button2);
-            this.sessionInfoBox.Controls.Add(this.button3);
+            this.sessionInfoBox.Controls.Add(this.setTimeButton);
+            this.sessionInfoBox.Controls.Add(this.setDistanceButton);
             this.sessionInfoBox.Controls.Add(this.actualBox);
             this.sessionInfoBox.Controls.Add(this.nameBox);
             this.sessionInfoBox.Controls.Add(this.sessionBox);
@@ -277,6 +282,14 @@
             this.sessionInfoBox.TabStop = false;
             this.sessionInfoBox.Text = "Session info:";
             // 
+            // setTimeSecondsBox
+            // 
+            this.setTimeSecondsBox.Location = new System.Drawing.Point(456, 243);
+            this.setTimeSecondsBox.Name = "setTimeSecondsBox";
+            this.setTimeSecondsBox.Size = new System.Drawing.Size(50, 22);
+            this.setTimeSecondsBox.TabIndex = 90;
+            this.setTimeSecondsBox.Text = "SS";
+            // 
             // setPowerBox
             // 
             this.setPowerBox.Location = new System.Drawing.Point(406, 275);
@@ -284,12 +297,13 @@
             this.setPowerBox.Size = new System.Drawing.Size(100, 22);
             this.setPowerBox.TabIndex = 89;
             // 
-            // setTimeBox
+            // setTimeMinutesBox
             // 
-            this.setTimeBox.Location = new System.Drawing.Point(406, 243);
-            this.setTimeBox.Name = "setTimeBox";
-            this.setTimeBox.Size = new System.Drawing.Size(100, 22);
-            this.setTimeBox.TabIndex = 88;
+            this.setTimeMinutesBox.Location = new System.Drawing.Point(406, 243);
+            this.setTimeMinutesBox.Name = "setTimeMinutesBox";
+            this.setTimeMinutesBox.Size = new System.Drawing.Size(50, 22);
+            this.setTimeMinutesBox.TabIndex = 88;
+            this.setTimeMinutesBox.Text = "MM";
             // 
             // setDistanceBox
             // 
@@ -582,19 +596,19 @@
             // 
             // speedChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.speedChart.ChartAreas.Add(chartArea1);
+            chartArea4.Name = "ChartArea1";
+            this.speedChart.ChartAreas.Add(chartArea4);
             this.speedChart.Location = new System.Drawing.Point(8, 23);
             this.speedChart.Margin = new System.Windows.Forms.Padding(4);
             this.speedChart.Name = "speedChart";
-            series1.BorderWidth = 10;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Name = "Speed";
-            series1.XValueMember = "Time";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series1.YValueMembers = "Speed";
-            this.speedChart.Series.Add(series1);
+            series4.BorderWidth = 10;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Name = "Speed";
+            series4.XValueMember = "Time";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series4.YValueMembers = "Speed";
+            this.speedChart.Series.Add(series4);
             this.speedChart.Size = new System.Drawing.Size(517, 351);
             this.speedChart.TabIndex = 0;
             this.speedChart.Text = "Speed chart";
@@ -613,38 +627,38 @@
             // 
             // bpmChart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.bpmChart.ChartAreas.Add(chartArea2);
+            chartArea5.Name = "ChartArea1";
+            this.bpmChart.ChartAreas.Add(chartArea5);
             this.bpmChart.Location = new System.Drawing.Point(8, 23);
             this.bpmChart.Margin = new System.Windows.Forms.Padding(4);
             this.bpmChart.Name = "bpmChart";
-            series2.BorderWidth = 10;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Name = "Beats per minute";
-            series2.XValueMember = "Time";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series2.YValueMembers = "Beats per minutes";
-            this.bpmChart.Series.Add(series2);
+            series5.BorderWidth = 10;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Name = "Beats per minute";
+            series5.XValueMember = "Time";
+            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series5.YValueMembers = "Beats per minutes";
+            this.bpmChart.Series.Add(series5);
             this.bpmChart.Size = new System.Drawing.Size(517, 351);
             this.bpmChart.TabIndex = 1;
             this.bpmChart.Text = "beats per second";
             // 
             // rpmChart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.rpmChart.ChartAreas.Add(chartArea3);
+            chartArea6.Name = "ChartArea1";
+            this.rpmChart.ChartAreas.Add(chartArea6);
             this.rpmChart.Location = new System.Drawing.Point(8, 23);
             this.rpmChart.Margin = new System.Windows.Forms.Padding(4);
             this.rpmChart.Name = "rpmChart";
-            series3.BorderWidth = 10;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Name = "Rounds per minute";
-            series3.XValueMember = "Time";
-            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series3.YValueMembers = "Rounds per minutes";
-            this.rpmChart.Series.Add(series3);
+            series6.BorderWidth = 10;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Name = "Rounds per minute";
+            series6.XValueMember = "Time";
+            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series6.YValueMembers = "Rounds per minutes";
+            this.rpmChart.Series.Add(series6);
             this.rpmChart.Size = new System.Drawing.Size(517, 351);
             this.rpmChart.TabIndex = 2;
             this.rpmChart.Text = "rounds per minute";
@@ -709,9 +723,9 @@
         private System.Windows.Forms.ToolStripMenuItem pauzeSessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopSessionToolStripMenuItem;
         private System.Windows.Forms.Button messageButton;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button setPowerButton;
+        private System.Windows.Forms.Button setTimeButton;
+        private System.Windows.Forms.Button setDistanceButton;
         private System.Windows.Forms.GroupBox sessionInfoBox;
         public System.Windows.Forms.TextBox requestedBox;
         public System.Windows.Forms.TextBox actualBox;
@@ -742,7 +756,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox setPowerBox;
-        public System.Windows.Forms.TextBox setTimeBox;
+        public System.Windows.Forms.TextBox setTimeMinutesBox;
         public System.Windows.Forms.TextBox setDistanceBox;
         private System.Windows.Forms.GroupBox speedBox;
         public System.Windows.Forms.DataVisualization.Charting.Chart speedChart;
@@ -750,6 +764,7 @@
         public System.Windows.Forms.DataVisualization.Charting.Chart bpmChart;
         private System.Windows.Forms.GroupBox groupBox1;
         public System.Windows.Forms.DataVisualization.Charting.Chart rpmChart;
+        public System.Windows.Forms.TextBox setTimeSecondsBox;
     }
 }
 

@@ -38,5 +38,27 @@ namespace FietsClient
         {
 
         }
+
+        private void setDistanceButton_Click(object sender, EventArgs e)
+        {
+            int distance;
+            Int32.TryParse(setDistanceBox.Text,out distance);
+            connection.SendDistance(distance);
+        }
+
+        private void setTimeButton_Click(object sender, EventArgs e)
+        {
+            int minutes,seconds;
+            Int32.TryParse(setTimeMinutesBox.Text, out minutes);
+            Int32.TryParse(setTimeSecondsBox.Text, out seconds);
+            connection.SendTime(minutes, seconds);
+        }
+
+        private void setPowerButton_Click(object sender, EventArgs e)
+        {
+            int power; 
+            Int32.TryParse(setPowerBox.Text, out power);
+            connection.SendPower(power);
+        }
     }
 }
