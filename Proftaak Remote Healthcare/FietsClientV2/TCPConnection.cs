@@ -114,6 +114,7 @@ namespace FietsClient
                             break;
                         case "7":
                             string[] data = { response_parts[1], response_parts[2], response_parts[3] };
+                            ShowMessage(data);
                             break;
                     }
                 }
@@ -167,12 +168,23 @@ namespace FietsClient
             SendString("12|" + userID + "|" + power);
         }
 	
-	public void SendString(string s)
+	    public void SendString(string s)
         {
             byte[] b = Encoding.ASCII.GetBytes(s);
             serverStream.Write(b, 0, b.Length);
             serverStream.Flush();
         }
 
+        public void ShowMessage(string[] data)
+        {
+            String senderID = data[0];
+            String receiverID = data[1];
+            String message = data[2];
+
+            if (currentData.GetUserID() == receiverID)
+            {
+                //weergeef het chatbericht op het dialoogvenster van de gebruiker.
+            }
+        }
     }
 }
