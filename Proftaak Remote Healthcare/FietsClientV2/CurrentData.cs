@@ -29,6 +29,11 @@ namespace FietsClient
             return testResult;
         }
 
+        public String GetUserID()
+        {
+            return userID;
+        }
+
         public void setSession(Session s)
         {
             testResult.Add(s);
