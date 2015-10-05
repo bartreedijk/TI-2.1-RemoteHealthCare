@@ -128,7 +128,11 @@ namespace FietsClient
 
         private void messageBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            sendButton_Click(sender, e);
+            if (e.KeyChar == '\r')
+            {
+                sendButton_Click(sender, e);
+            }
+            
         }
 
         private void printMessage(string[] data)
