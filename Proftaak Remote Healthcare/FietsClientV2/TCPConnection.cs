@@ -16,7 +16,7 @@ namespace FietsClient
         public bool isConnectedFlag { private set; get; }
         private NetworkStream serverStream;
         public CurrentData currentData { private set; get; }
-        private string userID;
+        public string userID { private set; get; }
         private Thread receiveThread;
 
         public delegate void ChatmassegeDelegate(string[] data);
@@ -78,29 +78,18 @@ namespace FietsClient
                         case "0":   //login and display correct window after login
                             if (response_parts.Length == 4)
                             {
+                                SendGet(1);
+
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
-                                    
-                                    Form activeForm = Form.ActiveForm;
-                                    activeForm.Invoke((MethodInvoker)delegate ()
-                                    {
-                                        DoctorForm doctorForm = new DoctorForm(this);
-					activeForm.Hide();
-                                        doctorForm.Show();
-                                    });
                                     currentData = new CurrentData(userID);
+                                    currentData.isDoctor = true;
                                 }
                                 else if (response_parts[2] == "0" && response_parts[1] == "1")
                                 {
-                                    
-                                    Form activeForm = Form.ActiveForm;
-                                    activeForm.Invoke((MethodInvoker)delegate ()
-                                    {
-                                        PatientForm patientForm = new PatientForm(this);
-                                        activeForm.Hide();
-                                        patientForm.Show();
-                                    });
+
                                     currentData = new CurrentData(userID);
+                                    currentData.isDoctor = false;
                                 }
                                 else
                                     new Login("Geen gebruiker gevonden");
@@ -108,6 +97,28 @@ namespace FietsClient
                             break;
                         case "1":
                             currentData.setSessionList(JsonConvert.DeserializeObject<List<Session>>(response_parts[1]));
+
+                            if (currentData.isDoctor == true)
+                            {
+                                Form activeForm = Form.ActiveForm;
+                                activeForm.Invoke((MethodInvoker) delegate()
+                                {
+                                    DoctorForm doctorForm = new DoctorForm(this);
+                                    activeForm.Hide();
+                                    doctorForm.Show();
+                                });
+                            }
+                            else
+                            {
+                                Form activeForm = Form.ActiveForm;
+                                activeForm.Invoke((MethodInvoker)delegate ()
+                                {
+                                    PatientForm patientForm = new PatientForm(this);
+                                    activeForm.Hide();
+                                    patientForm.Show();
+                                });
+                            }
+
                             break;
                         case "2":
                             currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
@@ -131,19 +142,19 @@ namespace FietsClient
         public void SendGet(int GetWhat)
         {
             // send command ( cmdID | username )
-            SendString(GetWhat + "|" + userID);
+            SendString(GetWhat + "|" + userID + "|");
         }
 
         public void SendNewSession()
         {
             // send command ( cmdID | username )
-            SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()));
+            SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
         }
 
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
-            SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
+            SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 	
 	public void SendChatMessage(string[] data)
@@ -165,17 +176,17 @@ namespace FietsClient
 
 	public void SendDistance(int distance)
         {
-            SendString("10|" + userID + "|" + distance);
+            SendString("10|" + userID + "|" + distance + "|");
         }
 	
 	public void SendTime(int Minutes, int seconds)
         {
-            SendString("11|" + userID + "|" + Minutes + ":" + seconds);
+            SendString("11|" + userID + "|" + Minutes + ":" + seconds + "|");
         }
 
         public void SendPower(int power)
         {
-            SendString("12|" + userID + "|" + power);
+            SendString("12|" + userID + "|" + power + "|");
         }
 	
 	    public void SendString(string s)

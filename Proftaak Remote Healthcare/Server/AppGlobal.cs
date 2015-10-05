@@ -13,6 +13,8 @@ namespace Server
         private static AppGlobal _instance;
 
         private List<User> users;
+        private List<User> activePatient;
+        private List<User> activeDoctor;
         public List<Client> Clients;
 
         public static AppGlobal Instance
@@ -20,20 +22,30 @@ namespace Server
             get { return _instance ?? (_instance = new AppGlobal()); }
         }
 
-        public AppGlobal() 
+        public AppGlobal()
         {
             users = new List<User>();
             Clients = new List<Client>();
+            TestMethode();
+            Console.WriteLine(JsonConverter.GetUserSessions(users.ElementAt(1)));
+        }
+
+        private void TestMethode()
+        {
             users.Add(new User("no", "no", 0, false, 0));
             users.Add(new User("JK123", "jancoow", 5, true, 100));
             users.Add(new User("TOM", "tommie", 80, false, 77, true));
 
-            users.ElementAt(1).tests.Add(new Session(1, "100"));
-            users.ElementAt(1).tests.Add(new Session(2, "110"));
-            users.ElementAt(0).tests.Add(new Session(3, "230"));
-            users.ElementAt(2).tests.Add(new Session(4, "300"));
+            Random r = new Random();
+            Session session = new Session(1, "100");
+            for (int i = 0; i < 100; i++)
+                session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
+            users.ElementAt(1).tests.Add(session);
 
-            Console.WriteLine(JsonConverter.GetUserSessions(users.ElementAt(1)));
+            Session session2 = new Session(2, "100");
+            for (int i = 0; i < 200; i++)
+                session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
+            users.ElementAt(1).tests.Add(session2);
         }
 
         public void CheckLogin(string username, string password, out int admin, out int id)
@@ -42,10 +54,15 @@ namespace Server
             admin = 0;
             foreach (User u in users)
             {
-                if(u.id == username && u.password == password)
+                if (u.id == username && u.password == password)
                 {
                     admin = u.isDoctor ? 1 : 0;
                     id = users.IndexOf(u);
+                    /* if (u.isDoctor)
+                     {
+                         activeDoctor.Add(u);
+                     }
+                     activePatient.Add(u);*/
                 }
             }
         }
@@ -53,7 +70,7 @@ namespace Server
         public List<User> GetUsers()
         {
             return users;
-        } 
+        }
 
         public List<Session> GetTests(string patientid)
         {
@@ -74,7 +91,7 @@ namespace Server
             {
                 if (u.id == patientid)
                 {
-                    u.AddSession(new Session( mode, modevalue ));
+                    u.AddSession(new Session(mode, modevalue));
                 }
             }
 

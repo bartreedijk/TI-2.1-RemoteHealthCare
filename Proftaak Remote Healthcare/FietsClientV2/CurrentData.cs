@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 namespace FietsClient
 {
     public class CurrentData
-    {
+    {//faggsd
         private string userID;
+        public bool isDoctor { set; get; }
         private List<Session> testResult;
 
 
