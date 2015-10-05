@@ -103,10 +103,9 @@ namespace Server
                                 String sender = response_parts[1];
 
                                 //bericht doorsturen naar alle actieve gebruikers (de Fietsclient zorgt ervoor dat alleen de geadresseerde het bericht kan zien)
-                                sendString("7|" + sender + "|" + receiver + "|" + message);
+                                sendString("7|" + sender + "|" + receiver + "|" + message);      
                             }
                             break;
-                            
                     }
                 }
             }

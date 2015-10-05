@@ -25,6 +25,11 @@ namespace FietsClient
             DataHandler.IncomingErrorEvent += HandleError; //initialize event
 
             _connection.IncomingChatmessageEvent += new TcpConnection.ChatmassegeDelegate(printMessage);
+
+            //TIJDELIJK STUK CODE OM MESSAGE TE TESTEN
+            _connection.SendString("6|TOM|TOM|Je bent een homo");
+            Console.WriteLine("Bericht versturen");
+            //EINDE TESTCODE
         }
 
         private void HandleError(string error)
@@ -112,9 +117,12 @@ namespace FietsClient
         {
             if(messageBox.Text != null)
             {
-                string message = messageBox.Text;
+                String[] data = new String[2];
+                data[0] = messageBox.Text;
+                data[1] = _connection.currentData.GetUserID();
                 messageBox.Clear();
-                _connection.SendChatMessage(message);
+
+                _connection.SendChatMessage(data);
             }
         }
 

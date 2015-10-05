@@ -148,15 +148,18 @@ namespace FietsClient
 	
 	public void SendChatMessage(string[] data)
         {
-            String receiverID = data[1];
+            String receiverID = data[0];
 
-            if (currentData.GetUserID() == receiverID)
-            { 
-                String message = data[2];
+            if (currentData != null)
+            {
+                if (currentData.GetUserID() == receiverID)
+                {
+                    String message = data[1];
 
-                // send command ( cmdID | username sender | username patient | message )
-                string protocol = "6 | " + this.userID + " | " + receiverID + " | " + message;
-                SendString(protocol);
+                    // send command ( cmdID | username sender | username patient | message )
+                    string protocol = "6 | " + this.userID + " | " + receiverID + " | " + message;
+                    SendString(protocol);
+                }
             }
         }
 
