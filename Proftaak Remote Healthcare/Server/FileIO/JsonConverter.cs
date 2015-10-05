@@ -13,7 +13,7 @@ namespace Server.FileIO
     {
         public static void SaveUser(User u)
         {
-            File.WriteAllText(Environment.CurrentDirectory + "\\" + u.id + ".json", GetUser(u));
+            File.WriteAllText(@"../../JSONObjecten/JSON Files/" + u.id + ".json", GetUser(u));
         }
 
         public static string GetUser(User u)

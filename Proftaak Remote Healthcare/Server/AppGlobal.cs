@@ -13,6 +13,8 @@ namespace Server
         private static AppGlobal _instance;
 
         private List<User> users;
+        private List<User> activePatient;
+        private List<User> activeDoctor;
         public List<Client> Clients;
 
         public static AppGlobal Instance
@@ -46,6 +48,15 @@ namespace Server
                 {
                     admin = u.isDoctor ? 1 : 0;
                     id = users.IndexOf(u);
+                    if (u.isDoctor)
+                    {
+                        activeDoctor.Add(u);
+                    }
+                    else
+                    {
+                        activePatient.Add(u);
+                    }
+
                 }
             }
         }

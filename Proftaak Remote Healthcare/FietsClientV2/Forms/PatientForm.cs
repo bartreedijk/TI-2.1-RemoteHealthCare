@@ -6,8 +6,10 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FietsClient.JSONObjecten;
 
 namespace FietsClient
 {
@@ -47,6 +49,9 @@ namespace FietsClient
         {
             string[] ports = SerialPort.GetPortNames();
             toolStripComboBox1.Items.AddRange(ports);
+           
+            
+            MenuSessionItems();
         }
 
         private void requestDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -123,12 +128,28 @@ namespace FietsClient
             sendButton_Click(sender, e);
         }
 
+
+        private void MenuSessionItems()
+        {
+            foreach (Session s in _connection.currentData.GetSessions())
+            {
+                selectSessionToolStripMenuItem.DropDownItems.Add(
+                    new ToolStripMenuItem(s.id.ToString(), null, delegate
+                    {
+                       // Load Session data
+                    })
+                );
+
+            }
+        }
         private void printMessage(string[] data)
         {
 
             string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
             chatBox.AppendText(finalMessage);
         }
+
+
 
         
     }
