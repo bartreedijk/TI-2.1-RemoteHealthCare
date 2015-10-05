@@ -60,5 +60,23 @@ namespace FietsClient
             Int32.TryParse(setPowerBox.Text, out power);
             connection.SendPower(power);
         }
+
+        private void messageBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                messageButton_Click(sender, e);
+            }
+        }
+
+        private void messageButton_Click(object sender, EventArgs e)
+        {
+            if (messageBox.Text != null)
+            {
+                string message = messageBox.Text;
+                messageBox.Clear();
+                connection.SendChatMessage(message);
+            }
+        }
     }
 }
