@@ -165,17 +165,17 @@ namespace FietsClient
 
 	public void SendDistance(int distance)
         {
-            SendString("10|" + userID + "|" + distance);
+            SendString("10|" + userID + "|" + distance + "|");
         }
 	
 	public void SendTime(int Minutes, int seconds)
         {
-            SendString("11|" + userID + "|" + Minutes + ":" + seconds);
+            SendString("11|" + userID + "|" + Minutes + ":" + seconds + "|");
         }
 
         public void SendPower(int power)
         {
-            SendString("12|" + userID + "|" + power);
+            SendString("12|" + userID + "|" + power + "|");
         }
 	
 	public void SendString(string s)
