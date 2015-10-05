@@ -114,6 +114,7 @@ namespace FietsClient
                             break;
                         case "7":
                             string[] data = { response_parts[1], response_parts[2], response_parts[3] };
+                            SendChatMessage(data);
                             break;
                     }
                 }
@@ -145,11 +146,21 @@ namespace FietsClient
             SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
         }
 	
-	public void SendChatMessage(string message)
+	public void SendChatMessage(string[] data)
         {
-            // send command ( cmdID | username sender | username patient | message )
-            string protocol = "6 | " + this.userID +" | "/* + idPatient */ + " | " + message;
-            SendString(protocol);
+            String receiverID = data[0];
+
+            if (currentData != null)
+            {
+                if (currentData.GetUserID() == receiverID)
+                {
+                    String message = data[1];
+
+                    // send command ( cmdID | username sender | username patient | message )
+                    string protocol = "6 | " + this.userID + " | " + receiverID + " | " + message;
+                    SendString(protocol);
+                }
+            }
         }
 
 	public void SendDistance(int distance)
@@ -167,12 +178,12 @@ namespace FietsClient
             SendString("12|" + userID + "|" + power);
         }
 	
-	public void SendString(string s)
+	    public void SendString(string s)
         {
+
             byte[] b = Encoding.ASCII.GetBytes(s);
             serverStream.Write(b, 0, b.Length);
             serverStream.Flush();
         }
-
     }
 }

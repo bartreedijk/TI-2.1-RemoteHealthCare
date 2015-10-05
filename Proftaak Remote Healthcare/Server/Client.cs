@@ -92,6 +92,20 @@ namespace Server
                             currentUser.tests.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[2]));
 
                             break;
+
+                        case "6": //chatberichten ontvangen van gebruikers
+
+                            //controleren of het bericht wel tekens bevat
+                            if (response_parts[3] != null)
+                            {
+                                String message = response_parts[3];
+                                String receiver = response_parts[2];
+                                String sender = response_parts[1];
+
+                                //bericht doorsturen naar alle actieve gebruikers (de Fietsclient zorgt ervoor dat alleen de geadresseerde het bericht kan zien)
+                                sendString("7|" + sender + "|" + receiver + "|" + message);      
+                            }
+                            break;
                     }
                 }
             }
