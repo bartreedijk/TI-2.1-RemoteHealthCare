@@ -62,9 +62,9 @@ namespace FietsClient
             }
         }
         //event handler
-        private List<DataPoint> speedPoints = new List<DataPoint>();
-        private List<DataPoint> bpmPoints = new List<DataPoint>();
-        private List<DataPoint> rpmPoints = new List<DataPoint>();
+        public List<DataPoint> speedPoints { get; set; } = new List<DataPoint>();
+        public List<DataPoint> bpmPoints { get; set; } = new List<DataPoint>();
+        public List<DataPoint> rpmPoints { set; get; } = new List<DataPoint>();
         private void HandleBikeData(string[] data)
         {
             if (patientform.InvokeRequired)

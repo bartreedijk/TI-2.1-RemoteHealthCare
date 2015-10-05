@@ -21,20 +21,14 @@ namespace Server.JSONObjecten
         public string note { get; private set; }
         public string modevalue { get; private set; }
 
-        public Session( int bikeMode, string modevalue )
+        public Session(int bikeMode, string modevalue)
         {
             string[] fileEntries = Directory.GetFiles(@"../../JSONObjecten/JSON Files/");
 
             if (fileEntries.Length > 0)
-            {
                 this.id = int.Parse(fileEntries[fileEntries.Length]);
-            }
             else
-            {
                 this.id = 1;
-            }
-
-
 
             this.session = new List<Measurement>();
             this.isActive = true;

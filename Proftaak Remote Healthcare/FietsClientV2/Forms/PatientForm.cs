@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FietsClient.JSONObjecten;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FietsClient
 {
@@ -17,7 +18,7 @@ namespace FietsClient
     {
         private TcpConnection _connection;
         private PatientModel patienModel;
-        
+
         public PatientForm(TcpConnection connection)
         {
             this._connection = connection;
@@ -49,8 +50,6 @@ namespace FietsClient
         {
             string[] ports = SerialPort.GetPortNames();
             toolStripComboBox1.Items.AddRange(ports);
-           
-            
             MenuSessionItems();
         }
 
@@ -115,7 +114,7 @@ namespace FietsClient
 
         private void sendButton_Click(object sender, EventArgs e)
         {
-            if(messageBox.Text != null)
+            if (messageBox.Text != null)
             {
                 string message = messageBox.Text;
                 messageBox.Clear();
@@ -136,7 +135,56 @@ namespace FietsClient
                 selectSessionToolStripMenuItem.DropDownItems.Add(
                     new ToolStripMenuItem(s.id.ToString(), null, delegate
                     {
-                       // Load Session data
+                        this.sessionBox.Text = s.id.ToString();
+                        this.nameBox.Text = _connection.userID;
+                        //get measurments
+                        List<Measurement> measurments = s.session;
+                        //fill boxes
+
+                        this.pulseBox.Text = measurments[measurments.Count - 1].bpm.ToString();
+                        this.rpmInfoBox.Text = measurments[measurments.Count - 1].rpm.ToString();
+                        this.speedInfoBox.Text = measurments[measurments.Count - 1].speed.ToString();
+                        this.distanceInfoBox.Text = measurments[measurments.Count - 1].distance.ToString();
+                        this.requestedBox.Text = measurments[measurments.Count - 1].requestedPower.ToString();
+                        this.energyInfoBox.Text = measurments[measurments.Count - 1].energy.ToString();
+                        this.timeBox.Text = measurments[measurments.Count - 1].time.ToString();
+                        this.actualBox.Text = measurments[measurments.Count - 1].actualPower.ToString();
+
+                        //fill speedpoints
+                        patienModel.speedPoints = new List<DataPoint>();
+                        for (int i = 0; i < measurments.Count; i++)
+                        {
+                            patienModel.speedPoints.Add(new DataPoint(measurments[i].time, measurments[i].speed));
+                        }
+                        //fill speedgraph
+                        this.speedChart.Series[0].Points.Clear();
+                        for (int i = 0; i < patienModel.speedPoints.Count; i++)
+                            this.speedChart.Series[0].Points.Add(patienModel.speedPoints[i]);
+                        this.speedChart.Update();
+
+                        //fill bpm
+                        patienModel.bpmPoints = new List<DataPoint>();
+                        for (int i = 0; i < measurments.Count; i++)
+                        {
+                            patienModel.bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].bpm));
+                        }
+                        //fill bpmgraph
+                        this.bpmChart.Series[0].Points.Clear();
+                        for (int i = 0; i < patienModel.bpmPoints.Count; i++)
+                            this.bpmChart.Series[0].Points.Add(patienModel.bpmPoints[i]);
+                        this.bpmChart.Update();
+
+                        //fill rpm
+                        patienModel.rpmPoints = new List<DataPoint>();
+                        for (int i = 0; i < measurments.Count; i++)
+                        {
+                            patienModel.rpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].rpm));
+                        }
+                        //fill rpmgraph
+                        this.rpmChart.Series[0].Points.Clear();
+                        for (int i = 0; i < patienModel.rpmPoints.Count; i++)
+                            this.rpmChart.Series[0].Points.Add(patienModel.rpmPoints[i]);
+                        this.rpmChart.Update();
                     })
                 );
 
@@ -148,9 +196,5 @@ namespace FietsClient
             string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
             chatBox.AppendText(finalMessage);
         }
-
-
-
-        
     }
 }

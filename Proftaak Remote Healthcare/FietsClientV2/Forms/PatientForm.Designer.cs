@@ -136,7 +136,7 @@ namespace FietsClient
             // selectSessionToolStripMenuItem
             // 
             this.selectSessionToolStripMenuItem.Name = "selectSessionToolStripMenuItem";
-            this.selectSessionToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.selectSessionToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.selectSessionToolStripMenuItem.Text = "Select Session";
             // 
             // bicycleToolStripMenuItem
