@@ -73,9 +73,12 @@ namespace FietsClient
         {
             if (messageBox.Text != null)
             {
-                string message = messageBox.Text;
+                String[] data = new String[2];
+                data[0] = messageBox.Text;
+                data[1] = connection.currentData.GetUserID();
                 messageBox.Clear();
-                connection.SendChatMessage(message);
+
+                connection.SendChatMessage(data);
             }
         }
     }
