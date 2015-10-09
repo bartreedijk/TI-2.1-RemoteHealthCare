@@ -15,7 +15,6 @@ namespace Server
         private List<User> users;
         private List<User> activePatient;
         private List<User> activeDoctor;
-        public List<Client> Clients;
 
         public static AppGlobal Instance
         {
@@ -25,7 +24,6 @@ namespace Server
         public AppGlobal()
         {
             users = new List<User>();
-            Clients = new List<Client>();
             TestMethode();
             Console.WriteLine(JsonConverter.GetUserSessions(users.ElementAt(1)));
         }
@@ -71,6 +69,19 @@ namespace Server
         {
             return users;
         }
+        
+        public List<string> GetActivePatients()
+        {
+            List<string> patients = new List<string>();
+            foreach (Client client in Program.Clients)
+            {
+                User user = users.FirstOrDefault(item => item.id == client.username);
+                if (user != null)
+                    if (!user.isDoctor)
+                        patients.Add(user.id);
+            }
+            return patients;
+        }
 
         public List<Session> GetTests(string patientid)
         {
@@ -94,7 +105,6 @@ namespace Server
                     u.AddSession(new Session(mode, modevalue));
                 }
             }
-
         }
     }
 }

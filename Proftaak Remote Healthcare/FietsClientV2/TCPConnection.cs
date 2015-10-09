@@ -28,7 +28,7 @@ namespace FietsClient
             connect();
         }
 
-	private void onIncomingChatMessage(string[] data)
+	    private void onIncomingChatMessage(string[] data)
         {
             ChatmassegeDelegate cMD = IncomingChatmessageEvent;
             if (cMD != null)
@@ -60,6 +60,14 @@ namespace FietsClient
                     Thread.Sleep(1000);
                     isConnectedFlag = false;
                 }
+        }
+
+        public void disconnect()
+        {
+            receiveThread.Abort();
+            serverStream.Close();
+            client.Close();
+            isConnectedFlag = false;
         }
 
         public void receive()
@@ -127,6 +135,16 @@ namespace FietsClient
                             string[] data = { response_parts[1], response_parts[2], response_parts[3] };
                             SendChatMessage(data);
                             break;
+                        case "8":
+                            if (response_parts[1].TrimEnd('\0') != "-1")
+                            {
+                                DoctorModel.doctorModel.onlinePatients = response_parts[1].TrimEnd('\0').Split('\t').ToList();
+                            } else if (response_parts[1] == "-1")
+                            {
+                                DoctorModel.doctorModel.onlinePatients = new List<String>();
+                            }
+                            
+                            break;
                     }
                 }
             }
@@ -157,7 +175,7 @@ namespace FietsClient
             SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 	
-	public void SendChatMessage(string[] data)
+	    public void SendChatMessage(string[] data)
         {
             String receiverID = data[0];
 
@@ -173,13 +191,17 @@ namespace FietsClient
                 }
             }
         }
+        public void SendGetActivePatients()
+        {
+            SendString("8|" + userID + "|");
+        }
 
-	public void SendDistance(int distance)
+        public void SendDistance(int distance)
         {
             SendString("10|" + userID + "|" + distance + "|");
         }
 	
-	public void SendTime(int Minutes, int seconds)
+	    public void SendTime(int Minutes, int seconds)
         {
             SendString("11|" + userID + "|" + Minutes + ":" + seconds + "|");
         }
@@ -188,6 +210,8 @@ namespace FietsClient
         {
             SendString("12|" + userID + "|" + power + "|");
         }
+
+        
 	
 	    public void SendString(string s)
         {

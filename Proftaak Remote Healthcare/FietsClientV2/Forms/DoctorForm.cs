@@ -12,17 +12,18 @@ namespace FietsClient
 {
     public partial class DoctorForm : Form
     {
-        private TcpConnection connection;
         private DoctorModel doctorModel;
+        public Forms.DoctorSummaryUC summaryUserControl { get; private set; }
 
         public DoctorForm(TcpConnection connection)
         {
-            this.connection = connection;
             InitializeComponent();
             doctorModel = DoctorModel.doctorModel;
             doctorModel.doctorform = this;
             doctorModel.tcpConnection = connection;
+            this.summaryUserControl = doctorSummaryUC1;
             DataHandler.IncomingErrorEvent += HandleError;
+            
         }
 
         private void HandleError(string error)
@@ -39,28 +40,6 @@ namespace FietsClient
 
         }
 
-        private void setDistanceButton_Click(object sender, EventArgs e)
-        {
-            int distance;
-            Int32.TryParse(setDistanceBox.Text,out distance);
-            connection.SendDistance(distance);
-        }
-
-        private void setTimeButton_Click(object sender, EventArgs e)
-        {
-            int minutes,seconds;
-            Int32.TryParse(setTimeMinutesBox.Text, out minutes);
-            Int32.TryParse(setTimeSecondsBox.Text, out seconds);
-            connection.SendTime(minutes, seconds);
-        }
-
-        private void setPowerButton_Click(object sender, EventArgs e)
-        {
-            int power; 
-            Int32.TryParse(setPowerBox.Text, out power);
-            connection.SendPower(power);
-        }
-
         private void messageBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
@@ -75,11 +54,36 @@ namespace FietsClient
             {
                 String[] data = new String[2];
                 data[0] = messageBox.Text;
-                data[1] = connection.currentData.GetUserID();
+                data[1] = doctorModel.tcpConnection.currentData.GetUserID();
                 messageBox.Clear();
 
-                connection.SendChatMessage(data);
+                doctorModel.tcpConnection.SendChatMessage(data);
             }
+        }
+
+        public void AddSessionToTabcontrol(string patientID)
+        {
+            TabPage page = new TabPage("Patientsession " + patientID);
+            page.Name = patientID;
+            Forms.DoctorSessionUC sessionUC = new Forms.DoctorSessionUC(patientID);
+            sessionUC.Name = "sessionUC" + patientID;
+            doctorModel.doctorSessions.Add(patientID, sessionUC);
+            doctorModel.doctorSessions.TryGetValue(patientID, out sessionUC);
+            page.Controls.Add(sessionUC);
+            doctorTabControl.TabPages.Add(page);
+
+        }
+
+        public void RemoveSessionFromTabcontrol(string patientID)
+        {
+            doctorTabControl.TabPages.RemoveByKey(patientID);
+        }
+
+        private void DoctorForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            doctorModel.stopAskingData();
+            doctorModel.tcpConnection.disconnect();
+            Application.Exit();
         }
     }
 }

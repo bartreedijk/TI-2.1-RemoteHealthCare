@@ -11,7 +11,7 @@ namespace Server
 {
     class Program
     {
-
+        public static List<Client> Clients { get; private set; } = new List<Client>();
 
         static void Main(string[] args)
         {
@@ -25,11 +25,18 @@ namespace Server
             while (true)
             {
                 Console.WriteLine("Waiting for clients..");
-                AppGlobal.Instance.Clients.Add(new Client(serverSocket.AcceptTcpClient()));
+                Clients.Add(new Client(serverSocket.AcceptTcpClient()));
             }
 
             serverSocket.Stop();
             Console.WriteLine("Server afsluiten");
+        }
+        
+        public static void RemoveClientFromList(Client client)
+        {
+            string s = "Client " + client.iduser + " with username " + client.username + " has been disconnected.";
+            Clients.Remove(client);
+            Console.WriteLine(s);
         }
     }
 

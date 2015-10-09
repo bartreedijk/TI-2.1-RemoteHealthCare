@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Server.JSONObjecten;
 using JsonConverter = Server.FileIO.JsonConverter;
+using System.Collections.Generic;
 
 namespace Server
 {
@@ -15,7 +16,9 @@ namespace Server
         TcpClient client;
         NetworkStream networkStream;
         private readonly AppGlobal _global;
-        private int iduser;
+        public int iduser { get; private set; }
+        public string username { get; private set; }
+        private Thread _workerThread;
 
         public Client(TcpClient socket)
         {
@@ -24,13 +27,13 @@ namespace Server
             _global = AppGlobal.Instance;
             iduser = -1;
             Console.WriteLine("New client connected");
-            Thread t = new Thread(recieve);
-            t.Start();
+            _workerThread = new Thread(recieve);
+            _workerThread.Start();
         }
 
         public void recieve()
         {
-            while (true)
+            while (!(client.Client.Poll(0, SelectMode.SelectRead) && client.Client.Available == 0))
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
                 networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
@@ -48,6 +51,7 @@ namespace Server
                                 _global.CheckLogin(response_parts[1], response_parts[2], out admin, out id);
                                 if (id > -1)
                                 {
+                                    this.username = response_parts[1];
                                     this.iduser = id;
                                     if (_global.GetUsers().First(item => item.id == response_parts[1]).isDoctor)
                                     {
@@ -106,9 +110,37 @@ namespace Server
                                 sendString("7|" + sender + "|" + receiver + "|" + message);      
                             }
                             break;
+                        case "8": //alle online Patients sturen naar Doctorclient
+                            if (response_parts[1] != null)
+                            {
+                                if (response_parts[1] == "doctor" || true) //TODO: doctor check
+                                {
+                                    string strToSend = "8|";
+                                    List<string> activePatients = _global.GetActivePatients();
+                                    if (!(activePatients.Count > 0))
+                                    {
+                                        strToSend += "-1";
+                                    } else
+                                    {
+                                        foreach (string patient in _global.GetActivePatients())
+                                        {
+                                            strToSend += (patient + '\t');
+                                        }
+                                    }
+                                    sendString(strToSend.TrimEnd('\t'));
+                                }
+                            }
+                            break;
                     }
                 }
             }
+            Stop();
+        }
+
+        private void Stop()
+        {
+            Program.RemoveClientFromList(this);
+            _workerThread.Abort();
         }
 
         public void sendString(string s)

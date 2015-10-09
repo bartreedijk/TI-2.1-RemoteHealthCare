@@ -208,5 +208,11 @@ namespace FietsClient
             string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
             chatBox.AppendText(finalMessage);
         }
+
+        private void PatientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _connection.disconnect();
+            Application.Exit();
+        }
     }
 }
