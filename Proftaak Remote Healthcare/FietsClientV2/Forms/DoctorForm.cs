@@ -59,6 +59,9 @@ namespace FietsClient
 
                 doctorModel.tcpConnection.SendChatMessage(data);
             }
+
+            // selecteer active patient:
+            string activePatient = doctorTabControl.SelectedTab.Name;
         }
 
         public void AddSessionToTabcontrol(string patientID)
