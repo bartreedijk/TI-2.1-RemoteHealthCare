@@ -17,14 +17,14 @@ namespace FietsClient
     public partial class PatientForm : Form
     {
         private TcpConnection _connection;
-        private PatientModel patienModel;
+        private PatientModel patientModel;
 
         public PatientForm(TcpConnection connection)
         {
             this._connection = connection;
             InitializeComponent();
-            patienModel = PatientModel.patientModel;
-            patienModel.patientform = this;
+            patientModel = PatientModel.patientModel;
+            patientModel.patientform = this;
             DataHandler.IncomingErrorEvent += HandleError; //initialize event
 
             _connection.IncomingChatmessageEvent += new TcpConnection.ChatmassegeDelegate(printMessage);
@@ -60,17 +60,17 @@ namespace FietsClient
 
         private void requestDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            patienModel.startAskingData();
+            patientModel.startAskingData();
         }
 
         private void closePortToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            patienModel.closeComPort();
+            patientModel.closeComPort();
         }
 
         private void openPortToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            patienModel.startComPort(toolStripComboBox1.SelectedItem.ToString());
+            patientModel.startComPort(toolStripComboBox1.SelectedItem.ToString());
             requestDataToolStripMenuItem.Enabled = true;
             closePortToolStripMenuItem.Enabled = true;
         }
@@ -80,7 +80,7 @@ namespace FietsClient
             int n;
             if (int.TryParse(distanceBox.Text, out n))
             {
-                patienModel.setDistanceMode(distanceBox.Text);
+                patientModel.setDistanceMode(distanceBox.Text);
             }
             else
             {
@@ -97,7 +97,7 @@ namespace FietsClient
             if (isNumericM)
             {
                 if (isNumericS)
-                    patienModel.setTimeMode(minutes + ":" + seconds);
+                    patientModel.setTimeMode(minutes + ":" + seconds);
                 else MessageBox.Show("Minutes is not a valid number.");
             }
             else MessageBox.Show("Seconds is not a valid number.");
@@ -105,27 +105,27 @@ namespace FietsClient
 
         private void stopTrainingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            patienModel.reset();
+            patientModel.reset();
         }
 
         private void setPower_Click(object sender, EventArgs e)
         {
             int n;
             if (int.TryParse(powerBox.Text, out n))
-                patienModel.setPower(powerBox.Text);
+                patientModel.setPower(powerBox.Text);
             else
                 MessageBox.Show("Power is not a valid number.");
         }
 
         private void sendButton_Click(object sender, EventArgs e)
         {
-            if (messageBox.Text != null)
+            if (messageBox.Text != null && patientModel.CurrentDoctorID != "")
             {
                 String[] data = new String[2];
                 data[0] = messageBox.Text;
-                data[1] = _connection.currentData.GetUserID();
+                //receiver ID of doctor
+                data[1] = patientModel.CurrentDoctorID;
                 messageBox.Clear();
-
                 _connection.SendChatMessage(data);
             }
         }
@@ -163,39 +163,39 @@ namespace FietsClient
                         this.actualBox.Text = measurments[measurments.Count - 1].actualPower.ToString();
 
                         //fill speedpoints
-                        patienModel.speedPoints = new List<DataPoint>();
+                        patientModel.speedPoints = new List<DataPoint>();
                         for (int i = 0; i < measurments.Count; i++)
                         {
-                            patienModel.speedPoints.Add(new DataPoint(measurments[i].time, measurments[i].speed));
+                            patientModel.speedPoints.Add(new DataPoint(measurments[i].time, measurments[i].speed));
                         }
                         //fill speedgraph
                         this.speedChart.Series[0].Points.Clear();
-                        for (int i = 0; i < patienModel.speedPoints.Count; i++)
-                            this.speedChart.Series[0].Points.Add(patienModel.speedPoints[i]);
+                        for (int i = 0; i < patientModel.speedPoints.Count; i++)
+                            this.speedChart.Series[0].Points.Add(patientModel.speedPoints[i]);
                         this.speedChart.Update();
 
                         //fill bpm
-                        patienModel.bpmPoints = new List<DataPoint>();
+                        patientModel.bpmPoints = new List<DataPoint>();
                         for (int i = 0; i < measurments.Count; i++)
                         {
-                            patienModel.bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].bpm));
+                            patientModel.bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].bpm));
                         }
                         //fill bpmgraph
                         this.bpmChart.Series[0].Points.Clear();
-                        for (int i = 0; i < patienModel.bpmPoints.Count; i++)
-                            this.bpmChart.Series[0].Points.Add(patienModel.bpmPoints[i]);
+                        for (int i = 0; i < patientModel.bpmPoints.Count; i++)
+                            this.bpmChart.Series[0].Points.Add(patientModel.bpmPoints[i]);
                         this.bpmChart.Update();
 
                         //fill rpm
-                        patienModel.rpmPoints = new List<DataPoint>();
+                        patientModel.rpmPoints = new List<DataPoint>();
                         for (int i = 0; i < measurments.Count; i++)
                         {
-                            patienModel.rpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].rpm));
+                            patientModel.rpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].rpm));
                         }
                         //fill rpmgraph
                         this.rpmChart.Series[0].Points.Clear();
-                        for (int i = 0; i < patienModel.rpmPoints.Count; i++)
-                            this.rpmChart.Series[0].Points.Add(patienModel.rpmPoints[i]);
+                        for (int i = 0; i < patientModel.rpmPoints.Count; i++)
+                            this.rpmChart.Series[0].Points.Add(patientModel.rpmPoints[i]);
                         this.rpmChart.Update();
                     })
                 );
@@ -204,7 +204,7 @@ namespace FietsClient
         }
         private void printMessage(string[] data)
         {
-
+            patientModel.CurrentDoctorID = data[1];
             string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
             chatBox.AppendText(finalMessage);
         }

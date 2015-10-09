@@ -132,8 +132,10 @@ namespace FietsClient
                             currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
                             break;
                         case "7":
+                            //                  sender              receiver            message
                             string[] data = { response_parts[1], response_parts[2], response_parts[3] };
-                            SendChatMessage(data);
+                            
+                            onIncomingChatMessage(data);
                             break;
                         case "8":
                             if (response_parts[1].TrimEnd('\0') != "-1")
@@ -177,15 +179,15 @@ namespace FietsClient
 	
 	    public void SendChatMessage(string[] data)
         {
-            String receiverID = data[0];
+            String receiverID = data[1];
 
             if (currentData != null)
             {
                 if (currentData.GetUserID() == receiverID)
                 {
-                    String message = data[1];
+                    String message = data[0];
 
-                    // send command ( cmdID | username sender | username patient | message )
+                    // send command ( cmdID | username sender | username receiverID | message )
                     string protocol = "6 | " + this.userID + " | " + receiverID + " | " + message;
                     SendString(protocol);
                 }

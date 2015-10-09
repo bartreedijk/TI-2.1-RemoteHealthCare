@@ -54,14 +54,14 @@ namespace FietsClient
             {
                 String[] data = new String[2];
                 data[0] = messageBox.Text;
-                data[1] = doctorModel.tcpConnection.currentData.GetUserID();
+                //current patient:
+                data[1] = doctorTabControl.SelectedTab.Name;
                 messageBox.Clear();
 
                 doctorModel.tcpConnection.SendChatMessage(data);
             }
 
-            // selecteer active patient:
-            string activePatient = doctorTabControl.SelectedTab.Name;
+           
         }
 
         public void AddSessionToTabcontrol(string patientID)
