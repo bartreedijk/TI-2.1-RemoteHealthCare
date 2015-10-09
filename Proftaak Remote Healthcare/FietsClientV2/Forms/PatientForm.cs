@@ -30,8 +30,8 @@ namespace FietsClient
             _connection.IncomingChatmessageEvent += new TcpConnection.ChatmassegeDelegate(printMessage);
 
             //TIJDELIJK STUK CODE OM MESSAGE TE TESTEN
-            _connection.SendString("6|TOM|TOM|Je bent een homo");
-            Console.WriteLine("Bericht versturen");
+            //_connection.SendString("6|TOM|TOM|Je bent een homo");
+            //Console.WriteLine("Bericht versturen");
             //EINDE TESTCODE
         }
 

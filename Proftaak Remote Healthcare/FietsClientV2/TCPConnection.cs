@@ -141,7 +141,7 @@ namespace FietsClient
                             if (response_parts[1].TrimEnd('\0') != "-1")
                             {
                                 DoctorModel.doctorModel.onlinePatients = response_parts[1].TrimEnd('\0').Split('\t').ToList();
-                            } else if (response_parts[1] == "-1")
+                            } else if (response_parts[1].TrimEnd('\0') == "-1")
                             {
                                 DoctorModel.doctorModel.onlinePatients = new List<String>();
                             }
@@ -183,14 +183,11 @@ namespace FietsClient
 
             if (currentData != null)
             {
-                if (currentData.GetUserID() == receiverID)
-                {
                     String message = data[0];
 
                     // send command ( cmdID | username sender | username receiverID | message )
-                    string protocol = "6 | " + this.userID + " | " + receiverID + " | " + message;
+                    string protocol = "6|" + this.userID + "|" + receiverID + "|" + message;
                     SendString(protocol);
-                }
             }
         }
         public void SendGetActivePatients()
