@@ -69,7 +69,12 @@ namespace Server
         {
             return users;
         }
-        
+
+        public List<User> GetActivePatientObjects()
+        {
+            return activePatient;
+        }
+
         public List<string> GetActivePatients()
         {
             List<string> patients = new List<string>();

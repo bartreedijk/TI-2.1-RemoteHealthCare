@@ -100,6 +100,7 @@
     <Compile Include="Forms\PatientForm.Designer.cs">
       <DependentUpon>PatientForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JSONObjecten\User.cs" />
     <Compile Include="lib\JsonConverter.cs" />
     <Compile Include="DoctorModel.cs" />
     <Compile Include="PatientModel.cs" />

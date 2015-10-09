@@ -21,6 +21,11 @@ namespace Server.FileIO
            return JsonConvert.SerializeObject(u);
         }
 
+        public static string GetPatients(List<User> u)
+        {
+            return JsonConvert.SerializeObject(u);
+        }
+
         public static string GetUserSessions(User patient)
         {
             return JsonConvert.SerializeObject(patient.GetSessions());

@@ -21,6 +21,7 @@ namespace FietsClient
 
         public List<string> onlinePatients { get; set; } = new List<string>();
         public Dictionary<string, Forms.DoctorSessionUC> doctorSessions { get; set; } = new Dictionary<string, Forms.DoctorSessionUC>();
+        public List<User> activePatientObject; 
 
         private DoctorModel()
         {
@@ -51,7 +52,7 @@ namespace FietsClient
 
         public void CheckOnlineUsersUpdated()
         {
-            tcpConnection.SendGetActivePatients();
+            tcpConnection.SendGet(8);
             if (onlinePatients.Count != doctorSessions.Count || true)
             {
                 // ruim eerst alle doctorSessions op die niet van toepassing zijn

@@ -131,6 +131,15 @@ namespace Server
                                 }
                             }
                             break;
+                        case "9": //alle Patients sturen naar Doctorclient
+                            if (response_parts[1] != null)
+                            {
+                                if (response_parts[1] == "doctor" || true) //TODO: doctor check
+                                {
+                                    sendString("9|" + JsonConverter.GetPatients(_global.GetActivePatientObjects()) + "|");
+                                }
+                            }
+                            break;
                     }
                 }
             }
