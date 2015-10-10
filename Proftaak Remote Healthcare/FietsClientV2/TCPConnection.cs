@@ -46,7 +46,7 @@ namespace FietsClient
         {
                 try
                 {
-                    client.Connect("brdk.nl", 1288);
+                    client.Connect("127.0.0.1", 1288);
 
                     // create streams
                     serverStream = client.GetStream();
@@ -75,7 +75,7 @@ namespace FietsClient
             while (true)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                serverStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                serverStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 

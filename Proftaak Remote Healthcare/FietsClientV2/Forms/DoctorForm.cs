@@ -65,8 +65,11 @@ namespace FietsClient
 
         private void printMessage(string[] data)
         {
-            string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
-            chatBox.AppendText(finalMessage);
+            string finalMessage = data[0] + ":\t\t" + data[2] + "\r\n";
+            chatBox.Invoke((MethodInvoker) delegate ()
+            {
+                chatBox.AppendText(finalMessage);
+            });
         }
 
         public void AddSessionToTabcontrol(string patientID)

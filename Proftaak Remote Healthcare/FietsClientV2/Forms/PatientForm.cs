@@ -205,8 +205,11 @@ namespace FietsClient
         private void printMessage(string[] data)
         {
             patientModel.CurrentDoctorID = data[1];
-            string finalMessage = data[1] + ":\t\t" + data[3] + "\r\n";
-            chatBox.AppendText(finalMessage);
+            string finalMessage = data[0] + ":\t\t" + data[2] + "\r\n";
+            chatBox.Invoke((MethodInvoker)delegate ()
+            {
+                chatBox.AppendText(finalMessage);
+            });
         }
 
         private void PatientForm_FormClosing(object sender, FormClosingEventArgs e)
