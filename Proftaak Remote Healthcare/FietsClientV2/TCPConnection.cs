@@ -109,22 +109,25 @@ namespace FietsClient
                             if (currentData.isDoctor == true)
                             {
                                 Form activeForm = Form.ActiveForm;
-                                activeForm.Invoke((MethodInvoker) delegate()
-                                {
-                                    DoctorForm doctorForm = new DoctorForm(this);
-                                    activeForm.Hide();
-                                    doctorForm.Show();
-                                });
+                                activeForm.Invoke((MethodInvoker)delegate ()
+                               {
+                                   DoctorForm doctorForm = new DoctorForm(this);
+                                   activeForm.Hide();
+                                   doctorForm.Show();
+                               });
                             }
                             else
                             {
                                 Form activeForm = Form.ActiveForm;
-                                activeForm.Invoke((MethodInvoker)delegate ()
+                                if (activeForm != null)
                                 {
-                                    PatientForm patientForm = new PatientForm(this);
-                                    activeForm.Hide();
-                                    patientForm.Show();
-                                });
+                                    activeForm.Invoke((MethodInvoker)delegate ()
+                                    {
+                                        PatientForm patientForm = new PatientForm(this);
+                                        activeForm.Hide();
+                                        patientForm.Show();
+                                    });
+                                }
                             }
 
                             break;

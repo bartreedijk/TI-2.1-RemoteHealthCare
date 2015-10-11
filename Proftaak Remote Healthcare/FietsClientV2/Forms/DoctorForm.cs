@@ -65,7 +65,7 @@ namespace FietsClient
 
         private void printMessage(string[] data)
         {
-            string finalMessage = data[0] + ":\t\t" + data[2] + "\r\n";
+            string finalMessage = "\r\n" + data[0] + ":\t" + data[2];
             chatBox.Invoke((MethodInvoker) delegate ()
             {
                 chatBox.AppendText(finalMessage);
