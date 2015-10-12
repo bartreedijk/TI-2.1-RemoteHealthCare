@@ -36,7 +36,14 @@ namespace Server
             while (!(client.Client.Poll(0, SelectMode.SelectRead) && client.Client.Available == 0))
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                try
+                {
+                    networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                } catch (Exception)
+                {
+                    Stop();
+                }
+                
                 String response = Encoding.ASCII.GetString(bytesFrom);
                 String[] response_parts = response.Split('|');
                 if (response_parts.Length > 0)
@@ -102,12 +109,14 @@ namespace Server
                             //controleren of het bericht wel tekens bevat
                             if (response_parts[3] != null)
                             {
-                                String message = response_parts[3];
+                                String message = response_parts[3].TrimEnd('\0');
                                 String receiver = response_parts[2];
                                 String sender = response_parts[1];
 
                                 //bericht doorsturen naar alle actieve gebruikers (de Fietsclient zorgt ervoor dat alleen de geadresseerde het bericht kan zien)
-                                sendString("7|" + sender + "|" + receiver + "|" + message);   
+                                string case6str = "7|" + sender + "|" + receiver + "|" + message;
+                                Console.WriteLine(case6str);
+                                sendString(case6str);
                             }
                             break;
                         case "8": //alle online Patients sturen naar Doctorclient
@@ -131,6 +140,9 @@ namespace Server
                                 }
                             }
                             break;
+                        default:
+                            break;
+
                     }
                 }
             }
