@@ -22,6 +22,8 @@ namespace FietsClient
 
         private string powerLog;
 
+        public string CurrentDoctorID { get; set; }
+
         public PatientModel()
         {
             dataHandler = new DataHandler();

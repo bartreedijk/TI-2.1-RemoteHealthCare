@@ -106,8 +106,12 @@ namespace Server
                                 String receiver = response_parts[2];
                                 String sender = response_parts[1];
 
-                                //bericht doorsturen naar alle actieve gebruikers (de Fietsclient zorgt ervoor dat alleen de geadresseerde het bericht kan zien)
-                                sendString("7|" + sender + "|" + receiver + "|" + message);      
+                                sendString("7|" + sender + "|" + receiver + "|" + message);
+                                foreach (var client in Program.Clients)
+                                {
+                                    if (client.username == receiver)
+                                        client.sendString("7|" + sender + "|" + receiver + "|" + message);
+                                }
                             }
                             break;
                         case "8": //alle online Patients sturen naar Doctorclient

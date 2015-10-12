@@ -23,7 +23,8 @@ namespace FietsClient
             doctorModel.tcpConnection = connection;
             this.summaryUserControl = doctorSummaryUC1;
             DataHandler.IncomingErrorEvent += HandleError;
-            
+            connection.IncomingChatmessageEvent += new TcpConnection.ChatmassegeDelegate(printMessage);
+
         }
 
         private void HandleError(string error)
@@ -54,14 +55,21 @@ namespace FietsClient
             {
                 String[] data = new String[2];
                 data[0] = messageBox.Text;
-                data[1] = doctorModel.tcpConnection.currentData.GetUserID();
+                //current patient:
+                data[1] = doctorTabControl.SelectedTab.Name;
                 messageBox.Clear();
 
                 doctorModel.tcpConnection.SendChatMessage(data);
-            }
+            }  
+        }
 
-            // selecteer active patient:
-            string activePatient = doctorTabControl.SelectedTab.Name;
+        private void printMessage(string[] data)
+        {
+            string finalMessage = "\r\n" + data[0] + ":\t" + data[2];
+            chatBox.Invoke((MethodInvoker) delegate ()
+            {
+                chatBox.AppendText(finalMessage);
+            });
         }
 
         public void AddSessionToTabcontrol(string patientID)

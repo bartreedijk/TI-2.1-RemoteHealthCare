@@ -46,7 +46,7 @@ namespace FietsClient
         {
                 try
                 {
-                    client.Connect("brdk.nl", 1288);
+                    client.Connect("127.0.0.1", 1288);
 
                     // create streams
                     serverStream = client.GetStream();
@@ -75,7 +75,7 @@ namespace FietsClient
             while (true)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                serverStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                serverStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 
@@ -109,22 +109,25 @@ namespace FietsClient
                             if (currentData.isDoctor == true)
                             {
                                 Form activeForm = Form.ActiveForm;
-                                activeForm.Invoke((MethodInvoker) delegate()
-                                {
-                                    DoctorForm doctorForm = new DoctorForm(this);
-                                    activeForm.Hide();
-                                    doctorForm.Show();
-                                });
+                                activeForm.Invoke((MethodInvoker)delegate ()
+                               {
+                                   DoctorForm doctorForm = new DoctorForm(this);
+                                   activeForm.Hide();
+                                   doctorForm.Show();
+                               });
                             }
                             else
                             {
                                 Form activeForm = Form.ActiveForm;
-                                activeForm.Invoke((MethodInvoker)delegate ()
+                                if (activeForm != null)
                                 {
-                                    PatientForm patientForm = new PatientForm(this);
-                                    activeForm.Hide();
-                                    patientForm.Show();
-                                });
+                                    activeForm.Invoke((MethodInvoker)delegate ()
+                                    {
+                                        PatientForm patientForm = new PatientForm(this);
+                                        activeForm.Hide();
+                                        patientForm.Show();
+                                    });
+                                }
                             }
 
                             break;
@@ -132,14 +135,16 @@ namespace FietsClient
                             currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
                             break;
                         case "7":
+                            //                  sender              receiver            message
                             string[] data = { response_parts[1], response_parts[2], response_parts[3] };
-                            SendChatMessage(data);
+                            
+                            onIncomingChatMessage(data);
                             break;
                         case "8":
                             if (response_parts[1].TrimEnd('\0') != "-1")
                             {
                                 DoctorModel.doctorModel.onlinePatients = response_parts[1].TrimEnd('\0').Split('\t').ToList();
-                            } else if (response_parts[1] == "-1")
+                            } else if (response_parts[1].TrimEnd('\0') == "-1")
                             {
                                 DoctorModel.doctorModel.onlinePatients = new List<String>();
                             }
@@ -177,18 +182,15 @@ namespace FietsClient
 	
 	    public void SendChatMessage(string[] data)
         {
-            String receiverID = data[0];
+            String receiverID = data[1];
 
             if (currentData != null)
             {
-                if (currentData.GetUserID() == receiverID)
-                {
-                    String message = data[1];
+                    String message = data[0];
 
-                    // send command ( cmdID | username sender | username patient | message )
-                    string protocol = "6 | " + this.userID + " | " + receiverID + " | " + message;
+                    // send command ( cmdID | username sender | username receiverID | message )
+                    string protocol = "6|" + this.userID + "|" + receiverID + "|" + message;
                     SendString(protocol);
-                }
             }
         }
         public void SendGetActivePatients()
