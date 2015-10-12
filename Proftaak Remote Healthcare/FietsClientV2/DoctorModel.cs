@@ -56,11 +56,12 @@ namespace FietsClient
             if (onlinePatients.Count != doctorSessions.Count || true)
             {
                 // ruim eerst alle doctorSessions op die niet van toepassing zijn
-                foreach (string str in doctorSessions.Keys)
+                List<string> temp = doctorSessions.Keys.ToList();
+                foreach (string str in temp)
                 {
                     if (!(onlinePatients.Any(s => str.Contains(s))))
                     {
-                        doctorform.RemoveSessionFromTabcontrol(str);
+                        doctorform.Invoke(new Action(() => doctorform.RemoveSessionFromTabcontrol(str)));
                         doctorform.Invoke(new Action(() => doctorSessions.Remove(str)));
                     }
                     //onlinePatients.Find(username => username.Equals(str));
