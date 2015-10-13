@@ -206,7 +206,7 @@ namespace FietsClient
         {
             if (data[0] != _connection.userID)
                 patientModel.CurrentDoctorID = data[0];
-            string finalMessage = "\r\n" + data[0] + ":\t" + data[2];
+            string finalMessage = data[0] + ":\t" + data[2] + "\r\n";
             chatBox.Invoke((MethodInvoker)delegate ()
             {
                 chatBox.AppendText(finalMessage);

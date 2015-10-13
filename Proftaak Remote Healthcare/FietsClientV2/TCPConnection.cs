@@ -135,10 +135,8 @@ namespace FietsClient
                             currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
                             break;
                         case "7":
-                            //                  sender              receiver            message
-                            string[] data = { response_parts[1], response_parts[2], response_parts[3] };
-                            
-                            onIncomingChatMessage(data);
+                            //                                        sender              receiver          message
+                            onIncomingChatMessage(new string[] { response_parts[1], response_parts[2], response_parts[3].TrimEnd('\0') } );
                             break;
                         case "8":
                             if (response_parts[1].TrimEnd('\0') != "-1")
