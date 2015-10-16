@@ -8,6 +8,9 @@ using Newtonsoft.Json.Converters;
 using Server.JSONObjecten;
 using JsonConverter = Server.FileIO.JsonConverter;
 using System.Collections.Generic;
+using System.Net.Security;
+using System.Security.Authentication;
+using Server.lib;
 
 namespace Server
 {
@@ -37,6 +40,11 @@ namespace Server
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
                 networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+
+                
+                SslStream sslStream = new SslStream(client.GetStream());
+                sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);            
+
                 String response = Encoding.ASCII.GetString(bytesFrom);
                 String[] response_parts = response.Split('|');
                 if (response_parts.Length > 0)

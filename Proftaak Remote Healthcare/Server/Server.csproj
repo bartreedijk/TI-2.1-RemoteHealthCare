@@ -52,6 +52,8 @@
     <Compile Include="JSONObjecten\Measurement.cs" />
     <Compile Include="JSONObjecten\Session.cs" />
     <Compile Include="JSONObjecten\User.cs" />
+    <Compile Include="lib\SelfSignedCertificate.cs" />
+    <Compile Include="lib\SSLCrypto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

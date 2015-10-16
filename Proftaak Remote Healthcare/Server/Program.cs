@@ -17,8 +17,11 @@ namespace Server
         {
             Console.WriteLine("Server gestart");
 
-            //zorg dat AppGlobal bestaat...
+            // zorg dat AppGlobal bestaat...
             AppGlobal.Instance.ToString();
+            // zorg dat de certificaat bestaat
+            lib.SSLCrypto.CreateSelfSignedCert();
+
             TcpListener serverSocket = new TcpListener(1288);
             serverSocket.Start();
 
