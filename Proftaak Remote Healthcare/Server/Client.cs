@@ -8,13 +8,16 @@ using Newtonsoft.Json.Converters;
 using Server.JSONObjecten;
 using JsonConverter = Server.FileIO.JsonConverter;
 using System.Collections.Generic;
+using System.Net.Security;
+using System.Security.Authentication;
+using Server.lib;
 
 namespace Server
 {
     public class Client
     {
         TcpClient client;
-        NetworkStream networkStream;
+        SslStream sslStream;
         private readonly AppGlobal _global;
         public int iduser { get; private set; }
         public string username { get; private set; }
@@ -23,7 +26,9 @@ namespace Server
         public Client(TcpClient socket)
         {
             client = socket;
-            networkStream = client.GetStream();
+            
+            sslStream = new SslStream(client.GetStream());
+            sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);
             _global = AppGlobal.Instance;
             iduser = -1;
             Console.WriteLine("New client connected");
@@ -36,14 +41,14 @@ namespace Server
             while (!(client.Client.Poll(0, SelectMode.SelectRead) && client.Client.Available == 0))
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                try
-                {
-                    networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
-                } catch (Exception)
+		try
+		{
+		    sslStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                } 
+		catch (Exception)
                 {
                     Stop();
                 }
-                
                 String response = Encoding.ASCII.GetString(bytesFrom);
                 String[] response_parts = response.Split('|');
                 if (response_parts.Length > 0)
@@ -163,8 +168,8 @@ namespace Server
         public void sendString(string s)
         {
             byte[] b = Encoding.ASCII.GetBytes(s);
-            networkStream.Write(b, 0, b.Length);
-            networkStream.Flush();
+            sslStream.Write(b, 0, b.Length);
+            sslStream.Flush();
         }
     }
 }

@@ -36,12 +36,12 @@ namespace Server
 
             Random r = new Random();
             Session session = new Session(1, "100");
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 20; i++)
                 session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
             users.ElementAt(1).tests.Add(session);
 
             Session session2 = new Session(2, "100");
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 50; i++)
                 session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
             users.ElementAt(1).tests.Add(session2);
         }
