@@ -157,6 +157,7 @@ namespace FietsClient
                             }
                             break;
                         case "1":
+                            response_parts[1] = response_parts[1].TrimEnd('\0');
                             currentData.setSessionList(JsonConvert.DeserializeObject<List<Session>>(response_parts[1]));
 
                             if (currentData.isDoctor == true)
