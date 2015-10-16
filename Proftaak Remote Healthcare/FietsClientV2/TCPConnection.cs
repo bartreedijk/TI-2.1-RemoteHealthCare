@@ -3,10 +3,13 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Authentication;
 
 namespace FietsClient
 {
@@ -17,6 +20,9 @@ namespace FietsClient
         private NetworkStream serverStream;
         public CurrentData currentData { private set; get; }
         public string userID { private set; get; }
+        public object SERVER_CERT_FILENAME { get; private set; }
+        public object SERVER_CERT_PASSWORD { get; private set; }
+
         private Thread receiveThread;
 
         public delegate void ChatmassegeDelegate(string[] data);
@@ -28,7 +34,7 @@ namespace FietsClient
             connect();
         }
 
-	    private void onIncomingChatMessage(string[] data)
+        private void onIncomingChatMessage(string[] data)
         {
             ChatmassegeDelegate cMD = IncomingChatmessageEvent;
             if (cMD != null)
@@ -44,22 +50,68 @@ namespace FietsClient
 
         public void connect()
         {
+            try
+            {
+                client.Connect("127.0.0.1", 1288);
+
+
+                // create streams
+                SslStream sslStream = new SslStream(client.GetStream(), false,
+    new RemoteCertificateValidationCallback(CertificateValidationCallback),
+    new LocalCertificateSelectionCallback(CertificateSelectionCallback));
+
+                bool authenticationPassed = true;
                 try
                 {
-                    client.Connect("127.0.0.1", 1288);
+                    string serverName = System.Environment.MachineName;
 
-                    // create streams
-                    serverStream = client.GetStream();
+                    X509Certificate cert = GetServerCert(SERVER_CERT_FILENAME, SERVER_CERT_PASSWORD);
+                    X509CertificateCollection certs = new X509CertificateCollection();
+                    certs.Add(cert);
+
+                    sslStream.AuthenticateAsClient(
+                        serverName,
+                        certs,
+                        SslProtocols.Default,
+                        false); // check cert revokation
+                }
+                catch (AuthenticationException)
+                {
+                    authenticationPassed = false;
+                }
+                if (authenticationPassed)
+                {
                     receiveThread = new Thread(receive);
                     receiveThread.Start();
                     isConnectedFlag = true;
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    Thread.Sleep(1000);
-                    isConnectedFlag = false;
-                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Thread.Sleep(1000);
+                isConnectedFlag = false;
+            }
+        }
+
+        static X509Certificate CertificateSelectionCallback(object sender,
+    string targetHost,
+    X509CertificateCollection localCertificates,
+    X509Certificate remoteCertificate,
+    string[] acceptableIssuers)
+        {
+            return localCertificates[0];
+        }
+
+        private X509Certificate GetServerCert(object sERVER_CERT_FILENAME, object sERVER_CERT_PASSWORD)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            throw new NotImplementedException();
         }
 
         public void disconnect()
@@ -136,17 +188,18 @@ namespace FietsClient
                             break;
                         case "7":
                             //                                        sender              receiver          message
-                            onIncomingChatMessage(new string[] { response_parts[1], response_parts[2], response_parts[3].TrimEnd('\0') } );
+                            onIncomingChatMessage(new string[] { response_parts[1], response_parts[2], response_parts[3].TrimEnd('\0') });
                             break;
                         case "8":
                             if (response_parts[1].TrimEnd('\0') != "-1")
                             {
                                 DoctorModel.doctorModel.onlinePatients = response_parts[1].TrimEnd('\0').Split('\t').ToList();
-                            } else if (response_parts[1].TrimEnd('\0') == "-1")
+                            }
+                            else if (response_parts[1].TrimEnd('\0') == "-1")
                             {
                                 DoctorModel.doctorModel.onlinePatients = new List<String>();
                             }
-                            
+
                             break;
                     }
                 }
@@ -177,18 +230,18 @@ namespace FietsClient
             // send command ( cmdID | username )
             SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
-	
-	    public void SendChatMessage(string[] data)
+
+        public void SendChatMessage(string[] data)
         {
             String receiverID = data[1];
 
             if (currentData != null)
             {
-                    String message = data[0];
+                String message = data[0];
 
-                    // send command ( cmdID | username sender | username receiverID | message )
-                    string protocol = "6|" + this.userID + "|" + receiverID + "|" + message;
-                    SendString(protocol);
+                // send command ( cmdID | username sender | username receiverID | message )
+                string protocol = "6|" + this.userID + "|" + receiverID + "|" + message;
+                SendString(protocol);
             }
         }
         public void SendGetActivePatients()
@@ -200,8 +253,8 @@ namespace FietsClient
         {
             SendString("10|" + userID + "|" + distance + "|");
         }
-	
-	    public void SendTime(int Minutes, int seconds)
+
+        public void SendTime(int Minutes, int seconds)
         {
             SendString("11|" + userID + "|" + Minutes + ":" + seconds + "|");
         }
@@ -211,9 +264,9 @@ namespace FietsClient
             SendString("12|" + userID + "|" + power + "|");
         }
 
-        
-	
-	    public void SendString(string s)
+
+
+        public void SendString(string s)
         {
 
             byte[] b = Encoding.ASCII.GetBytes(s);

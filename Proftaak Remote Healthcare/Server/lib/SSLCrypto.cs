@@ -12,16 +12,19 @@ namespace Server.lib
     {
         public static void CreateSelfSignedCert()
         {
-            byte[] c = SelfSignedCertificate.CreateSelfSignCertificatePfx(
-        "CN=brdk.nl", //host name
-        DateTime.Parse("2015-01-01"), //not valid before
-        DateTime.Parse("2025-01-01"), //not valid after
-        "jancoow"); //password to encrypt key file
-
-            using (BinaryWriter binWriter = new BinaryWriter(
-                File.Open(@"testcert.pfx", FileMode.Create)))
+            if (!File.Exists("testcert.pfx"))
             {
-                binWriter.Write(c);
+                byte[] c = SelfSignedCertificate.CreateSelfSignCertificatePfx(
+            "CN=brdk.nl", //host name
+            DateTime.Parse("2015-01-01"), //not valid before
+            DateTime.Parse("2025-01-01"), //not valid after
+            "jancoow"); //password to encrypt key file
+
+                using (BinaryWriter binWriter = new BinaryWriter(
+                    File.Open(@"testcert.pfx", FileMode.Create)))
+                {
+                    binWriter.Write(c);
+                }
             }
         }
 
