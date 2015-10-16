@@ -113,15 +113,19 @@ namespace Server
                                 String receiver = response_parts[2];
                                 String sender = response_parts[1];
 
-                                string case6str = "7|" + sender + "|" + receiver + "|" + message;
-                                Console.WriteLine(case6str);
-                                sendString(case6str);
-
+<<<<<<< HEAD
+                                sendString("7|" + sender + "|" + receiver + "|" + message);
                                 foreach (var client in Program.Clients)
                                 {
                                     if (client.username == receiver)
                                         client.sendString("7|" + sender + "|" + receiver + "|" + message);
                                 }
+=======
+                                //bericht doorsturen naar alle actieve gebruikers (de Fietsclient zorgt ervoor dat alleen de geadresseerde het bericht kan zien)
+                                string case6str = "7|" + sender + "|" + receiver + "|" + message;
+                                Console.WriteLine(case6str);
+                                sendString(case6str);
+>>>>>>> feature/Server_brdk.nl
                             }
                             break;
                         case "8": //alle online Patients sturen naar Doctorclient
