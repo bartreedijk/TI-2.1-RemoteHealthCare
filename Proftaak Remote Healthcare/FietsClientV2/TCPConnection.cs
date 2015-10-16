@@ -17,7 +17,7 @@ namespace FietsClient
     {
         public TcpClient client;
         public bool isConnectedFlag { private set; get; }
-        private NetworkStream serverStream;
+        private SslStream sslStream;
         public CurrentData currentData { private set; get; }
         public string userID { private set; get; }
         public object SERVER_CERT_FILENAME { get; private set; }
@@ -56,9 +56,9 @@ namespace FietsClient
 
 
                 // create streams
-                SslStream sslStream = new SslStream(client.GetStream(), false,
-    new RemoteCertificateValidationCallback(CertificateValidationCallback),
-    new LocalCertificateSelectionCallback(CertificateSelectionCallback));
+                sslStream = new SslStream(client.GetStream(), false,
+                    new RemoteCertificateValidationCallback(CertificateValidationCallback),
+                    new LocalCertificateSelectionCallback(CertificateSelectionCallback));
 
                 bool authenticationPassed = true;
                 try
@@ -96,28 +96,31 @@ namespace FietsClient
         }
 
         static X509Certificate CertificateSelectionCallback(object sender,
-    string targetHost,
-    X509CertificateCollection localCertificates,
-    X509Certificate remoteCertificate,
-    string[] acceptableIssuers)
+            string targetHost,
+            X509CertificateCollection localCertificates,
+            X509Certificate remoteCertificate,
+            string[] acceptableIssuers)
         {
             return localCertificates[0];
         }
 
         private X509Certificate GetServerCert(object sERVER_CERT_FILENAME, object sERVER_CERT_PASSWORD)
         {
-            throw new NotImplementedException();
+            X509Certificate cert = new X509Certificate2(
+                            @"testcert.pfx",
+                            "jancoow");
+            return cert;
         }
 
         private bool CertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void disconnect()
         {
             receiveThread.Abort();
-            serverStream.Close();
+            sslStream.Close();
             client.Close();
             isConnectedFlag = false;
         }
@@ -127,7 +130,7 @@ namespace FietsClient
             while (true)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                serverStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 
@@ -270,8 +273,8 @@ namespace FietsClient
         {
 
             byte[] b = Encoding.ASCII.GetBytes(s);
-            serverStream.Write(b, 0, b.Length);
-            serverStream.Flush();
+            sslStream.Write(b, 0, b.Length);
+            sslStream.Flush();
         }
     }
 }

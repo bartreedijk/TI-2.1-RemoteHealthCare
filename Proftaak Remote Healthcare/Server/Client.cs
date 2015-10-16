@@ -17,7 +17,6 @@ namespace Server
     public class Client
     {
         TcpClient client;
-        SslStream networkStream;
         SslStream sslStream;
         private readonly AppGlobal _global;
         public int iduser { get; private set; }
@@ -29,7 +28,6 @@ namespace Server
             client = socket;
             
             sslStream = new SslStream(client.GetStream());
-            networkStream = sslStream;
             sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);
             _global = AppGlobal.Instance;
             iduser = -1;
@@ -43,7 +41,7 @@ namespace Server
             while (!(client.Client.Poll(0, SelectMode.SelectRead) && client.Client.Available == 0))
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                sslStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
 
                 String response = Encoding.ASCII.GetString(bytesFrom);
                 String[] response_parts = response.Split('|');
@@ -158,8 +156,8 @@ namespace Server
         public void sendString(string s)
         {
             byte[] b = Encoding.ASCII.GetBytes(s);
-            networkStream.Write(b, 0, b.Length);
-            networkStream.Flush();
+            sslStream.Write(b, 0, b.Length);
+            sslStream.Flush();
         }
     }
 }
