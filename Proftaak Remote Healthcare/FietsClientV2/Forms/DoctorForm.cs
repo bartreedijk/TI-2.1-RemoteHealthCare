@@ -51,7 +51,7 @@ namespace FietsClient
 
         private void messageButton_Click(object sender, EventArgs e)
         {
-            if (messageBox.Text != null)
+            if (messageBox.Text != null && doctorTabControl.SelectedTab.Name != "tabPageSummary")
             {
                 String[] data = new String[2];
                 data[0] = messageBox.Text;
@@ -60,6 +60,21 @@ namespace FietsClient
                 messageBox.Clear();
 
                 doctorModel.tcpConnection.SendChatMessage(data);
+            }
+            
+            else if (messageBox.Text != null && doctorTabControl.SelectedTab.Name == "tabPageSummary")
+            {
+                String[] data = new String[2];
+                data[0] = "This is a broadcast: " + messageBox.Text;
+                //all patients:
+                for (int tabs = 1; tabs <= doctorTabControl.TabCount -1; tabs++)
+                {
+                    doctorTabControl.SelectTab(tabs);
+                    data[1] = doctorTabControl.SelectedTab.Name;
+                    doctorModel.tcpConnection.SendChatMessage(data);
+                }
+                messageBox.Clear();
+
             }  
         }
 
