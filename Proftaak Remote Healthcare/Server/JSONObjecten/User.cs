@@ -21,6 +21,11 @@ namespace Server
 
         public bool isDoctor { get; private set; }
 
+        public User()
+        {
+            
+        }
+
         //Create Patient
         public User(string id, string password, int age, bool gender, int weight)
         {

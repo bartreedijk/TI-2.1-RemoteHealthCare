@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FietsClient.JSONObjecten;
 using Newtonsoft.Json;
+using FietsClient.JSONObjecten;
 
 namespace FietsClient
 {

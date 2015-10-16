@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FietsClient.Forms;
 
 namespace FietsClient
 {
@@ -95,6 +96,12 @@ namespace FietsClient
             doctorModel.stopAskingData();
             doctorModel.tcpConnection.disconnect();
             Application.Exit();
+        }
+
+        private void nieuwePatientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newPatient = new NewPatientForm(doctorModel.tcpConnection);
+            newPatient.Show();
         }
     }
 }

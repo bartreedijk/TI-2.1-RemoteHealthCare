@@ -85,10 +85,9 @@ namespace Server
                                 _global.AddSession(response_parts[1], int.Parse(response_parts[2]), response_parts[3]);
                             }
                             break;
-                        case "4":   //Check nieuwe meetsessie
-
-
-
+                        case "4":  // Nieuwe patient
+                            User user = new User(response_parts[1], response_parts[2], Int32.Parse(response_parts[3]), Boolean.Parse(response_parts[4]), Int32.Parse(response_parts[5]));
+                            _global.NewUser(user);
                             break;
                         case "5":   //data pushen naar meetsessie
 
@@ -132,15 +131,6 @@ namespace Server
                                         }
                                     }
                                     sendString(strToSend.TrimEnd('\t'));
-                                }
-                            }
-                            break;
-                        case "9": //alle Patients sturen naar Doctorclient
-                            if (response_parts[1] != null)
-                            {
-                                if (response_parts[1] == "doctor" || true) //TODO: doctor check
-                                {
-                                    sendString("9|" + JsonConverter.GetPatients(_global.GetActivePatientObjects()) + "|");
                                 }
                             }
                             break;

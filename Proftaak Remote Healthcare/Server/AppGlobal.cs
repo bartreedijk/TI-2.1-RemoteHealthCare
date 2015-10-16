@@ -28,6 +28,11 @@ namespace Server
             Console.WriteLine(JsonConverter.GetUserSessions(users.ElementAt(1)));
         }
 
+        public void NewUser(User user)
+        {
+            users.Add(new User(user.id, user.password, user.age, user.gender, user.weight));
+        }
+
         private void TestMethode()
         {
             users.Add(new User("no", "no", 0, false, 0));
@@ -69,12 +74,7 @@ namespace Server
         {
             return users;
         }
-
-        public List<User> GetActivePatientObjects()
-        {
-            return activePatient;
-        }
-
+        
         public List<string> GetActivePatients()
         {
             List<string> patients = new List<string>();

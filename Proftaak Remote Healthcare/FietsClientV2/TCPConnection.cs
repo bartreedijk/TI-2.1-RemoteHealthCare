@@ -150,9 +150,6 @@ namespace FietsClient
                             }
                             
                             break;
-                        case "9":
-                            DoctorModel.doctorModel.activePatientObject = JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
-                            break;
                     }
                 }
             }
@@ -177,6 +174,12 @@ namespace FietsClient
             SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
         }
 
+        public void SendNewPatient(User user)
+        {
+            // send command ( cmdID | username )
+            SendString("4|" + user.id + "|" + user.password + "|" + user.age + "|" + user.gender + "|" + user.weight + "|");
+        }
+
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
@@ -195,6 +198,10 @@ namespace FietsClient
                     string protocol = "6|" + this.userID + "|" + receiverID + "|" + message;
                     SendString(protocol);
             }
+        }
+        public void SendGetActivePatients()
+        {
+            SendString("8|" + userID + "|");
         }
 
         public void SendDistance(int distance)
