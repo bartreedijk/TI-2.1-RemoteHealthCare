@@ -17,7 +17,8 @@ namespace Server
     public class Client
     {
         TcpClient client;
-        NetworkStream networkStream;
+        SslStream networkStream;
+        SslStream sslStream;
         private readonly AppGlobal _global;
         public int iduser { get; private set; }
         public string username { get; private set; }
@@ -26,7 +27,10 @@ namespace Server
         public Client(TcpClient socket)
         {
             client = socket;
-            networkStream = client.GetStream();
+            
+            sslStream = new SslStream(client.GetStream());
+            networkStream = sslStream;
+            sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);
             _global = AppGlobal.Instance;
             iduser = -1;
             Console.WriteLine("New client connected");
@@ -40,10 +44,6 @@ namespace Server
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
                 networkStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
-
-                
-                SslStream sslStream = new SslStream(client.GetStream());
-                sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);            
 
                 String response = Encoding.ASCII.GetString(bytesFrom);
                 String[] response_parts = response.Split('|');
