@@ -20,8 +20,6 @@ namespace FietsClient
         private SslStream sslStream;
         public CurrentData currentData { private set; get; }
         public string userID { private set; get; }
-        public object SERVER_CERT_FILENAME { get; private set; }
-        public object SERVER_CERT_PASSWORD { get; private set; }
 
         private Thread receiveThread;
 
@@ -65,7 +63,7 @@ namespace FietsClient
                 {
                     string serverName = System.Environment.MachineName;
 
-                    X509Certificate cert = GetServerCert(SERVER_CERT_FILENAME, SERVER_CERT_PASSWORD);
+                    X509Certificate cert = GetServerCert();
                     X509CertificateCollection certs = new X509CertificateCollection();
                     certs.Add(cert);
 
@@ -104,7 +102,7 @@ namespace FietsClient
             return localCertificates[0];
         }
 
-        private X509Certificate GetServerCert(object sERVER_CERT_FILENAME, object sERVER_CERT_PASSWORD)
+        private X509Certificate GetServerCert()
         {
             X509Certificate cert = new X509Certificate2(
                             @"testcert.pfx",

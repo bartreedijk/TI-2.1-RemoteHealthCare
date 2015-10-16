@@ -23,7 +23,11 @@ namespace Server.JSONObjecten
 
         public Session(int bikeMode, string modevalue)
         {
-            string[] fileEntries = Directory.GetFiles(@"../../JSONObjecten/JSON Files/");
+            if (!(Directory.Exists(@"JSON Files"))) 
+            {
+                Directory.CreateDirectory(@"JSON Files");
+            }
+            string[] fileEntries = Directory.GetFiles(@"JSON Files\");
 
             if (fileEntries.Length > 0)
                 this.id = int.Parse(fileEntries[fileEntries.Length]);
