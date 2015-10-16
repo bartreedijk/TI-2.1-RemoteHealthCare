@@ -204,13 +204,28 @@ namespace FietsClient
         }
         private void printMessage(string[] data)
         {
-            if (data[0] != _connection.userID)
-                patientModel.CurrentDoctorID = data[0];
-            string finalMessage = data[0] + ":\t" + data[2] + "\r\n";
-            chatBox.Invoke((MethodInvoker)delegate ()
+	    if (data[2].StartsWith("This is a broadcast: "))
             {
-                chatBox.AppendText(finalMessage);
-            });
+                string finalMessage = "\r\n" + data[2];
+
+                chatBox.Invoke((MethodInvoker)delegate ()
+                {
+                    chatBox.AppendText(finalMessage);
+                });
+            }
+
+            else
+            {
+                if (data[0] != _connection.userID)
+                    patientModel.CurrentDoctorID = data[0];
+                string finalMessage = data[0] + ":\t" + data[2] + "\r\n";
+
+                chatBox.Invoke((MethodInvoker)delegate ()
+                {
+                    chatBox.AppendText(finalMessage);
+                });
+            }
+
         }
 
         private void PatientForm_FormClosing(object sender, FormClosingEventArgs e)
