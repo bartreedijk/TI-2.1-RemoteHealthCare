@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Server.JSONObjecten;
+using FietsClient.JSONObjecten;
 
-namespace Server
+namespace FietsClient
 {
     [Serializable]
     public class User
@@ -20,11 +20,6 @@ namespace Server
         public int weight { get; private set; }
 
         public bool isDoctor { get; private set; }
-
-        public User()
-        {
-            
-        }
 
         //Create Patient
         public User(string id, string password, int age, bool gender, int weight)

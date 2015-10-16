@@ -227,6 +227,12 @@ namespace FietsClient
             SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
         }
 
+        public void SendNewPatient(User user)
+        {
+            // send command ( cmdID | username )
+            SendString("4|" + user.id + "|" + user.password + "|" + user.age + "|" + user.gender + "|" + user.weight + "|");
+        }
+
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )

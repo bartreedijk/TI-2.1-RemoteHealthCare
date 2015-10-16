@@ -9,6 +9,10 @@ namespace FietsClient.lib
         {
             return JsonConvert.SerializeObject(s);
         }
+        public static string SerializeUser(User user)
+        {
+            return JsonConvert.SerializeObject(user);
+        }
 
         public static string SerializeLastMeasurement(Measurement measurement)
         {
