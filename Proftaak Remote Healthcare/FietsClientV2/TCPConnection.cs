@@ -201,7 +201,9 @@ namespace FietsClient
                             {
                                 DoctorModel.doctorModel.onlinePatients = new List<String>();
                             }
-
+                            break;
+                        case "9":
+                            JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
                             break;
                     }
                 }
