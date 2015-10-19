@@ -27,7 +27,7 @@ namespace Server
         public Client(TcpClient socket)
         {
             client = socket;
-            
+
             sslStream = new SslStream(client.GetStream());
             try
             {
@@ -39,24 +39,24 @@ namespace Server
                 Console.WriteLine(e.StackTrace);
                 Stop();
             }
-            
+
             _global = AppGlobal.Instance;
             iduser = -1;
             Console.WriteLine("New client connected");
-            _workerThread = new Thread(recieve);
+            _workerThread = new Thread(receive);
             _workerThread.Start();
         }
 
-        public void recieve()
+        public void receive()
         {
             while (!(client.Client.Poll(0, SelectMode.SelectRead) && client.Client.Available == 0))
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-		try
-		{
-		    sslStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
-                } 
-		catch (Exception e)
+                try
+                {
+                    sslStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                }
+                catch (Exception e)
                 {
                     Console.WriteLine("Exception occured while trying to get data from client. Disconnecting...");
                     Console.WriteLine(e.StackTrace);
@@ -85,7 +85,7 @@ namespace Server
                                     else
                                     {
                                         sendString("0|1|0|");   //Patient
-                                    }  
+                                    }
                                 }
                                 else
                                 {
@@ -151,7 +151,8 @@ namespace Server
                                     if (!(activePatients.Count > 0))
                                     {
                                         strToSend += "-1";
-                                    } else
+                                    }
+                                    else
                                     {
                                         foreach (string patient in _global.GetActivePatients())
                                         {

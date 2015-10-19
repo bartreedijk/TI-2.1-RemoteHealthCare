@@ -13,7 +13,14 @@ namespace Server
     {
         public static List<Client> Clients { get; private set; } = new List<Client>();
 
+        TcpListener serverSocket;
+
         static void Main(string[] args)
+        {
+            new Program();
+        }
+
+        Program()
         {
             Console.WriteLine("Server gestart");
 
@@ -22,7 +29,7 @@ namespace Server
             // zorg dat de certificaat bestaat
             lib.SSLCrypto.CreateSelfSignedCert();
 
-            TcpListener serverSocket = new TcpListener(1288);
+            serverSocket = new TcpListener(IPAddress.Any, 1288);
             serverSocket.Start();
 
             while (true)
@@ -31,6 +38,10 @@ namespace Server
                 Clients.Add(new Client(serverSocket.AcceptTcpClient()));
             }
 
+        }
+
+        ~Program()
+        {
             serverSocket.Stop();
             Console.WriteLine("Server afsluiten");
         }
