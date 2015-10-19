@@ -14,7 +14,7 @@ namespace Server.JSONObjecten
     public class Session
     {
         public int id { get; private set; }
-        public List<Measurement> session { get; private set; }
+        public List<Measurement> measurements { get; private set; }
         public bool isActive { get; private set; }
         public int bikeMode { get; private set; }
         public DateTime date { get; private set; }
@@ -34,7 +34,7 @@ namespace Server.JSONObjecten
             else
                 this.id = 1;
 
-            this.session = new List<Measurement>();
+            this.measurements = new List<Measurement>();
             this.isActive = true;
             this.bikeMode = bikeMode;
             this.modevalue = modevalue;
@@ -44,12 +44,12 @@ namespace Server.JSONObjecten
 
         public void AddMeasurement(Measurement m)
         {
-            session.Add(m);
+            measurements.Add(m);
         }
 
-        public Measurement GetMeasurement()
+        public Measurement GetLastMeasurement()
         {
-            return session.Last();
+            return measurements.Last();
         }
 
     }

@@ -236,7 +236,7 @@ namespace FietsClient
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
-            SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
+            SendString("5|" + userID + "|" + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 
         public void SendChatMessage(string[] data)
@@ -257,6 +257,7 @@ namespace FietsClient
             SendString("8|" + userID + "|");
         }
 
+        // deze code wordt niet afgehandeld in de Server
         public void SendDistance(int distance)
         {
             SendString("10|" + userID + "|" + distance + "|");
@@ -271,7 +272,7 @@ namespace FietsClient
         {
             SendString("12|" + userID + "|" + power + "|");
         }
-
+        // einde onafgehandelde code
 
 
         public void SendString(string s)

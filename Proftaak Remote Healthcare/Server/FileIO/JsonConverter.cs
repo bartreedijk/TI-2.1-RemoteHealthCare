@@ -33,7 +33,7 @@ namespace Server.FileIO
 
         public static string GetLastMeasurement(Session currentSession)
         {
-            return JsonConvert.SerializeObject(currentSession.GetMeasurement());
+            return JsonConvert.SerializeObject(currentSession.GetLastMeasurement());
         }
 
     }

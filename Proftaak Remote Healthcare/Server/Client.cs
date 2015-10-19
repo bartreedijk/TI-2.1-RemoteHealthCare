@@ -116,8 +116,13 @@ namespace Server
                             break;
                         case "5":   //data pushen naar meetsessie
 
-                            currentUser = _global.GetUsers().First(item => item.id == response_parts[1]);
-                            currentUser.tests.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[2]));
+                            
+
+                            _global.GetUsers().First(
+                                item => item.id == response_parts[1]).tests.Last().AddMeasurement(
+                                JsonConvert.DeserializeObject<Measurement>(response_parts[2]));
+
+                            
 
                             break;
 

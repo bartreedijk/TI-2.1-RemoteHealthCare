@@ -112,6 +112,10 @@ namespace FietsClient
                     rpmPoints.RemoveAt(0);
                 patientform.rpmChart.Update();
             }
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke(new Action(() => patientform._connection.SendNewMeasurement()));
+            } 
             
         }
 

@@ -16,7 +16,7 @@ namespace FietsClient
 {
     public partial class PatientForm : Form
     {
-        private TcpConnection _connection;
+        public TcpConnection _connection { get; private set; }
         private PatientModel patientModel;
 
         public PatientForm(TcpConnection connection)
@@ -61,6 +61,7 @@ namespace FietsClient
         private void requestDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             patientModel.startAskingData();
+            
         }
 
         private void closePortToolStripMenuItem_Click(object sender, EventArgs e)
@@ -232,6 +233,12 @@ namespace FietsClient
         {
             _connection.disconnect();
             Application.Exit();
+        }
+
+        private void startNewSessionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Session session = new Session(1, "100");
+            _connection.currentData.testResultSessions.Add(session);
         }
     }
 }
