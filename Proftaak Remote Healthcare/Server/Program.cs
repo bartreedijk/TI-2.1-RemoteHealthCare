@@ -37,9 +37,9 @@ namespace Server
         
         public static void RemoveClientFromList(Client client)
         {
-            string s = "Client " + client.iduser + " with username " + client.username + " has been disconnected.";
+            if (client.username != "")
+                Console.WriteLine("Client " + client.iduser + " with username " + client.username + " has been disconnected.");
             Clients.Remove(client);
-            Console.WriteLine(s);
         }
     }
 

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Net.Security;
 using System.Security.Authentication;
 using Server.lib;
+using System.IO;
 
 namespace Server
 {
@@ -28,7 +29,17 @@ namespace Server
             client = socket;
             
             sslStream = new SslStream(client.GetStream());
-            sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);
+            try
+            {
+                sslStream.AuthenticateAsServer(lib.SSLCrypto.LoadCert(), false, SslProtocols.Default, false);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("IOExeption occured while a client tried to connect.");
+                Console.WriteLine(e.StackTrace);
+                Stop();
+            }
+            
             _global = AppGlobal.Instance;
             iduser = -1;
             Console.WriteLine("New client connected");
@@ -45,8 +56,10 @@ namespace Server
 		{
 		    sslStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
                 } 
-		catch (Exception)
+		catch (Exception e)
                 {
+                    Console.WriteLine("Exception occured while trying to get data from client. Disconnecting...");
+                    Console.WriteLine(e.StackTrace);
                     Stop();
                 }
                 String response = Encoding.ASCII.GetString(bytesFrom);
@@ -161,7 +174,8 @@ namespace Server
         private void Stop()
         {
             Program.RemoveClientFromList(this);
-            _workerThread.Abort();
+            if (_workerThread != null)
+                _workerThread.Abort();
         }
 
         public void sendString(string s)
