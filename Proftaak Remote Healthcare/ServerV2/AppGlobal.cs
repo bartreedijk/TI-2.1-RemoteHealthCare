@@ -167,12 +167,25 @@ namespace ServerV2
                         }
                         break;
                     case "9": //alles doorsturen voor de dokter
-                        //insert code to send list
+                        Communication.SendMessage(client, FileIO.JsonConverter.GetUsers(users));
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+    }
+
+    class Client
+    {
+        public TcpClient tcpClient;
+        public string username;
+
+        public Client(TcpClient tcpClient, string username)
+        {
+            this.tcpClient = tcpClient;
+            this.username = username;
         }
 
     }

@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppGlobal.cs" />
-    <Compile Include="Client.cs" />
     <Compile Include="JSONObjecten\Measurement.cs" />
     <Compile Include="JSONObjecten\Session.cs" />
     <Compile Include="JSONObjecten\User.cs" />

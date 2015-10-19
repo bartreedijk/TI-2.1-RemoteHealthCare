@@ -36,5 +36,10 @@ namespace ServerV2.FileIO
             return JsonConvert.SerializeObject(currentSession.GetMeasurement());
         }
 
+        public static string GetUsers(List<User> user)
+        {
+            return JsonConvert.SerializeObject(user);
+        }
+
     }
 }
