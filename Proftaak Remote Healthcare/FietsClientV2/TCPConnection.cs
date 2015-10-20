@@ -137,7 +137,8 @@ namespace FietsClient
                 catch (IOException e)
                 {
                     // debug
-                    Console.WriteLine(e.StackTrace); 
+                    Console.WriteLine(e.StackTrace);
+                    break;
                 }
                 
                 string response = Encoding.ASCII.GetString(bytesFrom);
