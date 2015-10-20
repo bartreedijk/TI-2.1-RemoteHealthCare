@@ -79,7 +79,8 @@ namespace FietsClient
 
                 try
                 {
-                    dataHandler.sendData(DataHandler.STATUS);
+                    if(askdata)
+                        dataHandler.sendData(DataHandler.STATUS);
                 }
                 catch (Exception)
                 {

@@ -97,8 +97,8 @@ namespace FietsSimulator
             {
                 if (curmode == Mode.CONSOLE && message.Split().Length == 2)
                 {
-                    string[] time = message.Split(' ')[1].Split(':');
-                    maxtime = Int32.Parse(time[0]) * 60000 + Int32.Parse(time[1]) * 1000;
+                    string time = message.Split(' ')[1];
+                    maxtime = Int32.Parse(time.Substring(0,2)) * 60000 + Int32.Parse(time.Substring(3,2)) * 1000;
                     curmode = Mode.TIME;
                     stopwatch.Reset();
                     stopwatch.Start();
