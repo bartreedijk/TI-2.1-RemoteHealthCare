@@ -26,6 +26,7 @@ namespace ServerV2
             listener = new TcpListener(IPAddress.Any, 1288);
             listener.Start();
 
+            /*
             //Read UserDate file
             string s = File.ReadAllText(@"JSON Files\UserData.Json");
             dynamic results = JsonConvert.DeserializeObject<dynamic>(s);
@@ -53,7 +54,8 @@ namespace ServerV2
                 }
 
             }
-            //TestMethode();
+            */
+            TestMethode();
             while (true)
             {
                 
@@ -75,12 +77,12 @@ namespace ServerV2
             Random r = new Random();
             Session session = new Session(1);
             for (int i = 0; i < 20; i++)
-                session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
+                session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), i, r.Next(100), r.Next(100), r.Next(100), i));
             users.ElementAt(1).sessions.Add(session);
 
             Session session2 = new Session(2);
             for (int i = 0; i < 50; i++)
-                session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
+                session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), i, r.Next(100), r.Next(100), r.Next(100), i));
             users.ElementAt(1).sessions.Add(session2);
         }
 
@@ -190,7 +192,20 @@ namespace ServerV2
                             foreach (User u in users)
                             {
                                 if (u.id == response[1])
-                                    u.AddSession(new Session(u.GetSessions().Last().id));
+                                {
+                                    
+                                    if (u.GetSessions().Count != 0)
+                                    {
+                                        int sessionID = u.GetSessions().LastOrDefault().id;
+                                        u.AddSession(new Session(sessionID));
+                                    }
+                                    else
+                                    {
+                                        u.AddSession(new Session(1));
+                                    }
+                                        
+                                }
+                                    
                             }
                         }
                         break;

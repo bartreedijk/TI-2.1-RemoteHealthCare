@@ -229,14 +229,14 @@ namespace FietsClient
 
                                 int i = 1;
 
-                                foreach (dynamic ses in r.tests)
+                                foreach (dynamic ses in r.sessions)
                                 {
                                     Session tempSession = new Session(i);
                                     i++;
 
-                                    foreach (dynamic m in ses.session)
+                                    foreach (dynamic m in ses.measurements)
                                     {
-                                        Measurement measurement = new Measurement(Int32.Parse(m.pulse.ToString()), Int32.Parse(m.rpm.ToString()), Int32.Parse(m.speed.ToString()), Int32.Parse(m.wattage.ToString()), Int32.Parse(m.distance.ToString()), Int32.Parse(m.requestedPower.ToString()), Int32.Parse(m.energy.ToString()), Int32.Parse(m.actualPower.ToString()), Int32.Parse(m.time.ToString()), Int32.Parse(m.bpm.ToString()));
+                                        Measurement measurement = new Measurement((int)m.pulse, (int)m.rpm, (int)m.speed, (int)m.distance, (int)m.requestedPower, (int)m.energy, (int)m.actualPower, (int)m.time); ;
                                         tempSession.AddMeasurement(measurement);
                                     }
 

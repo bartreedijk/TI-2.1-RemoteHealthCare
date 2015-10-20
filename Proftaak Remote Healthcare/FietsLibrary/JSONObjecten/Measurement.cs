@@ -10,7 +10,7 @@ namespace FietsLibrary.JSONObjecten
     [Serializable]
     public class Measurement
     {
-        public int pulse { get; private set; }
+        public int pulse { get; set; }
         public int rpm { get; private set; }
         public int speed { get; private set; }
         public int distance { get; private set; }
@@ -24,7 +24,7 @@ namespace FietsLibrary.JSONObjecten
 
         }
 
-        public Measurement(int pulse, int rpm, int speed, int wattage, int distance, int requestedPower, int energy, int actualPower, int time, int bpm)
+        public Measurement(int pulse, int rpm, int speed, int distance, int requestedPower, int energy, int actualPower, int time)
         {
             this.pulse = pulse;
             this.rpm = rpm;
@@ -46,7 +46,7 @@ namespace FietsLibrary.JSONObjecten
             energy = int.Parse(data[5]);
             int time = 0;
             string[] timeArray = data[6].Split(':');
-            time += (int.Parse(timeArray[0]) * 100);
+            time += (int.Parse(timeArray[0]) * 60);
             time += int.Parse(timeArray[1]);
             actualPower = int.Parse(data[7]);
         }
