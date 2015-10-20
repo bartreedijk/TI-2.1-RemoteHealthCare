@@ -125,10 +125,16 @@ namespace FietsClient
 
         public void receive()
         {
-            while (true)
+             while (client.Connected)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                try {
+                    sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                }
+                catch (Exception)
+                {
+                    break;
+                }
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 
