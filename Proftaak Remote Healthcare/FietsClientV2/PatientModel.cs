@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FietsLibrary.JSONObjecten;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace FietsClient
 
         public static PatientModel patientModel { get { return _patientModel ?? (_patientModel = new PatientModel()); } }
 
-        private DataHandler dataHandler;
+        public DataHandler dataHandler { get; private set; }
         private Thread workerThread;
 
         private string powerLog;
@@ -38,12 +39,25 @@ namespace FietsClient
 
         public void startAskingData()
         {
-	        askdata = true;
-            speedPoints.Clear();
-            bpmPoints.Clear();
-            rpmPoints.Clear();
-            workerThread = new Thread(() => workerThreadLoop());
-            workerThread.Start();
+            bool canStart = false;
+            if (workerThread != null)
+            {
+                if (!(workerThread.ThreadState == ThreadState.Running || workerThread.ThreadState == ThreadState.Background || workerThread.ThreadState == ThreadState.WaitSleepJoin))
+                {
+                    canStart = true;
+                }
+            }
+            else
+                canStart = true;
+            if (canStart)
+            {
+                askdata = true;
+                speedPoints.Clear();
+                bpmPoints.Clear();
+                rpmPoints.Clear();
+                workerThread = new Thread(() => workerThreadLoop());
+                workerThread.Start();
+            }
         }
 
         public void stopAskingData()
@@ -83,6 +97,7 @@ namespace FietsClient
             if (patientform.InvokeRequired)
             {
                 patientform.Invoke((new Action(() => HandleBikeData(data))));
+                return;
             }
             else
             {
@@ -123,7 +138,14 @@ namespace FietsClient
                     rpmPoints.RemoveAt(0);
                 patientform.rpmChart.Update();
             }
-            
+            SaveAndSendData(data);
+        }
+
+        private void SaveAndSendData(string[] data)
+        {
+            Measurement m = new Measurement(data);
+            patientform._connection.currentData.sessions.Last().AddMeasurement(m);
+            patientform._connection.SendNewMeasurement();
         }
 
         public void closeComPort()

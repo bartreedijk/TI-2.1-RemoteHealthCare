@@ -219,9 +219,37 @@ namespace FietsClient
                         case "9":
                             JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
                             break;
+                        case "10":
+                            response_parts[1] = response_parts[1].TrimEnd('\0');
+                            if (!currentData.isDoctor)
+                            {
+                                if (response_parts[1] == "1")
+                                {
+                                    StartNewSession();
+                                }
+                                else if (response_parts[1] == "0")
+                                {
+                                    StopSessoin();
+                                }
+                            }
+                            break;
+
                     }
                 }
             }
+        }
+
+        public void StartNewSession()
+        {
+            Session session = new Session();
+            currentData.sessions.Add(session);
+            SendNewSession();
+            PatientModel.patientModel.startAskingData();
+        }
+
+        public void StopSessoin()
+        {
+            PatientModel.patientModel.stopAskingData();
         }
 
         public void SendLogin(string username, string password)
@@ -240,7 +268,7 @@ namespace FietsClient
         public void SendNewSession()
         {
             // send command ( cmdID | username )
-            SendString("3|" + userID + FietsLibrary.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
+            SendString("3|" + userID + "|" + FietsLibrary.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
         }
 
         public void SendNewPatient(User user)
@@ -252,7 +280,7 @@ namespace FietsClient
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
-            SendString("5|" + userID + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
+            SendString("5|" + userID + "|" + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 
         public void SendChatMessage(string[] data)
@@ -273,19 +301,28 @@ namespace FietsClient
             SendString("8|" + userID + "|");
         }
 
+        public void SendStartStopSession(bool startstop, string PatientUsername)
+        {
+            if (startstop)
+                SendString("10|1|" + PatientUsername + "|");
+            else
+                SendString("10|0|" + PatientUsername + "|");
+            
+        }
+
         public void SendDistance(int distance)
         {
-            SendString("10|" + userID + "|" + distance + "|");
+            SendString("20|" + userID + "|" + distance + "|");
         }
 
         public void SendTime(int Minutes, int seconds)
         {
-            SendString("11|" + userID + "|" + Minutes + ":" + seconds + "|");
+            SendString("21|" + userID + "|" + Minutes + ":" + seconds + "|");
         }
 
         public void SendPower(int power)
         {
-            SendString("12|" + userID + "|" + power + "|");
+            SendString("22|" + userID + "|" + power + "|");
         }
 
         public void SendString(string s)

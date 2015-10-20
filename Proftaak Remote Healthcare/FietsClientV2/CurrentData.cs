@@ -12,23 +12,23 @@ namespace FietsClient
     {//faggsd
         private string userID;
         public bool isDoctor { set; get; }
-        private List<Session> testResult;
+        public List<Session> sessions { get; private set; }
 
 
         public CurrentData(string id)
         {
             this.userID = id;
-            testResult = new List<Session>();
+            sessions = new List<Session>();
         }
 
         public void setSessionList(List<Session> tests)
         {
-            testResult = tests;
+            sessions = tests;
         }
 
         public List<Session> GetSessions()
         {
-            return testResult;
+            return sessions;
         }
 
         public String GetUserID()
@@ -38,12 +38,12 @@ namespace FietsClient
 
         public void setSession(Session s)
         {
-            testResult.Add(s);
+            sessions.Add(s);
         }
 
-        public void SetMeasurment(Measurement measurment)
+        public void AddMeasurementToLastSession(Measurement measurment)
         {
-            testResult.Last().AddMeasurement(measurment);
+            sessions.Last().AddMeasurement(measurment);
         }
     }
 }

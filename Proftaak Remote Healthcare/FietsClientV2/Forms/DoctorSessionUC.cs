@@ -41,6 +41,14 @@ namespace FietsClient.Forms
             DoctorModel.doctorModel.tcpConnection.SendPower(power);
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DoctorModel.doctorModel.tcpConnection.SendStartStopSession(true, patientID);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DoctorModel.doctorModel.tcpConnection.SendStartStopSession(false, patientID);
+        }
     }
 }

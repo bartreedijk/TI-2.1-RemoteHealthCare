@@ -91,7 +91,11 @@ namespace FietsClient
 
         public void closeComm()
         {
-            ComPort.Close();
+            if (ComPort != null)
+            {
+                ComPort.Close();
+            }
+            
         }
 
         public void sendData(string data)
