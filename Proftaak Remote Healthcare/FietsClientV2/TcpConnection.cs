@@ -263,7 +263,7 @@ namespace FietsClient
                                 PatientModel.patientModel.CurrentDoctorID = response_parts[3].TrimEnd('\0');
                                 if (response_parts[1] == "1")
                                 {
-                                    StartNewSession(false, currentData.GetUserID());
+                                    PatientModel.patientModel.startSession();
                                 }
                                 else if (response_parts[1] == "0")
                                 {
