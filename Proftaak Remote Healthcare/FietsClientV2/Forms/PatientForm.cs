@@ -78,9 +78,14 @@ namespace FietsClient
         private void confirmDistanceBox_Click(object sender, EventArgs e)
         {
             int n;
-            if (int.TryParse(distanceBox.Text, out n))
+            if (patientModel.askdata)
+            {
+                MessageBox.Show("Er is nog een sessie bezig, deze moet eerst gestopt worden");
+            }
+            else if (int.TryParse(distanceBox.Text, out n))
             {
                 patientModel.setDistanceMode(distanceBox.Text);
+                this.label19.Text = "Huidige sessie: Afstand: " + n;
             }
             else
             {
@@ -93,14 +98,20 @@ namespace FietsClient
             int minutes, seconds;
             bool isNumericS = int.TryParse(minuteBox.Text, out minutes);
             bool isNumericM = int.TryParse(secondBox.Text, out seconds);
-
-            if (isNumericM)
+            if (patientModel.askdata)
+            {
+                MessageBox.Show("Er is nog een sessie bezig, deze moet eerst gestopt worden");
+            }else if (isNumericM)
             {
                 if (isNumericS)
+                {
                     patientModel.setTimeMode(minutes + ":" + seconds);
+                    this.label19.Text = "Huidige sessie: Tijd: " + minutes + ":" + seconds;
+                }
                 else MessageBox.Show("Minutes is not a valid number.");
             }
             else MessageBox.Show("Seconds is not a valid number.");
+
         }
 
         private void stopTrainingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,6 +158,7 @@ namespace FietsClient
                 selectSessionToolStripMenuItem.DropDownItems.Add(
                     new ToolStripMenuItem(s.id.ToString(), null, delegate
                     {
+                        patientModel.stopAskingData();
                         this.sessionBox.Text = s.id.ToString();
                         this.nameBox.Text = _connection.userID;
                         //get measurments
@@ -232,6 +244,16 @@ namespace FietsClient
         {
             _connection.disconnect();
             Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            patientModel.startAskingData();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            patientModel.stopAskingData();
         }
     }
 }

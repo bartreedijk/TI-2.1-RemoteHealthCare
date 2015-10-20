@@ -21,6 +21,7 @@ namespace FietsClient
         private Thread workerThread;
 
         private string powerLog;
+        public Boolean askdata;
 
         public string CurrentDoctorID { get; set; }
 
@@ -37,13 +38,23 @@ namespace FietsClient
 
         public void startAskingData()
         {
+            askdata = true;
+            speedPoints.Clear();
+            bpmPoints.Clear();
+            rpmPoints.Clear();
             workerThread = new Thread(() => workerThreadLoop());
             workerThread.Start();
         }
 
+        public void stopAskingData()
+        {
+            askdata = false;
+            dataHandler.sendData(DataHandler.RESET);
+        }
+
         private void workerThreadLoop()
         {
-            while (true)
+            while (askdata)
             {
                 Thread.Sleep(1000);
 
@@ -117,6 +128,7 @@ namespace FietsClient
 
         public void closeComPort()
         {
+            stopAskingData();
             if (workerThread != null)
                 workerThread.Interrupt();
             dataHandler.closeComm();
