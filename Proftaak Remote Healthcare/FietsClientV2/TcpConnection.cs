@@ -201,7 +201,19 @@ namespace FietsClient
 
                             break;
                         case "2":
-                            currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
+                            dynamic DynMeasurement = JsonConvert.DeserializeObject<dynamic>(response_parts[2].TrimEnd('\0'));
+                            Measurement outputMeasurement = new Measurement((int)DynMeasurement.pulse, (int)DynMeasurement.rpm, (int)DynMeasurement.speed, (int)DynMeasurement.distance, (int)DynMeasurement.requestedPower, (int)DynMeasurement.energy, (int)DynMeasurement.actualPower, (int)DynMeasurement.time);
+                            currentData.GetSessions().Last().AddMeasurement(outputMeasurement);
+                            Forms.DoctorSessionUC sessionUC = null;
+                            bool b = DoctorModel.doctorModel.doctorSessions.TryGetValue(response_parts[1], out sessionUC);
+                            if (b)
+                            {
+                                sessionUC.HandleSessionBikeData(outputMeasurement);
+                            }
+                                break;
+                        case "3":
+                            
+                            
                             break;
                         case "7":
                             //                                        sender              receiver          message
@@ -246,16 +258,23 @@ namespace FietsClient
                             }
                             break;
                         case "10":
-                            response_parts[1] = response_parts[1].TrimEnd('\0');
                             if (!currentData.isDoctor)
                             {
+                                PatientModel.patientModel.CurrentDoctorID = response_parts[3].TrimEnd('\0');
                                 if (response_parts[1] == "1")
                                 {
-                                    StartNewSession();
+                                    StartNewSession(false, currentData.GetUserID());
                                 }
                                 else if (response_parts[1] == "0")
                                 {
                                     StopSessoin();
+                                }
+                            }
+                            else
+                            {
+                                if (response_parts[1] == "1") 
+                                {
+                                    StartNewSession(true, response_parts[2]);
                                 }
                             }
                             break;
@@ -265,12 +284,24 @@ namespace FietsClient
             }
         }
 
-        public void StartNewSession()
+        public void StartNewSession(bool isDoctor, string PatientID)
         {
             Session session = new Session(currentData.sessions.Count + 1);
             currentData.sessions.Add(session);
-            SendNewSession();
-            PatientModel.patientModel.startAskingData();
+            if (!isDoctor)
+            {
+                SendNewSession();
+                PatientModel.patientModel.startAskingData();
+            }
+            else if(isDoctor)
+            {
+                Forms.DoctorSessionUC sessionUC = null;
+                bool b = DoctorModel.doctorModel.doctorSessions.TryGetValue(PatientID, out sessionUC);
+                if (b)
+                {
+                    sessionUC.ClearOldSession();
+                }
+            }
         }
 
         public void StopSessoin()
@@ -305,8 +336,9 @@ namespace FietsClient
 
         public void SendNewMeasurement()
         {
-            // send command ( cmdID | username )
-            SendString("5|" + userID + "|" + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
+            // send command ( usernamePatient | usernameCurrentDoctor | data )
+            string currentDoctor = PatientModel.patientModel.CurrentDoctorID;
+            SendString("5|" + userID + "|" + currentDoctor + "|" + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 
         public void SendChatMessage(string[] data)
@@ -335,9 +367,9 @@ namespace FietsClient
 	public void SendStartStopSession(bool startstop, string PatientUsername)
         {
             if (startstop)
-                SendString("10|1|" + PatientUsername + "|");
+                SendString("10|1|" + PatientUsername + "|" + currentData.GetUserID() + "|");
             else
-                SendString("10|0|" + PatientUsername + "|");
+                SendString("10|0|" + PatientUsername + "|" + currentData.GetUserID() + "|");
             
         }
         public void SendDistance(int distance)

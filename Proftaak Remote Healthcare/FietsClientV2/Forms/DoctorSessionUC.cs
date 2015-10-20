@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using FietsLibrary.JSONObjecten;
 
 namespace FietsClient.Forms
 {
@@ -49,6 +51,70 @@ namespace FietsClient.Forms
         private void button2_Click(object sender, EventArgs e)
         {
             DoctorModel.doctorModel.tcpConnection.SendStartStopSession(false, patientID);
+        }
+
+        public void ClearOldSession()
+        {
+            if (InvokeRequired)
+                Invoke(new Action(() => ClearOldSession()));
+            else
+            {
+                speedPoints.Clear();
+                bpmPoints.Clear();
+                rpmPoints.Clear();
+                pulseBox.Clear();
+                rpmInfoBox.Clear();
+                speedInfoBox.Clear();
+                distanceInfoBox.Clear();
+                requestedBox.Clear();
+                energyInfoBox.Clear();
+                timeBox.Clear();
+                actualBox.Clear();
+            }
+            
+        }
+
+        private List<DataPoint> speedPoints = new List<DataPoint>();
+        private List<DataPoint> bpmPoints = new List<DataPoint>();
+        private List<DataPoint> rpmPoints = new List<DataPoint>();
+
+        public void HandleSessionBikeData(Measurement data)
+        {
+
+            if (InvokeRequired)
+            {
+                Invoke((new Action(() => HandleSessionBikeData(data))));
+            }
+            else
+            {
+                //fill fields
+                pulseBox.Text = data.pulse.ToString();
+                rpmInfoBox.Text = data.rpm.ToString();
+                speedInfoBox.Text = data.speed.ToString();
+                distanceInfoBox.Text = data.distance.ToString();
+                requestedBox.Text = data.requestedPower.ToString();
+                energyInfoBox.Text = data.energy.ToString();
+                timeBox.Text = data.time.ToString();
+                actualBox.Text = data.actualPower.ToString();
+
+                //fill graph speed
+                this.speedChart.Series[0].Points.Clear();
+                for (int i = 0; i < speedPoints.Count; i++)
+                    this.speedChart.Series[0].Points.Add(speedPoints[i]);
+                this.speedChart.Update();
+
+                //fill graph pulse
+                this.bpmChart.Series[0].Points.Clear();
+                for (int i = 0; i < bpmPoints.Count; i++)
+                    this.bpmChart.Series[0].Points.Add(bpmPoints[i]);
+                this.bpmChart.Update();
+
+                //fill graph rpm
+                this.rpmChart.Series[0].Points.Clear();
+                for (int i = 0; i < rpmPoints.Count; i++)
+                    this.rpmChart.Series[0].Points.Add(rpmPoints[i]);
+                this.rpmChart.Update();
+            }
         }
     }
 }
