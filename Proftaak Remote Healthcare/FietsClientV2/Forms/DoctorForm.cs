@@ -141,7 +141,7 @@ namespace FietsClient
                     {
                         if (sessionsBox.Text == session.date.ToString())
                         {
-                            measurments = session.session;
+                            measurments = session.measurements;
                         }
                     }
                 }
@@ -150,7 +150,7 @@ namespace FietsClient
 
             summaryUserControl.sessionBox.Text = user.id;
             summaryUserControl.nameBox.Text = user.id;
-            summaryUserControl.pulseBox.Text = measurments[measurments.Count - 1].bpm.ToString();
+            summaryUserControl.pulseBox.Text = measurments[measurments.Count - 1].pulse.ToString();
             summaryUserControl.rpmInfoBox.Text = measurments[measurments.Count - 1].rpm.ToString();
             summaryUserControl.speedInfoBox.Text = measurments[measurments.Count - 1].speed.ToString();
             summaryUserControl.distanceInfoBox.Text = measurments[measurments.Count - 1].distance.ToString();
@@ -173,7 +173,7 @@ namespace FietsClient
             //fill bpm
             for (int i = 0; i < measurments.Count; i++)
             {
-                bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].bpm));
+                bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].pulse));
             }
             //fill bpmgraph
             summaryUserControl.bpmChart.Series[0].Points.Clear();

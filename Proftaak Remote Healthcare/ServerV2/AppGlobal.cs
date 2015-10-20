@@ -40,7 +40,7 @@ namespace ServerV2
 
                 foreach (dynamic ses in r.tests)
                 {
-                    Session tempSession = new Session(i, Int32.Parse(ses.bikeMode.ToString()), ses.modevalue.ToString());
+                    Session tempSession = new Session(i);
                     i++;
 
                     foreach (dynamic m in ses.session)

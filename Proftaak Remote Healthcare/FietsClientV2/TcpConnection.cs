@@ -231,7 +231,7 @@ namespace FietsClient
 
                                 foreach (dynamic ses in r.tests)
                                 {
-                                    Session tempSession = new Session(i, Int32.Parse(ses.bikeMode.ToString()), ses.modevalue.ToString());
+                                    Session tempSession = new Session(i);
                                     i++;
 
                                     foreach (dynamic m in ses.session)
@@ -267,7 +267,7 @@ namespace FietsClient
 
         public void StartNewSession()
         {
-            Session session = new Session();
+            Session session = new Session(currentData.sessions.Count + 1);
             currentData.sessions.Add(session);
             SendNewSession();
             PatientModel.patientModel.startAskingData();
