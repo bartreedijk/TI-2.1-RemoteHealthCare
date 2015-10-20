@@ -105,7 +105,7 @@ namespace FietsClient
             {
                 if (isNumericS)
                 {
-                    patientModel.setTimeMode(minutes + ":" + seconds);
+                    patientModel.setTimeMode($"{ minutes:00}{seconds:00}");
                     this.label19.Text = "Huidige sessie: Tijd: " + minutes + ":" + seconds;
                 }
                 else MessageBox.Show("Minutes is not a valid number.");
