@@ -257,5 +257,19 @@ namespace FietsClient
         {
             _connection.StopSessoin();
         }
+
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form activeForm = Form.ActiveForm;
+            if (activeForm != null)
+            {
+                activeForm.Invoke((MethodInvoker)delegate ()
+                {
+                    Login login = new Login(_connection);
+                    activeForm.Hide();
+                    login.Show();
+                });
+            }
+        }
     }
 }
