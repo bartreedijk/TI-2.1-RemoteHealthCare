@@ -11,10 +11,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication;
-<<<<<<< HEAD
-=======
-using System.Security.Permissions;
->>>>>>> master
 using System.IO;
 
 namespace FietsClient
@@ -56,7 +52,11 @@ namespace FietsClient
         {
             try
             {
-                client.Connect("brdk.nl", 1288);
+<<<<<<< HEAD:Proftaak Remote Healthcare/FietsClientV2/TCPConnection.cs
+                client.Connect("127.0.0.1", 1288);
+=======
+                client.Connect("localhost", 1288);
+>>>>>>> origin/bufixes-ketler-reading:Proftaak Remote Healthcare/FietsClientV2/TcpConnection.cs
 
 
                 // create streams
@@ -120,19 +120,13 @@ namespace FietsClient
         {
             return true;
         }
-        
+
         public void disconnect()
         {
-<<<<<<< HEAD
            
             sslStream.Close();
             client.Close();
             receiveThread.Abort();
-=======
-            sslStream.Close();
-            client.Close();
-            //receiveThread.Abort();
->>>>>>> master
             isConnectedFlag = false;
         }
 
@@ -147,18 +141,10 @@ namespace FietsClient
                 }
                 catch (IOException e)
                 {
-<<<<<<< HEAD
                     Console.WriteLine(e.StackTrace);
                     break;
                 }
 
-=======
-                    // debug
-                    Console.WriteLine(e.StackTrace);
-                    break;
-                }
-                
->>>>>>> master
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 

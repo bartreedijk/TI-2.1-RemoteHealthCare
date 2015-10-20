@@ -92,6 +92,13 @@ namespace FietsClient
             }
 
         }
-    }
 
+        private void PasswordBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SubmitButton_Click(this, new EventArgs());
+            }
+        }
+    }
 }
