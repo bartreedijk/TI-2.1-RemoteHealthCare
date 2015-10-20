@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FietsClient.Forms;
+using FietsLibrary.JSONObjecten;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FietsClient
 {
@@ -37,8 +39,14 @@ namespace FietsClient
             }
         }
 
+        private List<User> users;
         private void Form1_Load(object sender, EventArgs e)
         {
+            users = doctorModel.requestUsers();
+            foreach (User user in users)
+            {
+                PatientBox.Items.Add(user.id);
+            }
 
         }
 
@@ -62,13 +70,13 @@ namespace FietsClient
 
                 doctorModel.tcpConnection.SendChatMessage(data);
             }
-            
+
             else if (messageBox.Text != null && doctorTabControl.SelectedTab.Name == "tabPageSummary")
             {
                 String[] data = new String[2];
                 data[0] = "This is a broadcast: " + messageBox.Text + "\r\n";
                 //all patients:
-                for (int tabs = 1; tabs <= doctorTabControl.TabCount -1; tabs++)
+                for (int tabs = 1; tabs <= doctorTabControl.TabCount - 1; tabs++)
                 {
                     doctorTabControl.SelectTab(tabs);
                     data[1] = doctorTabControl.SelectedTab.Name;
@@ -76,16 +84,16 @@ namespace FietsClient
                 }
                 messageBox.Clear();
 
-            }  
+            }
         }
 
         private void printMessage(string[] data)
         {
             string finalMessage = data[0] + ":\t" + data[2] + "\r\n";
-            chatBox.Invoke((MethodInvoker) delegate ()
-            {
-                chatBox.AppendText(finalMessage);
-            });
+            chatBox.Invoke((MethodInvoker)delegate ()
+           {
+               chatBox.AppendText(finalMessage);
+           });
         }
 
         public void AddSessionToTabcontrol(string patientID)
@@ -117,6 +125,88 @@ namespace FietsClient
         {
             var newPatient = new NewPatientForm(doctorModel.tcpConnection);
             newPatient.Show();
+        }
+
+        private List<DataPoint> speedPoints = new List<DataPoint>();
+        private List<DataPoint> bpmPoints = new List<DataPoint>();
+        private List<DataPoint> rpmPoints = new List<DataPoint>();
+        private void selectSessionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //get measurments
+            List<Measurement> measurments = new List<Measurement>();
+            User user = null;
+            foreach (User userx in users)
+            {
+                if (PatientBox.Text == user.id)
+                {
+                    user = userx;
+                    List<Session> sessions = user.GetSessions();
+                    foreach (Session session in sessions)
+                    {
+                        if (sessionsBox.Text == session.date.ToString())
+                        {
+                            measurments = session.session;
+                        }
+                    }
+                }
+            }
+            //fill boxes
+
+            summaryUserControl.sessionBox.Text = user.id;
+            summaryUserControl.nameBox.Text = user.id;
+            summaryUserControl.pulseBox.Text = measurments[measurments.Count - 1].bpm.ToString();
+            summaryUserControl.rpmInfoBox.Text = measurments[measurments.Count - 1].rpm.ToString();
+            summaryUserControl.speedInfoBox.Text = measurments[measurments.Count - 1].speed.ToString();
+            summaryUserControl.distanceInfoBox.Text = measurments[measurments.Count - 1].distance.ToString();
+            summaryUserControl.requestedBox.Text = measurments[measurments.Count - 1].requestedPower.ToString();
+            summaryUserControl.energyInfoBox.Text = measurments[measurments.Count - 1].energy.ToString();
+            summaryUserControl.timeBox.Text = measurments[measurments.Count - 1].time.ToString();
+            summaryUserControl.actualBox.Text = measurments[measurments.Count - 1].actualPower.ToString();
+
+            //fill speedpoints
+            for (int i = 0; i < measurments.Count; i++)
+            {
+                speedPoints.Add(new DataPoint(measurments[i].time, measurments[i].speed));
+            }
+            //fill speedgraph
+            summaryUserControl.speedChart.Series[0].Points.Clear();
+            for (int i = 0; i < speedPoints.Count; i++)
+                summaryUserControl.speedChart.Series[0].Points.Add(speedPoints[i]);
+            summaryUserControl.speedChart.Update();
+
+            //fill bpm
+            for (int i = 0; i < measurments.Count; i++)
+            {
+                bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].bpm));
+            }
+            //fill bpmgraph
+            summaryUserControl.bpmChart.Series[0].Points.Clear();
+            for (int i = 0; i < bpmPoints.Count; i++)
+                summaryUserControl.bpmChart.Series[0].Points.Add(bpmPoints[i]);
+            summaryUserControl.bpmChart.Update();
+
+            //fill rpm
+            for (int i = 0; i < measurments.Count; i++)
+            {
+                rpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].rpm));
+            }
+            //fill rpmgraph
+            summaryUserControl.rpmChart.Series[0].Points.Clear();
+            for (int i = 0; i < rpmPoints.Count; i++)
+                summaryUserControl.rpmChart.Series[0].Points.Add(rpmPoints[i]);
+            summaryUserControl.rpmChart.Update();
+        }
+
+        private void PatientBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (User user in users)
+            {
+                if (user.id == PatientBox.Text)
+                    foreach (Session session in user.GetSessions())
+                    {
+                        sessionsBox.Items.Add(session.date.ToString());
+                    }
+            }
         }
     }
 }

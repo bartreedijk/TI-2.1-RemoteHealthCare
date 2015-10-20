@@ -27,6 +27,7 @@ namespace FietsClient
 
         public delegate void ChatmassegeDelegate(string[] data);
         public event ChatmassegeDelegate IncomingChatmessageEvent;
+        public List<User> users;
 
         public TcpConnection()
         {
@@ -119,7 +120,7 @@ namespace FietsClient
 
         public void disconnect()
         {
-           
+
             sslStream.Close();
             client.Close();
             receiveThread.Abort();
@@ -151,7 +152,7 @@ namespace FietsClient
                         case "0":   //login and display correct window after login
                             if (response_parts.Length == 4)
                             {
-                                
+
 
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
@@ -217,7 +218,7 @@ namespace FietsClient
                             }
                             break;
                         case "9":
-                            JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
+                            users = JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
                             break;
                     }
                 }
@@ -273,6 +274,10 @@ namespace FietsClient
             SendString("8|" + userID + "|");
         }
 
+        public void requestUsers()
+        {
+            SendString("9|");
+        }
         public void SendDistance(int distance)
         {
             SendString("10|" + userID + "|" + distance + "|");
@@ -287,6 +292,7 @@ namespace FietsClient
         {
             SendString("12|" + userID + "|" + power + "|");
         }
+
 
         public void SendString(string s)
         {
