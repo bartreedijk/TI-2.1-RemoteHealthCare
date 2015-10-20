@@ -125,12 +125,12 @@ namespace ServerV2
                                 }
                                 else if (user.isDoctor)
                                 {
-                                    Console.WriteLine($"received login from docter username: {response[1]} ");
+                                    Console.WriteLine("received login from docter username: " + response[1]);
                                     Communication.Send("0|1|1|", sslStream);   // Doctor
                                 }
                                 else if (!user.isDoctor)
                                 {
-                                    Console.WriteLine($"received login from patient username: {response[1]} ");
+                                    Console.WriteLine("received login from patient username: " + response[1]);
                                     Communication.Send("0|1|0|", sslStream);   //Patient
                                 }
                                 clients.Add(new Client(client, sslStream, response[1]));
