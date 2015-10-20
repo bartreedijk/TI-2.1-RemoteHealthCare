@@ -290,10 +290,17 @@ namespace FietsClient
 
         public void SendString(string s)
         {
+            try
+            {
+                byte[] b = Encoding.ASCII.GetBytes(s);
+                sslStream.Write(b, 0, b.Length);
+                sslStream.Flush();
+            }
+            catch (Exception e)
 
-            byte[] b = Encoding.ASCII.GetBytes(s);
-            sslStream.Write(b, 0, b.Length);
-            sslStream.Flush();
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
