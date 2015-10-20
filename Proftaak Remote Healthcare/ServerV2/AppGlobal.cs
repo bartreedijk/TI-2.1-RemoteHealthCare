@@ -298,10 +298,35 @@ namespace ServerV2
                         }
                         
                         break;
+                    case "20":
+                        Client Case20Client = clients.FirstOrDefault(item => item.username == response[1]);
+                        if (Case20Client != null)
+                        {
+                            string Case20String = "20|" + response[2] + "|";
+                            Communication.Send(Case20String, Case20Client.sslStream);
+                        }
+                        break;
+                    case "21":
+                        Client Case21Client = clients.FirstOrDefault(item => item.username == response[1]);
+                        if (Case21Client != null)
+                        {
+                            string Case20String = "21|" + response[2] + "|" + response[3] + "|";
+                            Communication.Send(Case20String, Case21Client.sslStream);
+                        }
+                        break;
+                    case "22":
+                        Client Case22Client = clients.FirstOrDefault(item => item.username == response[1]);
+                        if (Case22Client != null)
+                        {
+                            string Case22String = "22|" + response[2] + "|";
+                            Communication.Send(Case22String, Case22Client.sslStream);
+                        }
+                        break;
+
                     default:
                         break;
                 }
-
+                
 
             }
         }
