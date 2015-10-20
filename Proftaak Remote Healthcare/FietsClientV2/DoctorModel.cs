@@ -25,6 +25,8 @@ namespace FietsClient
         public List<string> onlinePatients { get; set; } = new List<string>();
         public Dictionary<string, Forms.DoctorSessionUC> doctorSessions { get; set; } = new Dictionary<string, Forms.DoctorSessionUC>();
 
+
+
         private DoctorModel()
         {
             startAskingData();
@@ -39,6 +41,12 @@ namespace FietsClient
         public void stopAskingData()
         {
             receiveDataThread.Abort();
+        }
+
+        internal List<User> requestUsers()
+        {
+            tcpConnection.requestUsers();
+            return tcpConnection.users;
         }
 
         private void receiveDataThreadLoop()
@@ -67,7 +75,7 @@ namespace FietsClient
                         doctorform.Invoke(new Action(() => doctorSessions.Remove(str)));
                     }
                     //onlinePatients.Find(username => username.Equals(str));
-                    
+
                 }
 
                 //voeg een onlinePatient toe aan een doctorSession
@@ -85,7 +93,7 @@ namespace FietsClient
         private List<DataPoint> rpmPoints = new List<DataPoint>();
         private void HandleBikeData(Measurement data)
         {
-            
+
             if (doctorform.InvokeRequired)
             {
                 doctorform.Invoke((new Action(() => HandleBikeData(data))));
@@ -99,7 +107,7 @@ namespace FietsClient
                 doctorform.summaryUserControl.distanceInfoBox.Text = data.distance.ToString();
                 doctorform.summaryUserControl.requestedBox.Text = data.requestedPower.ToString();
                 doctorform.summaryUserControl.energyInfoBox.Text = data.energy.ToString();
-                doctorform.summaryUserControl.timeBox.Text = data.time.ToString() ;
+                doctorform.summaryUserControl.timeBox.Text = data.time.ToString();
                 doctorform.summaryUserControl.actualBox.Text = data.actualPower.ToString();
 
                 //fill graph speed
@@ -129,7 +137,7 @@ namespace FietsClient
                     rpmPoints.RemoveAt(0);
                 doctorform.summaryUserControl.rpmChart.Update();
             }
-            
+
         }
     }
 }
