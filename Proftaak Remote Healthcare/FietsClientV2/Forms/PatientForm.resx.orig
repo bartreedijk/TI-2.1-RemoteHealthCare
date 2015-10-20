@@ -125,13 +125,10 @@
   <data name="$this.Locked" type="System.Boolean, mscorlib">
     <value>True</value>
 <<<<<<< HEAD
-  </data>
-  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
-    <value>25</value>
 =======
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>53</value>
+    <value>25</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -1799,6 +1796,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAA
 </value>
->>>>>>> master
+>>>>>>> origin/bufixes-ketler-reading
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>25</value>
   </data>
 </root>

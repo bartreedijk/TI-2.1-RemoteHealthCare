@@ -99,11 +99,15 @@ namespace FietsClient
             int minutes, seconds;
             bool isNumericS = int.TryParse(minuteBox.Text, out minutes);
             bool isNumericM = int.TryParse(secondBox.Text, out seconds);
-	    if (patientModel.askdata)
+            if (patientModel.askdata)
             {
                 MessageBox.Show("Er is nog een sessie bezig, deze moet eerst gestopt worden");
+<<<<<<< HEAD
             }
             else if (isNumericM)
+=======
+            }else if (isNumericM)
+>>>>>>> origin/bufixes-ketler-reading
             {
                 if (isNumericS)
                 {

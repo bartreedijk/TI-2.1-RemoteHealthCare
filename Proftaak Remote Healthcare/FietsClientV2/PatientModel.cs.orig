@@ -38,10 +38,14 @@ namespace FietsClient
 
         public void startAskingData()
         {
-	    askdata = true;
+            askdata = true;
             speedPoints.Clear();
             bpmPoints.Clear();
             rpmPoints.Clear();
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/bufixes-ketler-reading
             workerThread = new Thread(() => workerThreadLoop());
             workerThread.Start();
         }
