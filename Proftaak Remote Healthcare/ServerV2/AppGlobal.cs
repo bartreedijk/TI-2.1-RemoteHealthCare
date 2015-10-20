@@ -204,7 +204,7 @@ namespace ServerV2
                                     }
                                 }
                             }
-                        }
+                        } 
                         break;
                     case "4":  // Nieuwe patient
                         users.Add(new User(response[1], response[2], Int32.Parse(response[3]), Boolean.Parse(response[4]), Int32.Parse(response[5])));
@@ -290,7 +290,7 @@ namespace ServerV2
                             Communication.Send(Case10String, Case10Client.sslStream);
                         }
                         currentUser = users.FirstOrDefault(item => item.id == response[1]);
-                        Communication.Send("10|" + currentUser.id + "|", sslStream);
+                        Communication.Send("10|" + "1" + currentUser.id + "|", sslStream);
                         break;
                     default:
                         break;
