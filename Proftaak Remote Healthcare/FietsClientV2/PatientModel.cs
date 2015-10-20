@@ -64,7 +64,7 @@ namespace FietsClient
         {
             askdata = false;
             dataHandler.sendData(DataHandler.RESET);
-            patientform.sessionBox.Text = " ";
+            patientform.sessionBox.Text = "";
             patientform.label19.Text = "Sessie gestopt";
         }
 

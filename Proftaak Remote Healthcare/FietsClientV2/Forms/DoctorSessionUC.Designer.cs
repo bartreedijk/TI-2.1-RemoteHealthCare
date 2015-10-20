@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rpmChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.bpmBox = new System.Windows.Forms.GroupBox();
@@ -41,7 +41,9 @@
             this.speedBox = new System.Windows.Forms.GroupBox();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.sessionInfoBox = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.setTimeSecondsBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.setPowerBox = new System.Windows.Forms.TextBox();
             this.setTimeMinutesBox = new System.Windows.Forms.TextBox();
             this.setDistanceBox = new System.Windows.Forms.TextBox();
@@ -76,8 +78,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rpmChart)).BeginInit();
             this.bpmBox.SuspendLayout();
@@ -99,18 +99,18 @@
             // 
             // rpmChart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.rpmChart.ChartAreas.Add(chartArea4);
+            chartArea10.Name = "ChartArea1";
+            this.rpmChart.ChartAreas.Add(chartArea10);
             this.rpmChart.Location = new System.Drawing.Point(6, 19);
             this.rpmChart.Name = "rpmChart";
-            series4.BorderWidth = 10;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Name = "Rounds per minute";
-            series4.XValueMember = "Time";
-            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series4.YValueMembers = "Rounds per minutes";
-            this.rpmChart.Series.Add(series4);
+            series10.BorderWidth = 10;
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series10.Name = "Rounds per minute";
+            series10.XValueMember = "Time";
+            series10.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series10.YValueMembers = "Rounds per minutes";
+            this.rpmChart.Series.Add(series10);
             this.rpmChart.Size = new System.Drawing.Size(388, 285);
             this.rpmChart.TabIndex = 2;
             this.rpmChart.Text = "rounds per minute";
@@ -127,18 +127,18 @@
             // 
             // bpmChart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.bpmChart.ChartAreas.Add(chartArea5);
+            chartArea11.Name = "ChartArea1";
+            this.bpmChart.ChartAreas.Add(chartArea11);
             this.bpmChart.Location = new System.Drawing.Point(6, 19);
             this.bpmChart.Name = "bpmChart";
-            series5.BorderWidth = 10;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Name = "Beats per minute";
-            series5.XValueMember = "Time";
-            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series5.YValueMembers = "Beats per minutes";
-            this.bpmChart.Series.Add(series5);
+            series11.BorderWidth = 10;
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series11.Name = "Beats per minute";
+            series11.XValueMember = "Time";
+            series11.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series11.YValueMembers = "Beats per minutes";
+            this.bpmChart.Series.Add(series11);
             this.bpmChart.Size = new System.Drawing.Size(388, 285);
             this.bpmChart.TabIndex = 1;
             this.bpmChart.Text = "beats per second";
@@ -155,18 +155,18 @@
             // 
             // speedChart
             // 
-            chartArea6.Name = "ChartArea1";
-            this.speedChart.ChartAreas.Add(chartArea6);
+            chartArea12.Name = "ChartArea1";
+            this.speedChart.ChartAreas.Add(chartArea12);
             this.speedChart.Location = new System.Drawing.Point(6, 19);
             this.speedChart.Name = "speedChart";
-            series6.BorderWidth = 10;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Name = "Speed";
-            series6.XValueMember = "Time";
-            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series6.YValueMembers = "Speed";
-            this.speedChart.Series.Add(series6);
+            series12.BorderWidth = 10;
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series12.Name = "Speed";
+            series12.XValueMember = "Time";
+            series12.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series12.YValueMembers = "Speed";
+            this.speedChart.Series.Add(series12);
             this.speedChart.Size = new System.Drawing.Size(388, 285);
             this.speedChart.TabIndex = 0;
             this.speedChart.Text = "Speed chart";
@@ -217,6 +217,16 @@
             this.sessionInfoBox.TabStop = false;
             this.sessionInfoBox.Text = "Session info:";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(99, 281);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 41;
+            this.button2.Text = "Stop sessie";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // setTimeSecondsBox
             // 
             this.setTimeSecondsBox.Location = new System.Drawing.Point(342, 197);
@@ -225,6 +235,16 @@
             this.setTimeSecondsBox.Size = new System.Drawing.Size(38, 20);
             this.setTimeSecondsBox.TabIndex = 90;
             this.setTimeSecondsBox.Text = "SS";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 281);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 40;
+            this.button1.Text = "Start sessie";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // setPowerBox
             // 
@@ -259,6 +279,7 @@
             this.setPowerButton.TabIndex = 86;
             this.setPowerButton.Text = "Set power";
             this.setPowerButton.UseVisualStyleBackColor = true;
+            this.setPowerButton.Click += new System.EventHandler(this.setPowerButton_Click);
             // 
             // requestedBox
             // 
@@ -276,6 +297,7 @@
             this.setTimeButton.TabIndex = 85;
             this.setTimeButton.Text = "Set time";
             this.setTimeButton.UseVisualStyleBackColor = true;
+            this.setTimeButton.Click += new System.EventHandler(this.setTimeButton_Click);
             // 
             // setDistanceButton
             // 
@@ -285,6 +307,7 @@
             this.setDistanceButton.TabIndex = 84;
             this.setDistanceButton.Text = "Set distance";
             this.setDistanceButton.UseVisualStyleBackColor = true;
+            this.setDistanceButton.Click += new System.EventHandler(this.setDistanceButton_Click);
             // 
             // actualBox
             // 
@@ -519,26 +542,6 @@
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Naam:";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(99, 281);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 41;
-            this.button2.Text = "Stop sessie";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(9, 281);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 40;
-            this.button1.Text = "Start sessie";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // DoctorSessionUC
             // 
