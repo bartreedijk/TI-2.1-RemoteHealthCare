@@ -100,10 +100,14 @@ namespace FietsClient
 
         public void sendData(string data)
         {
-            if (ComPort != null || ComPort.IsOpen)
+            if (ComPort != null)
             {
-                bufferOut = data;
-                ComPort.WriteLine(data);
+                if (ComPort.IsOpen)
+                {
+                    bufferOut = data;
+                    ComPort.WriteLine(data);
+                }
+                
             }
         }
 
