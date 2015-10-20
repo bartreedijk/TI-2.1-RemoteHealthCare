@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DoctorForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archiefToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PatientBox = new System.Windows.Forms.ToolStripComboBox();
             this.sessionsBox = new System.Windows.Forms.ToolStripComboBox();
             this.selectSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +42,7 @@
             this.doctorTabControl = new System.Windows.Forms.TabControl();
             this.tabPageSummary = new System.Windows.Forms.TabPage();
             this.doctorSummaryUC1 = new FietsClient.Forms.DoctorSummaryUC();
-            this.loadUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.chatArea.SuspendLayout();
             this.doctorTabControl.SuspendLayout();
@@ -52,11 +53,11 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archiefToolStripMenuItem});
+            this.archiefToolStripMenuItem,
+            this.logoutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1445, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1084, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -68,43 +69,48 @@
             this.sessionsBox,
             this.selectSessionToolStripMenuItem});
             this.archiefToolStripMenuItem.Name = "archiefToolStripMenuItem";
-            this.archiefToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
+            this.archiefToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.archiefToolStripMenuItem.Text = "Archive";
+            // 
+            // loadUsersToolStripMenuItem
+            // 
+            this.loadUsersToolStripMenuItem.Name = "loadUsersToolStripMenuItem";
+            this.loadUsersToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.loadUsersToolStripMenuItem.Text = "Load users";
+            this.loadUsersToolStripMenuItem.Click += new System.EventHandler(this.loadUsersToolStripMenuItem_Click);
             // 
             // PatientBox
             // 
             this.PatientBox.Name = "PatientBox";
-            this.PatientBox.Size = new System.Drawing.Size(121, 28);
+            this.PatientBox.Size = new System.Drawing.Size(121, 23);
             this.PatientBox.SelectedIndexChanged += new System.EventHandler(this.PatientBox_SelectedIndexChanged);
             // 
             // sessionsBox
             // 
             this.sessionsBox.Name = "sessionsBox";
-            this.sessionsBox.Size = new System.Drawing.Size(121, 28);
+            this.sessionsBox.Size = new System.Drawing.Size(121, 23);
             // 
             // selectSessionToolStripMenuItem
             // 
             this.selectSessionToolStripMenuItem.Name = "selectSessionToolStripMenuItem";
-            this.selectSessionToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.selectSessionToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.selectSessionToolStripMenuItem.Text = "Select session";
             this.selectSessionToolStripMenuItem.Click += new System.EventHandler(this.selectSessionToolStripMenuItem_Click);
             // 
             // chatBox
             // 
-            this.chatBox.Location = new System.Drawing.Point(0, 16);
-            this.chatBox.Margin = new System.Windows.Forms.Padding(4);
+            this.chatBox.Location = new System.Drawing.Point(0, 13);
             this.chatBox.Multiline = true;
             this.chatBox.Name = "chatBox";
             this.chatBox.ReadOnly = true;
-            this.chatBox.Size = new System.Drawing.Size(303, 688);
+            this.chatBox.Size = new System.Drawing.Size(228, 560);
             this.chatBox.TabIndex = 3;
             // 
             // messageBox
             // 
-            this.messageBox.Location = new System.Drawing.Point(0, 713);
-            this.messageBox.Margin = new System.Windows.Forms.Padding(4);
+            this.messageBox.Location = new System.Drawing.Point(0, 579);
             this.messageBox.Name = "messageBox";
-            this.messageBox.Size = new System.Drawing.Size(303, 22);
+            this.messageBox.Size = new System.Drawing.Size(228, 20);
             this.messageBox.TabIndex = 6;
             this.messageBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.messageBox_KeyPress);
             // 
@@ -113,21 +119,18 @@
             this.chatArea.Controls.Add(this.messageButton);
             this.chatArea.Controls.Add(this.chatBox);
             this.chatArea.Controls.Add(this.messageBox);
-            this.chatArea.Location = new System.Drawing.Point(1132, 62);
-            this.chatArea.Margin = new System.Windows.Forms.Padding(4);
+            this.chatArea.Location = new System.Drawing.Point(849, 50);
             this.chatArea.Name = "chatArea";
-            this.chatArea.Padding = new System.Windows.Forms.Padding(4);
-            this.chatArea.Size = new System.Drawing.Size(304, 789);
+            this.chatArea.Size = new System.Drawing.Size(228, 641);
             this.chatArea.TabIndex = 5;
             this.chatArea.TabStop = false;
             this.chatArea.Text = "Chat:";
             // 
             // messageButton
             // 
-            this.messageButton.Location = new System.Drawing.Point(0, 745);
-            this.messageButton.Margin = new System.Windows.Forms.Padding(4);
+            this.messageButton.Location = new System.Drawing.Point(0, 605);
             this.messageButton.Name = "messageButton";
-            this.messageButton.Size = new System.Drawing.Size(304, 37);
+            this.messageButton.Size = new System.Drawing.Size(228, 30);
             this.messageButton.TabIndex = 7;
             this.messageButton.Text = "send";
             this.messageButton.UseVisualStyleBackColor = true;
@@ -136,21 +139,19 @@
             // doctorTabControl
             // 
             this.doctorTabControl.Controls.Add(this.tabPageSummary);
-            this.doctorTabControl.Location = new System.Drawing.Point(17, 34);
-            this.doctorTabControl.Margin = new System.Windows.Forms.Padding(4);
+            this.doctorTabControl.Location = new System.Drawing.Point(13, 28);
             this.doctorTabControl.Name = "doctorTabControl";
             this.doctorTabControl.SelectedIndex = 0;
-            this.doctorTabControl.Size = new System.Drawing.Size(1107, 820);
+            this.doctorTabControl.Size = new System.Drawing.Size(830, 666);
             this.doctorTabControl.TabIndex = 6;
             // 
             // tabPageSummary
             // 
             this.tabPageSummary.BackColor = System.Drawing.Color.Transparent;
             this.tabPageSummary.Controls.Add(this.doctorSummaryUC1);
-            this.tabPageSummary.Location = new System.Drawing.Point(4, 25);
-            this.tabPageSummary.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageSummary.Location = new System.Drawing.Point(4, 22);
             this.tabPageSummary.Name = "tabPageSummary";
-            this.tabPageSummary.Size = new System.Drawing.Size(1099, 791);
+            this.tabPageSummary.Size = new System.Drawing.Size(822, 640);
             this.tabPageSummary.TabIndex = 0;
             this.tabPageSummary.Text = "Summary";
             // 
@@ -158,31 +159,30 @@
             // 
             this.doctorSummaryUC1.BackColor = System.Drawing.SystemColors.Control;
             this.doctorSummaryUC1.Location = new System.Drawing.Point(0, 0);
-            this.doctorSummaryUC1.Margin = new System.Windows.Forms.Padding(5);
+            this.doctorSummaryUC1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.doctorSummaryUC1.Name = "doctorSummaryUC1";
-            this.doctorSummaryUC1.Size = new System.Drawing.Size(1096, 788);
+            this.doctorSummaryUC1.Size = new System.Drawing.Size(822, 640);
             this.doctorSummaryUC1.TabIndex = 0;
             // 
-            // loadUsersToolStripMenuItem
+            // logoutToolStripMenuItem
             // 
-            this.loadUsersToolStripMenuItem.Name = "loadUsersToolStripMenuItem";
-            this.loadUsersToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
-            this.loadUsersToolStripMenuItem.Text = "Load users";
-            this.loadUsersToolStripMenuItem.Click += new System.EventHandler(this.loadUsersToolStripMenuItem_Click);
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.logoutToolStripMenuItem.Text = "Logout";
+            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // DoctorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1445, 875);
+            this.ClientSize = new System.Drawing.Size(1084, 711);
             this.Controls.Add(this.doctorTabControl);
             this.Controls.Add(this.chatArea);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "DoctorForm";
             this.Text = "Doctor";
@@ -214,6 +214,7 @@
         public System.Windows.Forms.ToolStripComboBox sessionsBox;
         private System.Windows.Forms.ToolStripMenuItem selectSessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadUsersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
     }
 }
 

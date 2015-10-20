@@ -100,7 +100,6 @@ namespace FietsClient
 
         public void sendData(string data)
         {
-            Console.WriteLine(data);
             if (ComPort != null || ComPort.IsOpen)
             {
                 bufferOut = data;

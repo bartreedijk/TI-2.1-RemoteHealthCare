@@ -18,10 +18,13 @@ namespace FietsClient
     {
         private DoctorModel doctorModel;
         public Forms.DoctorSummaryUC summaryUserControl { get; private set; }
+        public TcpConnection _connection { get; private set; }
+
 
         public DoctorForm(TcpConnection connection)
         {
             InitializeComponent();
+            this._connection = connection;
             doctorModel = DoctorModel.doctorModel;
             doctorModel.doctorform = this;
             doctorModel.tcpConnection = connection;
@@ -211,6 +214,20 @@ namespace FietsClient
             foreach (User user in users)
             {
                 PatientBox.Items.Add(user.id);
+            }
+        }
+
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form activeForm = Form.ActiveForm;
+            if (activeForm != null)
+            {
+                activeForm.Invoke((MethodInvoker)delegate ()
+                {
+                    Login login = new Login(_connection);
+                    activeForm.Hide();
+                    login.Show();
+                });
             }
         }
     }
