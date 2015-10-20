@@ -44,7 +44,6 @@ namespace FietsClient
             this.selectPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.openPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.requestDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closePortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startTrainingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.distanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,9 +58,6 @@ namespace FietsClient
             this.setToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.powerBox = new System.Windows.Forms.ToolStripTextBox();
             this.setPower = new System.Windows.Forms.ToolStripMenuItem();
-            this.energyBox = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBox = new System.Windows.Forms.GroupBox();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.bpmBox = new System.Windows.Forms.GroupBox();
@@ -157,10 +153,9 @@ namespace FietsClient
             this.selectPortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox1,
             this.openPortToolStripMenuItem,
-            this.requestDataToolStripMenuItem,
             this.closePortToolStripMenuItem});
             this.selectPortToolStripMenuItem.Name = "selectPortToolStripMenuItem";
-            this.selectPortToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.selectPortToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectPortToolStripMenuItem.Text = "Select port";
             // 
             // toolStripComboBox1
@@ -176,14 +171,6 @@ namespace FietsClient
             this.openPortToolStripMenuItem.Text = "Open port";
             this.openPortToolStripMenuItem.Click += new System.EventHandler(this.openPortToolStripMenuItem_Click);
             // 
-            // requestDataToolStripMenuItem
-            // 
-            this.requestDataToolStripMenuItem.Enabled = false;
-            this.requestDataToolStripMenuItem.Name = "requestDataToolStripMenuItem";
-            this.requestDataToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.requestDataToolStripMenuItem.Text = "Request data";
-            this.requestDataToolStripMenuItem.Click += new System.EventHandler(this.requestDataToolStripMenuItem_Click);
-            // 
             // closePortToolStripMenuItem
             // 
             this.closePortToolStripMenuItem.Enabled = false;
@@ -197,8 +184,7 @@ namespace FietsClient
             this.startTrainingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.distanceToolStripMenuItem,
             this.stopTrainingToolStripMenuItem,
-            this.setToolStripMenuItem,
-            this.energyBox});
+            this.setToolStripMenuItem});
             this.startTrainingToolStripMenuItem.Name = "startTrainingToolStripMenuItem";
             this.startTrainingToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.startTrainingToolStripMenuItem.Text = "Start training";
@@ -209,7 +195,7 @@ namespace FietsClient
             this.distanceTraining,
             this.setTimeToolStripMenuItem});
             this.distanceToolStripMenuItem.Name = "distanceToolStripMenuItem";
-            this.distanceToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.distanceToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.distanceToolStripMenuItem.Text = "Select training";
             // 
             // distanceTraining
@@ -218,7 +204,7 @@ namespace FietsClient
             this.distanceBox,
             this.confirmDistanceBox});
             this.distanceTraining.Name = "distanceTraining";
-            this.distanceTraining.Size = new System.Drawing.Size(138, 22);
+            this.distanceTraining.Size = new System.Drawing.Size(152, 22);
             this.distanceTraining.Text = "Set Distance";
             // 
             // distanceBox
@@ -240,7 +226,7 @@ namespace FietsClient
             this.secondBox,
             this.confirmTimeBox});
             this.setTimeToolStripMenuItem.Name = "setTimeToolStripMenuItem";
-            this.setTimeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.setTimeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.setTimeToolStripMenuItem.Text = "Set Time";
             // 
             // minuteBox
@@ -265,7 +251,7 @@ namespace FietsClient
             // stopTrainingToolStripMenuItem
             // 
             this.stopTrainingToolStripMenuItem.Name = "stopTrainingToolStripMenuItem";
-            this.stopTrainingToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.stopTrainingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.stopTrainingToolStripMenuItem.Text = "Reset training";
             this.stopTrainingToolStripMenuItem.Click += new System.EventHandler(this.stopTrainingToolStripMenuItem_Click);
             // 
@@ -275,7 +261,7 @@ namespace FietsClient
             this.powerBox,
             this.setPower});
             this.setToolStripMenuItem.Name = "setToolStripMenuItem";
-            this.setToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.setToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.setToolStripMenuItem.Text = "Power";
             // 
             // powerBox
@@ -289,26 +275,6 @@ namespace FietsClient
             this.setPower.Size = new System.Drawing.Size(160, 22);
             this.setPower.Text = "Set power";
             this.setPower.Click += new System.EventHandler(this.setPower_Click);
-            // 
-            // energyBox
-            // 
-            this.energyBox.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox3,
-            this.toolStripMenuItem1});
-            this.energyBox.Name = "energyBox";
-            this.energyBox.Size = new System.Drawing.Size(149, 22);
-            this.energyBox.Text = "Energy";
-            // 
-            // toolStripTextBox3
-            // 
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(100, 23);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
-            this.toolStripMenuItem1.Text = "Set energy";
             // 
             // speedBox
             // 
@@ -821,7 +787,6 @@ namespace FietsClient
         private System.Windows.Forms.ToolStripMenuItem bicycleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectPortToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.ToolStripMenuItem requestDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closePortToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openPortToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startTrainingToolStripMenuItem;
@@ -831,9 +796,6 @@ namespace FietsClient
         private System.Windows.Forms.ToolStripMenuItem setToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox powerBox;
         private System.Windows.Forms.ToolStripMenuItem setPower;
-        private System.Windows.Forms.ToolStripMenuItem energyBox;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripTextBox distanceBox;
         private System.Windows.Forms.ToolStripMenuItem confirmDistanceBox;
         private System.Windows.Forms.ToolStripMenuItem setTimeToolStripMenuItem;

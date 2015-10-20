@@ -72,7 +72,6 @@ namespace FietsClient
         private void openPortToolStripMenuItem_Click(object sender, EventArgs e)
         {
             patientModel.startComPort(toolStripComboBox1.SelectedItem.ToString());
-            requestDataToolStripMenuItem.Enabled = true;
             closePortToolStripMenuItem.Enabled = true;
         }
 
