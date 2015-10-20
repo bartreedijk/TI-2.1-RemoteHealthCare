@@ -73,12 +73,20 @@ namespace ServerV2
             users.Add(new User("admin", "admin", 80, false, 77, true));
 
             Random r = new Random();
-            Session session = new Session(1);
+<<<<<<< HEAD
+            Session session = new Session();
+=======
+            Session session = new Session(1, 1, "100");
+>>>>>>> origin/feature/FileIO
             for (int i = 0; i < 20; i++)
                 session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
             users.ElementAt(1).sessions.Add(session);
 
-            Session session2 = new Session(2);
+<<<<<<< HEAD
+            Session session2 = new Session();
+=======
+            Session session2 = new Session(2, 2, "100");
+>>>>>>> origin/feature/FileIO
             for (int i = 0; i < 50; i++)
                 session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
             users.ElementAt(1).sessions.Add(session2);
@@ -181,8 +189,13 @@ namespace ServerV2
                         break;
                     case "2":   //Livedata PUSHEN/OPVRAGEN
                         currentUser = users.First(item => item.id == response[1]);
+<<<<<<< HEAD
                         string lastMeasurement = FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.sessions.Last());
                         Communication.Send("2|" + lastMeasurement + "|", sslStream);
+=======
+                        FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.tests.Last());
+                        
+>>>>>>> origin/feature/FileIO
                         break;
                     case "3":   //Nieuwe meetsessie aanmaken
                         if (true)
@@ -190,7 +203,11 @@ namespace ServerV2
                             foreach (User u in users)
                             {
                                 if (u.id == response[1])
-                                    u.AddSession(new Session(u.GetSessions().Last().id));
+<<<<<<< HEAD
+                                    u.AddSession(new Session());
+=======
+                                    u.AddSession(new Session(u.GetSessions().Last().id + 1, int.Parse(response[2]), response[3]));
+>>>>>>> origin/feature/FileIO
                             }
                         }
                         break;
