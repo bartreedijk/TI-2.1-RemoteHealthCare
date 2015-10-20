@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FietsLibrary.JSONObjecten;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace FietsClient
 
         public static PatientModel patientModel { get { return _patientModel ?? (_patientModel = new PatientModel()); } }
 
-        private DataHandler dataHandler;
+        public DataHandler dataHandler { get; private set; }
         private Thread workerThread;
 
         private string powerLog;
@@ -38,22 +39,42 @@ namespace FietsClient
 
         public void startAskingData()
         {
-            askdata = true;
-            speedPoints.Clear();
-            bpmPoints.Clear();
-            rpmPoints.Clear();
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/bufixes-ketler-reading
-            workerThread = new Thread(() => workerThreadLoop());
-            workerThread.Start();
+            bool canStart = false;
+            if (workerThread != null)
+            {
+                if (!(workerThread.ThreadState == ThreadState.Running || workerThread.ThreadState == ThreadState.Background || workerThread.ThreadState == ThreadState.WaitSleepJoin))
+                {
+                    canStart = true;
+                }
+            }
+            else
+                canStart = true;
+            if (canStart)
+            {
+                askdata = true;
+                speedPoints.Clear();
+                bpmPoints.Clear();
+                rpmPoints.Clear();
+                workerThread = new Thread(() => workerThreadLoop());
+                workerThread.Start();
+            }
         }
 
         public void stopAskingData()
         {
             askdata = false;
             dataHandler.sendData(DataHandler.RESET);
+<<<<<<< HEAD
+            patientform.sessionBox.Text = "";
+            patientform.label19.Text = "Sessie gestopt";
+=======
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.sessionBox.Text = " ")));
+                patientform.Invoke((new Action(() => patientform.label19.Text = "Sessie gestopt")));
+                return;
+            }
+>>>>>>> origin/refs/heads/bufixes-ketler-reading
         }
 
         private void workerThreadLoop()
@@ -69,7 +90,8 @@ namespace FietsClient
 
                 try
                 {
-                    dataHandler.sendData(DataHandler.STATUS);
+                    if(askdata)
+                        dataHandler.sendData(DataHandler.STATUS);
                 }
                 catch (Exception)
                 {
@@ -87,6 +109,7 @@ namespace FietsClient
             if (patientform.InvokeRequired)
             {
                 patientform.Invoke((new Action(() => HandleBikeData(data))));
+                return;
             }
             else
             {
@@ -127,7 +150,14 @@ namespace FietsClient
                     rpmPoints.RemoveAt(0);
                 patientform.rpmChart.Update();
             }
-            
+            SaveAndSendData(data);
+        }
+
+        private void SaveAndSendData(string[] data)
+        {
+            Measurement m = new Measurement(data);
+            patientform._connection.currentData.sessions.Last().AddMeasurement(m);
+            patientform._connection.SendNewMeasurement();
         }
 
         public void closeComPort()
@@ -138,11 +168,18 @@ namespace FietsClient
             dataHandler.closeComm();
         }
         //change bike values
-        public void setTimeMode(string time)
+        public void setTimeMode(string time, Boolean start)
         {
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.sessionBox.Text = "Tijd: " + time)));
+                return;
+            }
+            if(start)
+                startSession();
         }
 
         public void setPower(string power)
@@ -153,11 +190,29 @@ namespace FietsClient
             dataHandler.sendData("PW " + power);
         }
 
-        public void setDistanceMode(string distance)
+        public void setDistanceMode(string distance, Boolean start)
         {
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.sessionBox.Text = "Afstand: " + distance)));
+                return;
+            }
+            if(start)
+                startSession();
+        }
+
+        public void startSession()
+        {
+            patientform._connection.StartNewSession(false, patientform._connection.currentData.GetUserID());
+            patientModel.startAskingData();
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.label19.Text = "Sessie is gestart, u kunt nu gaan starten met fietsen.")));
+                return;
+            }
         }
 
         public void reset()
