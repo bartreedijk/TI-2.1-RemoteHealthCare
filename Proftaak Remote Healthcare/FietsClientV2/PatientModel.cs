@@ -64,6 +64,8 @@ namespace FietsClient
         {
             askdata = false;
             dataHandler.sendData(DataHandler.RESET);
+            patientform.sessionBox.Text = " ";
+            patientform.label19.Text = "Sessie gestopt";
         }
 
         private void workerThreadLoop()
@@ -157,11 +159,14 @@ namespace FietsClient
             dataHandler.closeComm();
         }
         //change bike values
-        public void setTimeMode(string time)
+        public void setTimeMode(string time, Boolean start)
         {
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
+            patientform.sessionBox.Text = "Tijd: " + time;
+            if(start)
+                startSession();
         }
 
         public void setPower(string power)
@@ -172,11 +177,22 @@ namespace FietsClient
             dataHandler.sendData("PW " + power);
         }
 
-        public void setDistanceMode(string distance)
+        public void setDistanceMode(string distance, Boolean start)
         {
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
+            patientform.sessionBox.Text = "Afstand: " + distance;
+            if(start)
+                startSession();
+        }
+
+        public void startSession()
+        {
+            patientform._connection.StartNewSession(false, patientform._connection.currentData.GetUserID());
+            patientModel.startAskingData();
+            patientform.label19.Text = "Sessie is gestart, u kunt nu gaan starten met fietsen.";
+
         }
 
         public void reset()

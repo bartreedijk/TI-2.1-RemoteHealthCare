@@ -30,12 +30,12 @@ namespace FietsClient
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatientForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archiefToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +58,7 @@ namespace FietsClient
             this.setToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.powerBox = new System.Windows.Forms.ToolStripTextBox();
             this.setPower = new System.Windows.Forms.ToolStripMenuItem();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBox = new System.Windows.Forms.GroupBox();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.bpmBox = new System.Windows.Forms.GroupBox();
@@ -99,7 +100,6 @@ namespace FietsClient
             this.messageBox = new System.Windows.Forms.TextBox();
             this.chatArea = new System.Windows.Forms.GroupBox();
             this.sendButton = new System.Windows.Forms.Button();
-            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.speedBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).BeginInit();
@@ -154,7 +154,7 @@ namespace FietsClient
             this.openPortToolStripMenuItem,
             this.closePortToolStripMenuItem});
             this.selectPortToolStripMenuItem.Name = "selectPortToolStripMenuItem";
-            this.selectPortToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectPortToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.selectPortToolStripMenuItem.Text = "Select port";
             // 
             // toolStripComboBox1
@@ -275,6 +275,13 @@ namespace FietsClient
             this.setPower.Text = "Set power";
             this.setPower.Click += new System.EventHandler(this.setPower_Click);
             // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.logoutToolStripMenuItem.Text = "Logout";
+            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
+            // 
             // speedBox
             // 
             this.speedBox.Controls.Add(this.speedChart);
@@ -287,18 +294,18 @@ namespace FietsClient
             // 
             // speedChart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.speedChart.ChartAreas.Add(chartArea4);
+            chartArea1.Name = "ChartArea1";
+            this.speedChart.ChartAreas.Add(chartArea1);
             this.speedChart.Location = new System.Drawing.Point(6, 19);
             this.speedChart.Name = "speedChart";
-            series4.BorderWidth = 10;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Name = "Speed";
-            series4.XValueMember = "Time";
-            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series4.YValueMembers = "Speed";
-            this.speedChart.Series.Add(series4);
+            series1.BorderWidth = 10;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Name = "Speed";
+            series1.XValueMember = "Time";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series1.YValueMembers = "Speed";
+            this.speedChart.Series.Add(series1);
             this.speedChart.Size = new System.Drawing.Size(388, 285);
             this.speedChart.TabIndex = 0;
             this.speedChart.Text = "Speed chart";
@@ -315,18 +322,18 @@ namespace FietsClient
             // 
             // bpmChart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.bpmChart.ChartAreas.Add(chartArea5);
+            chartArea2.Name = "ChartArea1";
+            this.bpmChart.ChartAreas.Add(chartArea2);
             this.bpmChart.Location = new System.Drawing.Point(6, 19);
             this.bpmChart.Name = "bpmChart";
-            series5.BorderWidth = 10;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Name = "Beats per minute";
-            series5.XValueMember = "Time";
-            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series5.YValueMembers = "Beats per minutes";
-            this.bpmChart.Series.Add(series5);
+            series2.BorderWidth = 10;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Name = "Beats per minute";
+            series2.XValueMember = "Time";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series2.YValueMembers = "Beats per minutes";
+            this.bpmChart.Series.Add(series2);
             this.bpmChart.Size = new System.Drawing.Size(388, 285);
             this.bpmChart.TabIndex = 1;
             this.bpmChart.Text = "beats per second";
@@ -373,7 +380,7 @@ namespace FietsClient
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(197, 286);
+            this.label19.Location = new System.Drawing.Point(100, 281);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(0, 13);
             this.label19.TabIndex = 40;
@@ -409,7 +416,7 @@ namespace FietsClient
             this.nameBox.Location = new System.Drawing.Point(99, 13);
             this.nameBox.Name = "nameBox";
             this.nameBox.ReadOnly = true;
-            this.nameBox.Size = new System.Drawing.Size(60, 20);
+            this.nameBox.Size = new System.Drawing.Size(152, 20);
             this.nameBox.TabIndex = 35;
             // 
             // sessionBox
@@ -417,7 +424,7 @@ namespace FietsClient
             this.sessionBox.Location = new System.Drawing.Point(99, 39);
             this.sessionBox.Name = "sessionBox";
             this.sessionBox.ReadOnly = true;
-            this.sessionBox.Size = new System.Drawing.Size(60, 20);
+            this.sessionBox.Size = new System.Drawing.Size(152, 20);
             this.sessionBox.TabIndex = 34;
             // 
             // timeBox
@@ -642,18 +649,18 @@ namespace FietsClient
             // 
             // rpmChart
             // 
-            chartArea6.Name = "ChartArea1";
-            this.rpmChart.ChartAreas.Add(chartArea6);
+            chartArea3.Name = "ChartArea1";
+            this.rpmChart.ChartAreas.Add(chartArea3);
             this.rpmChart.Location = new System.Drawing.Point(6, 19);
             this.rpmChart.Name = "rpmChart";
-            series6.BorderWidth = 10;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Name = "Rounds per minute";
-            series6.XValueMember = "Time";
-            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series6.YValueMembers = "Rounds per minutes";
-            this.rpmChart.Series.Add(series6);
+            series3.BorderWidth = 10;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Name = "Rounds per minute";
+            series3.XValueMember = "Time";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series3.YValueMembers = "Rounds per minutes";
+            this.rpmChart.Series.Add(series3);
             this.rpmChart.Size = new System.Drawing.Size(388, 285);
             this.rpmChart.TabIndex = 2;
             this.rpmChart.Text = "rounds per minute";
@@ -696,13 +703,6 @@ namespace FietsClient
             this.sendButton.Text = "send";
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
-            // 
-            // logoutToolStripMenuItem
-            // 
-            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.logoutToolStripMenuItem.Text = "Logout";
-            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // PatientForm
             // 
@@ -804,7 +804,7 @@ namespace FietsClient
         public Chart bpmChart;
         public Chart rpmChart;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label19;
+        public System.Windows.Forms.Label label19;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
     }
 }
