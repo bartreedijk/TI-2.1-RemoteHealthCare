@@ -38,7 +38,7 @@ namespace FietsClient
 
         public void startAskingData()
         {
-	    askdata = true;
+	        askdata = true;
             speedPoints.Clear();
             bpmPoints.Clear();
             rpmPoints.Clear();
