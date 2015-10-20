@@ -96,8 +96,11 @@ namespace FietsClient
 
         public void sendData(string data)
         {
-            bufferOut = data;
-            ComPort.WriteLine(data);
+            if (ComPort != null || ComPort.IsOpen)
+            {
+                bufferOut = data;
+                ComPort.WriteLine(data);
+            }
         }
 
         private void ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)

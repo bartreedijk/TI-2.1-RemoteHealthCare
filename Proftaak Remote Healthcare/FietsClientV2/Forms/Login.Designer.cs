@@ -60,7 +60,7 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(64, 179);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 30);
+            this.label2.Size = new System.Drawing.Size(105, 30);
             this.label2.TabIndex = 1;
             this.label2.Text = "Password:";
             // 
@@ -79,8 +79,10 @@
             this.PasswordBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordBox.Location = new System.Drawing.Point(222, 186);
             this.PasswordBox.Name = "PasswordBox";
+            this.PasswordBox.PasswordChar = '♥';
             this.PasswordBox.Size = new System.Drawing.Size(223, 20);
             this.PasswordBox.TabIndex = 3;
+            this.PasswordBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PasswordBox_KeyDown);
             // 
             // SubmitButton
             // 
