@@ -21,19 +21,9 @@ namespace FietsLibrary.JSONObjecten
         public string note { get; private set; }
         public string modevalue { get; private set; }
 
-        public Session(int bikeMode, string modevalue)
+        public Session(int id, int bikeMode, string modevalue)
         {
-            if (!(Directory.Exists(@"JSON Files"))) 
-            {
-                Directory.CreateDirectory(@"JSON Files");
-            }
-            string[] fileEntries = Directory.GetFiles(@"JSON Files\");
-
-            if (fileEntries.Length > 0)
-                this.id = int.Parse(fileEntries[fileEntries.Length]);
-            else
-                this.id = 1;
-
+            this.id = id;
             this.session = new List<Measurement>();
             this.isActive = true;
             this.bikeMode = bikeMode;
