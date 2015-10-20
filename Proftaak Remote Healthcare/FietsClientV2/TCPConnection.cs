@@ -52,7 +52,7 @@ namespace FietsClient
         {
             try
             {
-                client.Connect("127.0.0.1", 1288);
+                client.Connect("brdk.nl", 1288);
 
 
                 // create streams

@@ -55,7 +55,7 @@
             this.archiefToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1071, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1084, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -158,7 +158,7 @@
             // 
             this.doctorSummaryUC1.BackColor = System.Drawing.SystemColors.Control;
             this.doctorSummaryUC1.Location = new System.Drawing.Point(0, 0);
-            this.doctorSummaryUC1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.doctorSummaryUC1.Margin = new System.Windows.Forms.Padding(4);
             this.doctorSummaryUC1.Name = "doctorSummaryUC1";
             this.doctorSummaryUC1.Size = new System.Drawing.Size(822, 640);
             this.doctorSummaryUC1.TabIndex = 0;
@@ -168,7 +168,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1071, 615);
+            this.ClientSize = new System.Drawing.Size(1084, 711);
             this.Controls.Add(this.doctorTabControl);
             this.Controls.Add(this.chatArea);
             this.Controls.Add(this.menuStrip1);
