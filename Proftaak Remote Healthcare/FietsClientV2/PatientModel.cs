@@ -165,7 +165,6 @@ namespace FietsClient
         //change bike values
         public void setTimeMode(string time, Boolean start)
         {
-            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
             if (patientform.InvokeRequired)
@@ -173,21 +172,22 @@ namespace FietsClient
                 patientform.Invoke((new Action(() => patientform.sessionBox.Text = "Tijd: " + time)));
                 return;
             }
-            if(start)
+            if (!dataHandler.checkBikeState(false)) return;
+            if (start)
                 startSession();
         }
 
         public void setPower(string power)
         {
 	        powerLog = power;
-            if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PW " + power);
+	        if (!dataHandler.checkBikeState(false)) return;
         }
 
         public void setDistanceMode(string distance, Boolean start)
         {
-            if (!dataHandler.checkBikeState(false)) return;
+            
             dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
             if (patientform.InvokeRequired)
@@ -195,7 +195,8 @@ namespace FietsClient
                 patientform.Invoke((new Action(() => patientform.sessionBox.Text = "Afstand: " + distance)));
                 return;
             }
-            if(start)
+	        if (!dataHandler.checkBikeState(false)) return;
+            if (start)
                 startSession();
         }
 
