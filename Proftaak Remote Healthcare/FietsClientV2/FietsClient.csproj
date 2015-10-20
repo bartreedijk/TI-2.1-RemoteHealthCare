@@ -97,16 +97,12 @@
     <Compile Include="Forms\NewPatientForm.Designer.cs">
       <DependentUpon>NewPatientForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="JSONObjecten\Session.cs" />
-    <Compile Include="JSONObjecten\Measurement.cs" />
     <Compile Include="Forms\PatientForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\PatientForm.Designer.cs">
       <DependentUpon>PatientForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="JSONObjecten\User.cs" />
-    <Compile Include="lib\JsonConverter.cs" />
     <Compile Include="DoctorModel.cs" />
     <Compile Include="PatientModel.cs" />
     <Compile Include="Program.cs" />
@@ -140,7 +136,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="lib\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -150,9 +145,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FeatureIconRebootMachines.png" />
@@ -168,6 +160,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FietsLibrary\FietsLibrary.csproj">
+      <Project>{bfc5d226-a81e-4990-a46f-f59ab541fa6a}</Project>
+      <Name>FietsLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

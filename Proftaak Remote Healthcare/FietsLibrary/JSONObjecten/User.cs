@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ServerV2.JSONObjecten
+namespace FietsLibrary.JSONObjecten
 {
     [Serializable]
     public class User

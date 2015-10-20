@@ -1,4 +1,5 @@
-﻿using FietsClient.JSONObjecten;
+﻿using FietsLibrary.JSONObjecten;
+using FietsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;

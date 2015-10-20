@@ -9,7 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FietsClient.JSONObjecten;
+using FietsLibrary.JSONObjecten;
+using FietsLibrary;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FietsClient

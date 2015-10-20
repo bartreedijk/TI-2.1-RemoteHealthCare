@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using ServerV2.FileIO;
-using ServerV2.JSONObjecten;
-using ServerV2.Libraries;
+using FietsLibrary.JSONObjecten;
+using FietsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +9,27 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Security;
+using System.IO;
+using System.Security.Authentication;
 
 namespace ServerV2
 {
     class AppGlobal
     {
-        private TcpListener listener;
-        private List<Client> clients = new List<Client>();
-        private List<User> users = new List<User>();
+        public TcpListener listener { get; private set; }
+        public List<Client> clients { get; private set; } = new List<Client>();
+        public List<User> users { get; private set; } = new List<User>();
 
         public AppGlobal()
         {
             listener = new TcpListener(IPAddress.Any, 1288);
             listener.Start();
+            TestMethode();
             while (true)
             {
-                TestMethode();
-                Console.WriteLine(FileIO.JsonConverter.GetUserSessions(users.ElementAt(1)));
+                
+                Console.WriteLine(FietsLibrary.JsonConverter.GetUserSessions(users.ElementAt(1)));
                 Console.WriteLine("waiting for clients...");
                 TcpClient client = listener.AcceptTcpClient();
                 Console.WriteLine("connection received");
@@ -53,13 +56,49 @@ namespace ServerV2
             users.ElementAt(1).tests.Add(session2);
         }
 
+        private SslStream InitialiseConnection(TcpClient client)
+        {
+            SslStream sslStream = new SslStream(client.GetStream());
+            try
+            {
+                sslStream.AuthenticateAsServer(SSLCrypto.LoadCert(), false, SslProtocols.Default, false);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("IOExeption occured while a client tried to connect.");
+                Console.WriteLine(e.StackTrace);
+                //Stop();
+            }
+            Console.WriteLine("New client connected");
+            return sslStream;
+        }
+
+        
+
         private void receive(object obj)
         {
             TcpClient client = obj as TcpClient;
             User currentUser;
+
+            SslStream sslStream = InitialiseConnection(client);
+
             while (!(client.Client.Poll(0, SelectMode.SelectRead) && client.Client.Available == 0))
             {
-                string[] response = Encoding.ASCII.GetString(new byte[(int)client.ReceiveBufferSize]).Split('|');
+
+                byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
+                try
+                {
+                    sslStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception occured while trying to get data from client. Disconnecting...");
+                    Console.WriteLine(e.StackTrace);
+                    //Stop();
+                }
+
+                string[] response = Encoding.ASCII.GetString(bytesFrom).Split('|');
+
                 switch (response[0])
                 {
                     case "0":
@@ -78,32 +117,38 @@ namespace ServerV2
 
                             if (id > -1)
                             {
-                                if (users.First(item => item.id == response[1]).isDoctor)
+                                var user = users.FirstOrDefault(item => item.id == response[1]);
+                                if (user == null)
+                                {
+                                    Console.WriteLine("received incorrect username or password");
+                                    Communication.Send("0|0|0|", sslStream); // Does not exist
+                                }
+                                else if (user.isDoctor)
                                 {
                                     Console.WriteLine($"received login from docter username: {response[1]} ");
-                                    Communication.SendMessage(client, "0|1|1|");   // Doctor
+                                    Communication.Send("0|1|1|", sslStream);   // Doctor
                                 }
-                                else
+                                else if (!user.isDoctor)
                                 {
                                     Console.WriteLine($"received login from patient username: {response[1]} ");
-                                    Communication.SendMessage(client, "0|1|0|");   //Patient
+                                    Communication.Send("0|1|0|", sslStream);   //Patient
                                 }
-                                clients.Add(new Client(client, response[1]));
+                                clients.Add(new Client(client, sslStream, response[1]));
                             }
                             else
                             {
-                                Console.WriteLine("received incorrect username or password");
-                                Communication.SendMessage(client, "0|0|0|"); // Does not exist
+                                Console.WriteLine("IOException");
+                                Communication.Send("0|0|0|", sslStream); // Does not exist
                             }
                         }
                         break;
                     case "1":   //meetsessies ophalen
                         currentUser = users.First(item => item.id == response[1]);
-                        Communication.SendMessage(client, "1|" + FileIO.JsonConverter.GetUserSessions(currentUser));
+                        Communication.Send("1|" + FietsLibrary.JsonConverter.GetUserSessions(currentUser), sslStream);
                         break;
                     case "2":   //Livedata opvragen
                         currentUser = users.First(item => item.id == response[1]);
-                        FileIO.JsonConverter.GetLastMeasurement(currentUser.tests.Last());
+                        FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.tests.Last());
                         break;
                     case "3":   //Nieuwe meetsessie aanmaken
                         if (response.Length == 6)
@@ -132,11 +177,11 @@ namespace ServerV2
 
                             string case6str = "7|" + sender + "|" + receiver + "|" + message;
                             Console.WriteLine(case6str);
-                            Communication.SendMessage(client, case6str);
+                            Communication.Send(case6str, sslStream);
                             for (int i = 0; i < clients.Count; i++)
                             {
                                 if (clients[i].username == receiver)
-                                    Communication.SendMessage(clients[i].tcpClient, "7|" + sender + "|" + receiver + "|" + message);
+                                    Communication.Send("7|" + sender + "|" + receiver + "|" + message, clients[i].sslStream);
                             }
                         }
                         break;
@@ -162,16 +207,18 @@ namespace ServerV2
                                     {
                                         strToSend += (patient + '\t');
                                     }
-                                Communication.SendMessage(client, strToSend.TrimEnd('\t'));
+                                Communication.Send(strToSend.TrimEnd('\t'), sslStream);
                             }
                         }
                         break;
                     case "9": //alles doorsturen voor de dokter
-                        Communication.SendMessage(client, FileIO.JsonConverter.GetUsers(users));
+                        Communication.Send(FietsLibrary.JsonConverter.GetUsers(users), sslStream);
                         break;
                     default:
                         break;
                 }
+
+
             }
         }
 
@@ -179,14 +226,18 @@ namespace ServerV2
 
     class Client
     {
-        public TcpClient tcpClient;
+        public TcpClient client { get; private set; }
+        public SslStream sslStream { get; private set; }
         public string username;
 
-        public Client(TcpClient tcpClient, string username)
+        public Client(TcpClient client, SslStream sslStream, string username)
         {
-            this.tcpClient = tcpClient;
+            this.client = client;
+            this.sslStream = sslStream;
             this.username = username;
         }
+
+        
 
     }
 }

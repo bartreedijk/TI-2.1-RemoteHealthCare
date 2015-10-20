@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 
-namespace ServerV2.JSONObjecten
+namespace FietsLibrary.JSONObjecten
 {
     [Serializable]
     public class Session
@@ -47,10 +47,19 @@ namespace ServerV2.JSONObjecten
             session.Add(m);
         }
 
-        public Measurement GetMeasurement()
+        public Measurement GetLastMeasurement()
         {
             return session.Last();
         }
+	
+	public void PrintAll()
+        {
+            Console.WriteLine("pulse" + "\t" + "rpm" + "\t" + "speed" + "\t" + " dist" + "\t" + "req pow" + "\t" + "energy" + "\t" + "time" + "\t\t" + "act pow");
 
+            for (int i = 0; i < session.Count; i++)
+            {
+                Console.WriteLine(session[i].pulse + "\t" + session[i].rpm + "\t" + session[i].speed + "\t " + session[i].distance + "\t" + session[i].requestedPower + "\t" + session[i].energy + "\t" + session[i].time + "\t" + session[i].actualPower);
+            }
+        }
     }
 }

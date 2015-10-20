@@ -2,14 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerV2.Libraries
+namespace FietsLibrary
 {
-    class Communication
+   public class Communication
     {
+        public static void Send(string s, SslStream sslStream)
+        {
+            byte[] b = Encoding.ASCII.GetBytes(s);
+            sslStream.Write(b, 0, b.Length);
+            sslStream.Flush();
+        }
+
+        // depricated
+        /*
         //simple writeline and readline
         public static void WriteTextMessage(TcpClient client, string message)
         {
@@ -19,9 +29,8 @@ namespace ServerV2.Libraries
             stream.Flush();
         }
 
-        public static string ReadTextMessage(TcpClient client)
+        public static string ReadTextMessage(NetworkStream stream)
         {
-            StreamReader stream = new StreamReader(client.GetStream(), Encoding.Unicode);
             return stream.ReadLine();
         }
 
@@ -40,5 +49,6 @@ namespace ServerV2.Libraries
             while (client.GetStream().DataAvailable);
             return Encoding.Unicode.GetString(buffer, 0, totalRead);
         }
+        */
     }
 }

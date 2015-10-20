@@ -48,20 +48,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppGlobal.cs" />
-    <Compile Include="JSONObjecten\Measurement.cs" />
-    <Compile Include="JSONObjecten\Session.cs" />
-    <Compile Include="JSONObjecten\User.cs" />
-    <Compile Include="Libraries\Communication.cs" />
-    <Compile Include="Libraries\JsonConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="JSONObjecten\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="JSONObjecten\JSON Files\" />
+    <ProjectReference Include="..\FietsLibrary\FietsLibrary.csproj">
+      <Project>{bfc5d226-a81e-4990-a46f-f59ab541fa6a}</Project>
+      <Name>FietsLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

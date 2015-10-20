@@ -5,13 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ServerV2.JSONObjecten;
+using FietsLibrary.JSONObjecten;
 
-namespace ServerV2.FileIO
+namespace FietsLibrary
 {
-    class JsonConverter
+    public class JsonConverter
     {
-        public static void SaveUser(User u)
+        public static string SerializeSession(Session s)
+        {
+            return JsonConvert.SerializeObject(s);
+        }
+
+	public static string SerializeUser(User user)
+        {
+            return JsonConvert.SerializeObject(user);
+        }
+
+	public static string SerializeLastMeasurement(Measurement measurement)
+        {
+            return JsonConvert.SerializeObject(measurement);
+        }
+
+	public static void SaveUser(User u)
         {
             File.WriteAllText(@"JSON Files\" + u.id + ".json", GetUser(u));
         }
@@ -33,7 +48,7 @@ namespace ServerV2.FileIO
 
         public static string GetLastMeasurement(Session currentSession)
         {
-            return JsonConvert.SerializeObject(currentSession.GetMeasurement());
+            return JsonConvert.SerializeObject(currentSession.GetLastMeasurement());
         }
 
         public static string GetUsers(List<User> user)

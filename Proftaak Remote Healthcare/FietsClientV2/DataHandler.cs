@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
-using FietsClient.JSONObjecten;
+using FietsLibrary.JSONObjecten;
 
 namespace FietsClient
 {

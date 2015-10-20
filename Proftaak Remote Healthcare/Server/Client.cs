@@ -27,6 +27,7 @@ namespace Server
         public Client(TcpClient socket)
         {
             client = socket;
+            
 
             sslStream = new SslStream(client.GetStream());
             try

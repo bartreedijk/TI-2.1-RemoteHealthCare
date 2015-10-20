@@ -13,8 +13,6 @@ namespace Server
         private static AppGlobal _instance;
 
         private List<User> users;
-        private List<User> activePatient;
-        private List<User> activeDoctor;
 
         public static AppGlobal Instance
         {

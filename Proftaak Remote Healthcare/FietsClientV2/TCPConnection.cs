@@ -1,4 +1,5 @@
-﻿using FietsClient.JSONObjecten;
+﻿using FietsLibrary.JSONObjecten;
+using FietsLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -139,18 +140,20 @@ namespace FietsClient
                         case "0":   //login and display correct window after login
                             if (response_parts.Length == 4)
                             {
-                                SendGet(1);
+                                
 
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
                                     currentData = new CurrentData(userID);
                                     currentData.isDoctor = true;
+                                    SendGet(1);
                                 }
                                 else if (response_parts[2] == "0" && response_parts[1] == "1")
                                 {
 
                                     currentData = new CurrentData(userID);
                                     currentData.isDoctor = false;
+                                    SendGet(1);
                                 }
                                 else
                                     new Login("Geen gebruiker gevonden");
@@ -226,7 +229,7 @@ namespace FietsClient
         public void SendNewSession()
         {
             // send command ( cmdID | username )
-            SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
+            SendString("3|" + userID + FietsLibrary.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
         }
 
         public void SendNewPatient(User user)
@@ -238,7 +241,7 @@ namespace FietsClient
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
-            SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
+            SendString("5|" + userID + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 
         public void SendChatMessage(string[] data)
@@ -273,8 +276,6 @@ namespace FietsClient
         {
             SendString("12|" + userID + "|" + power + "|");
         }
-
-
 
         public void SendString(string s)
         {

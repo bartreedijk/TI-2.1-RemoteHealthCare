@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
+using Measurement = FietsLibrary.JSONObjecten.Measurement;
+using FietsLibrary.JSONObjecten;
+using FietsLibrary;
 
 namespace FietsClient
 {

@@ -8,8 +8,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{06C35F7A-BA2D-4F7D-8F8E-39636027707B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FietsClient", "FietsClientV2\FietsClient.csproj", "{96E4194B-1E09-42EA-AF10-09FC7B4444F8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BFC5D226-A81E-4990-A46F-F59AB541FA6A} = {BFC5D226-A81E-4990-A46F-F59AB541FA6A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerV2", "ServerV2\ServerV2.csproj", "{1C8D6858-FC95-4869-8E4A-6FE1BE36EAD6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BFC5D226-A81E-4990-A46F-F59AB541FA6A} = {BFC5D226-A81E-4990-A46F-F59AB541FA6A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FietsLibrary", "FietsLibrary\FietsLibrary.csproj", "{BFC5D226-A81E-4990-A46F-F59AB541FA6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +43,10 @@ Global
 		{1C8D6858-FC95-4869-8E4A-6FE1BE36EAD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C8D6858-FC95-4869-8E4A-6FE1BE36EAD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C8D6858-FC95-4869-8E4A-6FE1BE36EAD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC5D226-A81E-4990-A46F-F59AB541FA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC5D226-A81E-4990-A46F-F59AB541FA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC5D226-A81E-4990-A46F-F59AB541FA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC5D226-A81E-4990-A46F-F59AB541FA6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
