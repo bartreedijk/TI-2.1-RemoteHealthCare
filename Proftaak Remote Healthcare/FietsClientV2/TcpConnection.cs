@@ -283,7 +283,6 @@ namespace FietsClient
                             PatientModel.patientModel.setDistanceMode(response_parts[1].TrimEnd('\0'), false);
                             break;
                         case "21":
-                            
                             PatientModel.patientModel.setTimeMode(response_parts[1].TrimEnd('\0') + response_parts[2].TrimEnd('\0'), false);
                             break;
                         case "22":

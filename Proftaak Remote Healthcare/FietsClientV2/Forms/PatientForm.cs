@@ -155,7 +155,7 @@ namespace FietsClient
             foreach (Session s in _connection.currentData.GetSessions())
             {
                 selectSessionToolStripMenuItem.DropDownItems.Add(
-                    new ToolStripMenuItem(s.id.ToString(), null, delegate
+                    new ToolStripMenuItem(s.date.Year + "-" + (s.date.Month + 1) + "-" + s.date.Day + " " + s.date.Hour + ":" + s.date.Second, null, delegate
                     {
                         patientModel.stopAskingData();
                         this.sessionBox.Text = s.id.ToString();
