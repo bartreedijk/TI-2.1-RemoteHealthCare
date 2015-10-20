@@ -64,8 +64,12 @@ namespace FietsClient
         {
             askdata = false;
             dataHandler.sendData(DataHandler.RESET);
-            patientform.sessionBox.Text = " ";
-            patientform.label19.Text = "Sessie gestopt";
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.sessionBox.Text = " ")));
+                patientform.Invoke((new Action(() => patientform.label19.Text = "Sessie gestopt")));
+                return;
+            }
         }
 
         private void workerThreadLoop()
@@ -164,7 +168,11 @@ namespace FietsClient
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PT " + time);
-            patientform.sessionBox.Text = "Tijd: " + time;
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.sessionBox.Text = "Tijd: " + time)));
+                return;
+            }
             if(start)
                 startSession();
         }
@@ -182,7 +190,11 @@ namespace FietsClient
             if (!dataHandler.checkBikeState(false)) return;
             dataHandler.sendData("CM");
             dataHandler.sendData("PD " + distance);
-            patientform.sessionBox.Text = "Afstand: " + distance;
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.sessionBox.Text = "Afstand: " + distance)));
+                return;
+            }
             if(start)
                 startSession();
         }
@@ -191,8 +203,11 @@ namespace FietsClient
         {
             patientform._connection.StartNewSession(false, patientform._connection.currentData.GetUserID());
             patientModel.startAskingData();
-            patientform.label19.Text = "Sessie is gestart, u kunt nu gaan starten met fietsen.";
-
+            if (patientform.InvokeRequired)
+            {
+                patientform.Invoke((new Action(() => patientform.label19.Text = "Sessie is gestart, u kunt nu gaan starten met fietsen.")));
+                return;
+            }
         }
 
         public void reset()
