@@ -72,11 +72,12 @@ namespace FietsSimulator
                 stopwatch.Stop();
                 SendData("ACK");
             }
-            else if (message == "CU")
+            else if (message == "CM" || message == "CU")
             {
                 curmode = Mode.CONSOLE;
                 SendData("ACK");
-            }else if (message.Contains("PD"))
+            }
+            else if (message.Contains("PD"))
             {
                 if (curmode == Mode.CONSOLE && message.Split().Length == 2)
                 {

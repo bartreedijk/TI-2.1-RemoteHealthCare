@@ -66,7 +66,7 @@ namespace FietsClient
             else if (messageBox.Text != null && doctorTabControl.SelectedTab.Name == "tabPageSummary")
             {
                 String[] data = new String[2];
-                data[0] = "This is a broadcast: " + messageBox.Text;
+                data[0] = "This is a broadcast: " + messageBox.Text + "\r\n";
                 //all patients:
                 for (int tabs = 1; tabs <= doctorTabControl.TabCount -1; tabs++)
                 {
