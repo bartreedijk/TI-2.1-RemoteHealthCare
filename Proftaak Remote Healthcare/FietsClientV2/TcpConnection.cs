@@ -202,11 +202,13 @@ namespace FietsClient
                             break;
                         case "2":
                             dynamic DynMeasurement = JsonConvert.DeserializeObject<dynamic>(response_parts[1]);
-                            Measurement outputMeasurement = new Measurement(DynMeasurement.pulse, DynMeasurement.rpm, DynMeasurement.speed, DynMeasurement.distance, DynMeasurement.requestedPower, DynMeasurement.energy, DynMeasurement.actualPower, DynMeasurement.time);
+                            Measurement outputMeasurement = new Measurement((int)DynMeasurement.pulse, (int)DynMeasurement.rpm, (int)DynMeasurement.speed, (int)DynMeasurement.distance, (int)DynMeasurement.requestedPower, (int)DynMeasurement.energy, (int)DynMeasurement.actualPower, (int)DynMeasurement.time);
                             currentData.GetSessions().Last().AddMeasurement(outputMeasurement);
                             
-
-
+                            break;
+                        case "3":
+                            
+                            
                             break;
                         case "7":
                             //                                        sender              receiver          message
@@ -310,8 +312,9 @@ namespace FietsClient
 
         public void SendNewMeasurement()
         {
-            // send command ( cmdID | username )
-            SendString("5|" + userID + "|" + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
+            // send command ( usernamePatient | usernameCurrentDoctor | data )
+            string currentDoctor = PatientModel.patientModel.CurrentDoctorID;
+            SendString("5|" + userID + "|" + currentDoctor + "|" + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 
         public void SendChatMessage(string[] data)

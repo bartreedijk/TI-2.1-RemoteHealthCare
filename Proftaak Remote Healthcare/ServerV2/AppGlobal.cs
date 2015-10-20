@@ -58,7 +58,7 @@ namespace ServerV2
             TestMethode();
             while (true)
             {
-                
+
                 Console.WriteLine(FietsLibrary.JsonConverter.GetUserSessions(users.ElementAt(1)));
                 Console.WriteLine("waiting for clients...");
                 TcpClient client = listener.AcceptTcpClient();
@@ -108,7 +108,7 @@ namespace ServerV2
         {
             File.WriteAllText(@"JSON Files\UserData.Json", JsonConvert.SerializeObject(users));
         }
-        
+
 
         private void receive(object obj)
         {
@@ -181,7 +181,7 @@ namespace ServerV2
                         currentUser = users.First(item => item.id == response[1]);
                         Communication.Send("1|" + FietsLibrary.JsonConverter.GetUserSessions(currentUser), sslStream);
                         break;
-                    case "2":   //Livedata PUSHEN/OPVRAGEN
+                    case "2":   //Livedata OPVRAGEN
                         currentUser = users.First(item => item.id == response[1]);
                         string lastMeasurement = FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.sessions.Last());
                         Communication.Send("2|" + lastMeasurement + "|", sslStream);
@@ -193,7 +193,6 @@ namespace ServerV2
                             {
                                 if (u.id == response[1])
                                 {
-                                    
                                     if (u.GetSessions().Count != 0)
                                     {
                                         int sessionID = u.GetSessions().LastOrDefault().id;
@@ -203,21 +202,34 @@ namespace ServerV2
                                     {
                                         u.AddSession(new Session(1));
                                     }
-                                        
                                 }
-                                    
                             }
                         }
                         break;
                     case "4":  // Nieuwe patient
                         users.Add(new User(response[1], response[2], Int32.Parse(response[3]), Boolean.Parse(response[4]), Int32.Parse(response[5])));
                         break;
-                    case "5":   //data pushen naar meetsessie
+                    case "5":   //data pushen naar meetsessie (opslaan)
+
+                        // opslaan van measurement
                         currentUser = users.FirstOrDefault(item => item.id == response[1]);
+                        Measurement outputMeasurement = null;
                         if (currentUser != null && currentUser.sessions.LastOrDefault() != null)
                         {
-                            currentUser.sessions.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response[2]));
+                            dynamic DynMeasurement = JsonConvert.DeserializeObject<dynamic>(response[3]);
+                            outputMeasurement = new Measurement((int)DynMeasurement.pulse, (int)DynMeasurement.rpm, (int)DynMeasurement.speed, (int)DynMeasurement.distance, (int)DynMeasurement.requestedPower, (int)DynMeasurement.energy, (int)DynMeasurement.actualPower, (int)DynMeasurement.time);
+                            currentUser.sessions.Last().AddMeasurement(outputMeasurement);
                         }
+                        // einde opslaan measurement
+
+                        // nu sturen we het naar de doctor
+                        if (outputMeasurement != null && response[2] != "")
+                        {
+                            Client Case5Client = clients.FirstOrDefault(item => item.username == response[2]);
+                            string Case5String = "2|" + JsonConvert.SerializeObject(outputMeasurement);
+                            Communication.Send(Case5String, Case5Client.sslStream);
+                        }
+
                         break;
                     case "6": //chatberichten ontvangen van gebruikers
                         //controleren of het bericht wel tekens bevat
@@ -264,9 +276,11 @@ namespace ServerV2
                         }
                         break;
                     case "9": //alles doorsturen voor de dokter
-                        Console.WriteLine("send users");
-                        string file = "9|" + FietsLibrary.JsonConverter.GetUsers(users);
-                        Communication.Send(file, sslStream);
+
+                        // BUG: er wordt teveel data verstuurd!!!!
+                        //Console.WriteLine("send users");
+                        //string file = "9|" + FietsLibrary.JsonConverter.GetUsers(users);
+                        //Communication.Send(file, sslStream);
                         break;
                     case "10":
                         if (response[1] == "1" || response[1] == "0") //start of stop sesie (met check)
@@ -275,6 +289,8 @@ namespace ServerV2
                             string Case10String = "10|" + response[1] + "|";
                             Communication.Send(Case10String, Case10Client.sslStream);
                         }
+                        currentUser = users.FirstOrDefault(item => item.id == response[1]);
+                        Communication.Send("10|" + currentUser.id + "|", sslStream);
                         break;
                     default:
                         break;
@@ -299,7 +315,7 @@ namespace ServerV2
             this.username = username;
         }
 
-        
+
 
     }
 }
