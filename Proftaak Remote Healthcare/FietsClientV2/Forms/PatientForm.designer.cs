@@ -36,6 +36,7 @@ namespace FietsClient
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatientForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archiefToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +67,9 @@ namespace FietsClient
             this.bpmBox = new System.Windows.Forms.GroupBox();
             this.bpmChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.sessionInfoBox = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.requestedBox = new System.Windows.Forms.TextBox();
             this.actualBox = new System.Windows.Forms.TextBox();
             this.nameBox = new System.Windows.Forms.TextBox();
@@ -362,6 +366,9 @@ namespace FietsClient
             // 
             // sessionInfoBox
             // 
+            this.sessionInfoBox.Controls.Add(this.label19);
+            this.sessionInfoBox.Controls.Add(this.button2);
+            this.sessionInfoBox.Controls.Add(this.button1);
             this.sessionInfoBox.Controls.Add(this.requestedBox);
             this.sessionInfoBox.Controls.Add(this.actualBox);
             this.sessionInfoBox.Controls.Add(this.nameBox);
@@ -396,6 +403,34 @@ namespace FietsClient
             this.sessionInfoBox.TabIndex = 4;
             this.sessionInfoBox.TabStop = false;
             this.sessionInfoBox.Text = "Session info:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(197, 286);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(0, 13);
+            this.label19.TabIndex = 40;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(99, 281);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 39;
+            this.button2.Text = "Stop sessie";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 281);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 38;
+            this.button1.Text = "Start sessie";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // requestedBox
             // 
@@ -718,7 +753,10 @@ namespace FietsClient
             this.Controls.Add(this.bpmBox);
             this.Controls.Add(this.speedBox);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "PatientForm";
             this.Text = "Patient";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PatientForm_FormClosing);
@@ -806,6 +844,9 @@ namespace FietsClient
         public System.Windows.Forms.DataVisualization.Charting.Chart speedChart;
         public Chart bpmChart;
         public Chart rpmChart;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label19;
     }
 }
 
