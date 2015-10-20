@@ -17,7 +17,7 @@ namespace FietsClient
 {
     public partial class PatientForm : Form
     {
-        private TcpConnection _connection;
+        public TcpConnection _connection { get; private set; }
         private PatientModel patientModel;
 
         public PatientForm(TcpConnection connection)
@@ -164,10 +164,10 @@ namespace FietsClient
                         this.sessionBox.Text = s.id.ToString();
                         this.nameBox.Text = _connection.userID;
                         //get measurments
-                        List<Measurement> measurments = s.session;
+                        List<Measurement> measurments = s.measurements;
                         //fill boxes
 
-                        this.pulseBox.Text = measurments[measurments.Count - 1].bpm.ToString();
+                        this.pulseBox.Text = measurments[measurments.Count - 1].pulse.ToString();
                         this.rpmInfoBox.Text = measurments[measurments.Count - 1].rpm.ToString();
                         this.speedInfoBox.Text = measurments[measurments.Count - 1].speed.ToString();
                         this.distanceInfoBox.Text = measurments[measurments.Count - 1].distance.ToString();
@@ -192,7 +192,7 @@ namespace FietsClient
                         patientModel.bpmPoints = new List<DataPoint>();
                         for (int i = 0; i < measurments.Count; i++)
                         {
-                            patientModel.bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].bpm));
+                            patientModel.bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].pulse));
                         }
                         //fill bpmgraph
                         this.bpmChart.Series[0].Points.Clear();
@@ -250,12 +250,12 @@ namespace FietsClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            patientModel.startAskingData();
+            _connection.StartNewSession();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            patientModel.stopAskingData();
+            _connection.StopSessoin();
         }
     }
 }

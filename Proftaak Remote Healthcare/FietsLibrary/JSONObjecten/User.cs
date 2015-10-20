@@ -13,7 +13,7 @@ namespace FietsLibrary.JSONObjecten
 
         public string id { get; private set; }
         public string password { get; private set; }
-        public List<Session> tests { get; private set; }
+        public List<Session> sessions { get; private set; }
         public int age { get; private set; }
         public bool gender { get; private set; }
         public int weight { get; private set; }
@@ -30,7 +30,7 @@ namespace FietsLibrary.JSONObjecten
         {
             this.id = id;
             this.password = password;
-            this.tests = new List<Session>();
+            this.sessions = new List<Session>();
             this.age = age;
             this.gender = gender;
             this.weight = weight;
@@ -42,7 +42,7 @@ namespace FietsLibrary.JSONObjecten
         {
             this.id = id;
             this.password = password;
-            this.tests = new List<Session>();
+            this.sessions = new List<Session>();
             this.age = age;
             this.gender = gender;
             this.weight = weight;
@@ -51,12 +51,12 @@ namespace FietsLibrary.JSONObjecten
 
         public void AddSession(Session session)
         {
-            tests.Add(session);
+            sessions.Add(session);
         }
 
         public List<Session> GetSessions()
         {
-            return tests;
+            return sessions;
         }
     }
 }

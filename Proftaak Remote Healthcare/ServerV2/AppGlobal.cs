@@ -45,15 +45,15 @@ namespace ServerV2
             users.Add(new User("admin", "admin", 80, false, 77, true));
 
             Random r = new Random();
-            Session session = new Session(1,1, "100");
+            Session session = new Session();
             for (int i = 0; i < 20; i++)
                 session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
-            users.ElementAt(1).tests.Add(session);
+            users.ElementAt(1).sessions.Add(session);
 
-            Session session2 = new Session(2,2, "100");
+            Session session2 = new Session();
             for (int i = 0; i < 50; i++)
                 session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
-            users.ElementAt(1).tests.Add(session2);
+            users.ElementAt(1).sessions.Add(session2);
         }
 
         private SslStream InitialiseConnection(TcpClient client)
@@ -146,17 +146,18 @@ namespace ServerV2
                         currentUser = users.First(item => item.id == response[1]);
                         Communication.Send("1|" + FietsLibrary.JsonConverter.GetUserSessions(currentUser), sslStream);
                         break;
-                    case "2":   //Livedata opvragen
+                    case "2":   //Livedata PUSHEN/OPVRAGEN
                         currentUser = users.First(item => item.id == response[1]);
-                        FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.tests.Last());
+                        string lastMeasurement = FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.sessions.Last());
+                        Communication.Send("2|" + lastMeasurement + "|", sslStream);
                         break;
                     case "3":   //Nieuwe meetsessie aanmaken
-                        if (response.Length == 6)
+                        if (true)
                         {
                             foreach (User u in users)
                             {
                                 if (u.id == response[1])
-                                    u.AddSession(new Session(u.GetSessions().Last().id+1, int.Parse(response[2]), response[3]));
+                                    u.AddSession(new Session());
                             }
                         }
                         break;
@@ -164,8 +165,11 @@ namespace ServerV2
                         users.Add(new User(response[1], response[2], Int32.Parse(response[3]), Boolean.Parse(response[4]), Int32.Parse(response[5])));
                         break;
                     case "5":   //data pushen naar meetsessie
-                        currentUser = users.First(item => item.id == response[1]);
-                        currentUser.tests.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response[2]));
+                        currentUser = users.FirstOrDefault(item => item.id == response[1]);
+                        if (currentUser != null && currentUser.sessions.LastOrDefault() != null)
+                        {
+                            currentUser.sessions.Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response[2]));
+                        }
                         break;
                     case "6": //chatberichten ontvangen van gebruikers
                         //controleren of het bericht wel tekens bevat
@@ -215,6 +219,14 @@ namespace ServerV2
                         Console.WriteLine("send users");
                         string file = "9|" + FietsLibrary.JsonConverter.GetUsers(users);
                         Communication.Send(file, sslStream);
+                        break;
+                    case "10":
+                        if (response[1] == "1" || response[1] == "0") //start of stop sesie (met check)
+                        {
+                            Client Case10Client = clients.FirstOrDefault(item => item.username == response[2].TrimEnd('\0'));
+                            string Case10String = "10|" + response[1] + "|";
+                            Communication.Send(Case10String, Case10Client.sslStream);
+                        }
                         break;
                     default:
                         break;
