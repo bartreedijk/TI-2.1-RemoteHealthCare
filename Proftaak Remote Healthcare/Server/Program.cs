@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Threading;
 using System.Net.Sockets;
-using System.Text;
-using System.IO;
 using System.Net;
-using Server;
 using System.Collections.Generic;
 
 namespace Server
@@ -39,7 +35,7 @@ namespace Server
             }
 
         }
-
+        // eigenlijk komt de server hier nooit maar toch...
         ~Program()
         {
             serverSocket.Stop();

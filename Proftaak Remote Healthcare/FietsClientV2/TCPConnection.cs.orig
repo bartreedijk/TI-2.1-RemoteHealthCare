@@ -1,12 +1,21 @@
-﻿using FietsClient.JSONObjecten;
+﻿using FietsLibrary.JSONObjecten;
+using FietsLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Authentication;
+<<<<<<< HEAD
+=======
+using System.Security.Permissions;
+>>>>>>> master
+using System.IO;
 
 namespace FietsClient
 {
@@ -14,9 +23,10 @@ namespace FietsClient
     {
         public TcpClient client;
         public bool isConnectedFlag { private set; get; }
-        private NetworkStream serverStream;
+        private SslStream sslStream;
         public CurrentData currentData { private set; get; }
-        private string userID;
+        public string userID { private set; get; }
+
         private Thread receiveThread;
 
         public delegate void ChatmassegeDelegate(string[] data);
@@ -28,7 +38,6 @@ namespace FietsClient
             connect();
         }
 
-<<<<<<< HEAD
         private void onIncomingChatMessage(string[] data)
         {
             ChatmassegeDelegate cMD = IncomingChatmessageEvent;
@@ -45,48 +54,111 @@ namespace FietsClient
 
         public void connect()
         {
-                try
-                {
-                    client.Connect("127.0.0.1", 1288);
-
-                    // create streams
-                    serverStream = client.GetStream();
-                    Thread t = new Thread(recieve);
-                    t.Start();
-                    isConnectedFlag = true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    Thread.Sleep(1000);
-                    isConnectedFlag = false;
-                }
-=======
-        public void connect()
-        {
             try
             {
-                client.Connect("127.0.0.1", 1288);
+                client.Connect("brdk.nl", 1288);
+
+
                 // create streams
-                serverStream = client.GetStream();
-                receiveThread = new Thread(receive);
-                receiveThread.Start();
-                isConnectedFlag = true;
+                sslStream = new SslStream(client.GetStream(), false,
+                    new RemoteCertificateValidationCallback(CertificateValidationCallback),
+                    new LocalCertificateSelectionCallback(CertificateSelectionCallback));
+
+                bool authenticationPassed = true;
+                try
+                {
+                    string serverName = System.Environment.MachineName;
+
+                    X509Certificate cert = GetServerCert();
+                    X509CertificateCollection certs = new X509CertificateCollection();
+                    certs.Add(cert);
+
+                    sslStream.AuthenticateAsClient(
+                        serverName,
+                        certs,
+                        SslProtocols.Default,
+                        false); // check cert revokation
+                }
+                catch (AuthenticationException)
+                {
+                    authenticationPassed = false;
+                }
+                if (authenticationPassed)
+                {
+                    receiveThread = new Thread(receive);
+                    receiveThread.Start();
+                    isConnectedFlag = true;
+                }
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 Thread.Sleep(1000);
                 isConnectedFlag = false;
             }
->>>>>>> feature/prepare
+        }
+
+        static X509Certificate CertificateSelectionCallback(object sender,
+            string targetHost,
+            X509CertificateCollection localCertificates,
+            X509Certificate remoteCertificate,
+            string[] acceptableIssuers)
+        {
+            return localCertificates[0];
+        }
+
+        private X509Certificate GetServerCert()
+        {
+            X509Certificate cert = new X509Certificate2(
+                            @"testcert.pfx",
+                            "jancoow");
+            return cert;
+        }
+
+        private bool CertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+        
+        public void disconnect()
+        {
+<<<<<<< HEAD
+           
+            sslStream.Close();
+            client.Close();
+            receiveThread.Abort();
+=======
+            sslStream.Close();
+            client.Close();
+            //receiveThread.Abort();
+>>>>>>> master
+            isConnectedFlag = false;
         }
 
         public void receive()
         {
-            while (true)
+            while (client.Connected)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                serverStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                try
+                {
+                    sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                }
+                catch (IOException e)
+                {
+<<<<<<< HEAD
+                    Console.WriteLine(e.StackTrace);
+                    break;
+                }
+
+=======
+                    // debug
+                    Console.WriteLine(e.StackTrace);
+                    break;
+                }
+                
+>>>>>>> master
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 
@@ -97,41 +169,73 @@ namespace FietsClient
                         case "0":   //login and display correct window after login
                             if (response_parts.Length == 4)
                             {
+                                
+
                                 if (response_parts[1] == "1" && response_parts[2] == "1")
                                 {
-                                    DoctorForm doctorForm = new DoctorForm(this);
-                                    Form activeForm = Form.ActiveForm;
-                                    activeForm.Invoke((MethodInvoker)delegate ()
-                                    {
-                                        activeForm.Hide();
-                                        doctorForm.Show();
-                                    });
                                     currentData = new CurrentData(userID);
+                                    currentData.isDoctor = true;
+                                    SendGet(1);
                                 }
                                 else if (response_parts[2] == "0" && response_parts[1] == "1")
                                 {
-                                    
-                                    Form activeForm = Form.ActiveForm;
-                                    activeForm.Invoke((MethodInvoker)delegate ()
-                                    {
-                                        PatientForm patientForm = new PatientForm(this);
-                                        activeForm.Hide();
-                                        patientForm.Show();
-                                    });
+
                                     currentData = new CurrentData(userID);
+                                    currentData.isDoctor = false;
+                                    SendGet(1);
                                 }
                                 else
                                     new Login("Geen gebruiker gevonden");
                             }
                             break;
                         case "1":
+                            response_parts[1] = response_parts[1].TrimEnd('\0');
                             currentData.setSessionList(JsonConvert.DeserializeObject<List<Session>>(response_parts[1]));
+
+                            if (currentData.isDoctor == true)
+                            {
+                                Form activeForm = Form.ActiveForm;
+                                activeForm.Invoke((MethodInvoker)delegate ()
+                               {
+                                   DoctorForm doctorForm = new DoctorForm(this);
+                                   activeForm.Hide();
+                                   doctorForm.Show();
+                               });
+                            }
+                            else
+                            {
+                                Form activeForm = Form.ActiveForm;
+                                if (activeForm != null)
+                                {
+                                    activeForm.Invoke((MethodInvoker)delegate ()
+                                    {
+                                        PatientForm patientForm = new PatientForm(this);
+                                        activeForm.Hide();
+                                        patientForm.Show();
+                                    });
+                                }
+                            }
+
                             break;
                         case "2":
                             currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
                             break;
                         case "7":
-                            string[] data = { response_parts[1], response_parts[2], response_parts[3] };
+                            //                                        sender              receiver          message
+                            onIncomingChatMessage(new string[] { response_parts[1], response_parts[2], response_parts[3].TrimEnd('\0') });
+                            break;
+                        case "8":
+                            if (response_parts[1].TrimEnd('\0') != "-1")
+                            {
+                                DoctorModel.doctorModel.onlinePatients = response_parts[1].TrimEnd('\0').Split('\t').ToList();
+                            }
+                            else if (response_parts[1].TrimEnd('\0') == "-1")
+                            {
+                                DoctorModel.doctorModel.onlinePatients = new List<String>();
+                            }
+                            break;
+                        case "9":
+                            JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
                             break;
                     }
                 }
@@ -148,49 +252,66 @@ namespace FietsClient
         public void SendGet(int GetWhat)
         {
             // send command ( cmdID | username )
-            SendString(GetWhat + "|" + userID);
+            SendString(GetWhat + "|" + userID + "|");
         }
 
         public void SendNewSession()
         {
             // send command ( cmdID | username )
-            SendString("3|" + userID + lib.JsonConverter.SerializeSession(currentData.GetSessions().Last()));
+            SendString("3|" + userID + FietsLibrary.JsonConverter.SerializeSession(currentData.GetSessions().Last()) + "|");
+        }
+
+        public void SendNewPatient(User user)
+        {
+            // send command ( cmdID | username )
+            SendString("4|" + user.id + "|" + user.password + "|" + user.age + "|" + user.gender + "|" + user.weight + "|");
         }
 
         public void SendNewMeasurement()
         {
             // send command ( cmdID | username )
-            SendString("5|" + userID + lib.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()));
+            SendString("5|" + userID + FietsLibrary.JsonConverter.SerializeLastMeasurement(currentData.GetSessions().Last().GetLastMeasurement()) + "|");
         }
 
-        public void SendString(string s)
+        public void SendChatMessage(string[] data)
         {
-            byte[] b = Encoding.ASCII.GetBytes(s);
-            serverStream.Write(b, 0, b.Length);
-            serverStream.Flush();
+            String receiverID = data[1];
+
+            if (currentData != null)
+            {
+                String message = data[0];
+
+                // send command ( cmdID | username sender | username receiverID | message )
+                string protocol = "6|" + this.userID + "|" + receiverID + "|" + message;
+                SendString(protocol);
+            }
+        }
+        public void SendGetActivePatients()
+        {
+            SendString("8|" + userID + "|");
         }
 
-<<<<<<< HEAD
-        public void SendChatMessage(string message)
-        {
-            // send command ( cmdID | username sender | username patient | message )
-            string protocol = "6 | " + this.userID +" | "/* + idPatient */ + " | " + message;
-            SendString(protocol);
-=======
         public void SendDistance(int distance)
         {
-            SendString("10|" + userID + "|" + distance);
+            SendString("10|" + userID + "|" + distance + "|");
         }
 
         public void SendTime(int Minutes, int seconds)
         {
-            SendString("11|" + userID + "|" + Minutes + ":" + seconds);
+            SendString("11|" + userID + "|" + Minutes + ":" + seconds + "|");
         }
 
         public void SendPower(int power)
         {
-            SendString("12|" + userID + "|" + power);
->>>>>>> feature/prepare
+            SendString("12|" + userID + "|" + power + "|");
+        }
+
+        public void SendString(string s)
+        {
+
+            byte[] b = Encoding.ASCII.GetBytes(s);
+            sslStream.Write(b, 0, b.Length);
+            sslStream.Flush();
         }
     }
 }
