@@ -210,7 +210,10 @@ namespace ServerV2
                         users.Add(new User(response[1], response[2], Int32.Parse(response[3]), Boolean.Parse(response[4]), Int32.Parse(response[5])));
                         break;
                     case "5":   //data pushen naar meetsessie (opslaan)
-
+                        // uitleg response[]:
+                        // response[1] = idPatient
+                        // response[2] = idCurrentDoctor
+                        // response[3] = measurement
                         // opslaan van measurement
                         currentUser = users.FirstOrDefault(item => item.id == response[1]);
                         Measurement outputMeasurement = null;
@@ -226,7 +229,7 @@ namespace ServerV2
                         if (outputMeasurement != null && response[2] != "")
                         {
                             Client Case5Client = clients.FirstOrDefault(item => item.username == response[2]);
-                            string Case5String = "2|" + JsonConvert.SerializeObject(outputMeasurement);
+                            string Case5String = "2|" + response[1] + "|" + JsonConvert.SerializeObject(outputMeasurement) + "|";
                             Communication.Send(Case5String, Case5Client.sslStream);
                         }
 
@@ -286,11 +289,14 @@ namespace ServerV2
                         if (response[1] == "1" || response[1] == "0") //start of stop sesie (met check)
                         {
                             Client Case10Client = clients.FirstOrDefault(item => item.username == response[2].TrimEnd('\0'));
-                            string Case10String = "10|" + response[1] + "|";
+                            string Case10String = "10|" + response[1] + "|" + response[2] + "|" + response[3].TrimEnd('\0') + "|";
                             Communication.Send(Case10String, Case10Client.sslStream);
+                            if (response[1] == "1")
+                            {
+                                Communication.Send("10|" + "1" + "|" + response[2] + "|" + response[3].TrimEnd('\0') + "|", sslStream);
+                            }
                         }
-                        currentUser = users.FirstOrDefault(item => item.id == response[1]);
-                        Communication.Send("10|" + "1" + currentUser.id + "|", sslStream);
+                        
                         break;
                     default:
                         break;

@@ -250,7 +250,7 @@ namespace FietsClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _connection.StartNewSession();
+            _connection.StartNewSession(false, _connection.currentData.GetUserID());
         }
 
         private void button2_Click(object sender, EventArgs e)
