@@ -10,6 +10,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication;
+using System.Security.Permissions;
+using System.IO;
 
 namespace FietsClient
 {
@@ -114,21 +116,30 @@ namespace FietsClient
         {
             return true;
         }
-
+        
         public void disconnect()
         {
-            receiveThread.Abort();
             sslStream.Close();
             client.Close();
+            //receiveThread.Abort();
             isConnectedFlag = false;
         }
 
         public void receive()
         {
-            while (true)
+            while (client.Connected)
             {
                 byte[] bytesFrom = new byte[(int)client.ReceiveBufferSize];
-                sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                try
+                {
+                    sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                }
+                catch (IOException e)
+                {
+                    // debug
+                    Console.WriteLine(e.StackTrace); 
+                }
+                
                 string response = Encoding.ASCII.GetString(bytesFrom);
                 string[] response_parts = response.Split('|');
 
