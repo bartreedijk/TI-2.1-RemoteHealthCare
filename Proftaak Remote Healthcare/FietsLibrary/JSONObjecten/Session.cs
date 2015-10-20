@@ -21,7 +21,7 @@ namespace FietsLibrary.JSONObjecten
         public string note { get; private set; }
         public string modevalue { get; private set; }
 
-        public Session(int bikeMode, string modevalue)
+        public Session(int id ,int bikeMode, string modevalue)
         {
             if (!(Directory.Exists(@"JSON Files"))) 
             {

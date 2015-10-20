@@ -41,6 +41,7 @@
             this.doctorTabControl = new System.Windows.Forms.TabControl();
             this.tabPageSummary = new System.Windows.Forms.TabPage();
             this.doctorSummaryUC1 = new FietsClient.Forms.DoctorSummaryUC();
+            this.loadUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.chatArea.SuspendLayout();
             this.doctorTabControl.SuspendLayout();
@@ -62,6 +63,7 @@
             // archiefToolStripMenuItem
             // 
             this.archiefToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadUsersToolStripMenuItem,
             this.PatientBox,
             this.sessionsBox,
             this.selectSessionToolStripMenuItem});
@@ -161,6 +163,13 @@
             this.doctorSummaryUC1.Size = new System.Drawing.Size(1096, 788);
             this.doctorSummaryUC1.TabIndex = 0;
             // 
+            // loadUsersToolStripMenuItem
+            // 
+            this.loadUsersToolStripMenuItem.Name = "loadUsersToolStripMenuItem";
+            this.loadUsersToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.loadUsersToolStripMenuItem.Text = "Load users";
+            this.loadUsersToolStripMenuItem.Click += new System.EventHandler(this.loadUsersToolStripMenuItem_Click);
+            // 
             // DoctorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -204,6 +213,7 @@
         public System.Windows.Forms.TabPage tabPageSummary;
         public System.Windows.Forms.ToolStripComboBox sessionsBox;
         private System.Windows.Forms.ToolStripMenuItem selectSessionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadUsersToolStripMenuItem;
     }
 }
 

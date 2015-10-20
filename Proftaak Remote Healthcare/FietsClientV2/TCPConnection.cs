@@ -27,7 +27,7 @@ namespace FietsClient
 
         public delegate void ChatmassegeDelegate(string[] data);
         public event ChatmassegeDelegate IncomingChatmessageEvent;
-        public List<User> users;
+        public List<User> users = new List<User>();
 
         public TcpConnection()
         {
@@ -218,7 +218,32 @@ namespace FietsClient
                             }
                             break;
                         case "9":
-                            users = JsonConvert.DeserializeObject<List<User>>(response_parts[1]);
+                            dynamic results = JsonConvert.DeserializeObject<dynamic>(response_parts[1]);
+
+                            foreach (dynamic r in results)
+                            {
+                                User user = r as User;
+                                users.Add(new User(r.id.ToString(), r.password.ToString(), Int32.Parse(r.age.ToString()),
+                                    Boolean.Parse(r.gender.ToString()), Int32.Parse(r.weight.ToString()),
+                                    Boolean.Parse(r.isDoctor.ToString())));
+
+                                int i = 1;
+
+                                foreach (dynamic ses in r.tests)
+                                {
+                                    Session tempSession = new Session(i, Int32.Parse(ses.bikeMode.ToString()), ses.modevalue.ToString());
+                                    i++;
+
+                                    foreach (dynamic m in ses.session)
+                                    {
+                                        Measurement measurement = new Measurement(Int32.Parse(m.pulse.ToString()), Int32.Parse(m.rpm.ToString()), Int32.Parse(m.speed.ToString()), Int32.Parse(m.wattage.ToString()), Int32.Parse(m.distance.ToString()), Int32.Parse(m.requestedPower.ToString()), Int32.Parse(m.energy.ToString()), Int32.Parse(m.actualPower.ToString()), Int32.Parse(m.time.ToString()), Int32.Parse(m.bpm.ToString()));
+                                        tempSession.AddMeasurement(measurement);
+                                    }
+
+                                    users.Last().AddSession(tempSession);
+                                }
+                                Console.WriteLine(users);
+                            }
                             break;
                     }
                 }

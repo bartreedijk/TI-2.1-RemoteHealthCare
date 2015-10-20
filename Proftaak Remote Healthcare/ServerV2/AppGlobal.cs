@@ -45,12 +45,12 @@ namespace ServerV2
             users.Add(new User("admin", "admin", 80, false, 77, true));
 
             Random r = new Random();
-            Session session = new Session(1, "100");
+            Session session = new Session(1,1, "100");
             for (int i = 0; i < 20; i++)
                 session.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
             users.ElementAt(1).tests.Add(session);
 
-            Session session2 = new Session(2, "100");
+            Session session2 = new Session(2,2, "100");
             for (int i = 0; i < 50; i++)
                 session2.AddMeasurement(new Measurement(r.Next(100, 200), r.Next(60, 100), r.Next(100, 150), r.Next(0, 100), i, r.Next(100), r.Next(100), r.Next(100), i, r.Next(100)));
             users.ElementAt(1).tests.Add(session2);
@@ -156,7 +156,7 @@ namespace ServerV2
                             foreach (User u in users)
                             {
                                 if (u.id == response[1])
-                                    u.AddSession(new Session(int.Parse(response[2]), response[3]));
+                                    u.AddSession(new Session(u.GetSessions().Last().id+1, int.Parse(response[2]), response[3]));
                             }
                         }
                         break;
@@ -212,7 +212,9 @@ namespace ServerV2
                         }
                         break;
                     case "9": //alles doorsturen voor de dokter
-                        Communication.Send(FietsLibrary.JsonConverter.GetUsers(users), sslStream);
+                        Console.WriteLine("send users");
+                        string file = "9|" + FietsLibrary.JsonConverter.GetUsers(users);
+                        Communication.Send(file, sslStream);
                         break;
                     default:
                         break;

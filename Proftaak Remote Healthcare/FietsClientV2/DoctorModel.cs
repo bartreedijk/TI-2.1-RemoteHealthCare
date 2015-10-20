@@ -46,7 +46,6 @@ namespace FietsClient
         internal List<User> requestUsers()
         {
             tcpConnection.requestUsers();
-            Thread.Sleep(1000);
             return tcpConnection.users;
         }
 

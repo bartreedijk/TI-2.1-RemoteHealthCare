@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using FietsClient.Forms;
 using FietsLibrary.JSONObjecten;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Threading;
 
 namespace FietsClient
 {
@@ -39,15 +40,10 @@ namespace FietsClient
             }
         }
 
-        private List<User> users;
+        private List<User> users = new List<User>();
         private void Form1_Load(object sender, EventArgs e)
         {
             users = doctorModel.requestUsers();
-            foreach (User user in users)
-            {
-                PatientBox.Items.Add(user.id);
-            }
-
         }
 
         private void messageBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -137,9 +133,9 @@ namespace FietsClient
             User user = null;
             foreach (User userx in users)
             {
+                user = userx;
                 if (PatientBox.Text == user.id)
                 {
-                    user = userx;
                     List<Session> sessions = user.GetSessions();
                     foreach (Session session in sessions)
                     {
@@ -206,6 +202,15 @@ namespace FietsClient
                     {
                         sessionsBox.Items.Add(session.date.ToString());
                     }
+            }
+        }
+
+        private void loadUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            users = doctorModel.tcpConnection.users;
+            foreach (User user in users)
+            {
+                PatientBox.Items.Add(user.id);
             }
         }
     }
