@@ -201,7 +201,12 @@ namespace FietsClient
 
                             break;
                         case "2":
-                            currentData.GetSessions().Last().AddMeasurement(JsonConvert.DeserializeObject<Measurement>(response_parts[1]));
+                            dynamic DynMeasurement = JsonConvert.DeserializeObject<dynamic>(response_parts[1]);
+                            Measurement outputMeasurement = new Measurement(DynMeasurement.pulse, DynMeasurement.rpm, DynMeasurement.speed, DynMeasurement.distance, DynMeasurement.requestedPower, DynMeasurement.energy, DynMeasurement.actualPower, DynMeasurement.time);
+                            currentData.GetSessions().Last().AddMeasurement(outputMeasurement);
+                            
+
+
                             break;
                         case "7":
                             //                                        sender              receiver          message
