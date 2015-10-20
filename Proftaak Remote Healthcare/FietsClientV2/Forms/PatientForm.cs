@@ -220,7 +220,7 @@ namespace FietsClient
         {
 	    if (data[2].StartsWith("This is a broadcast: "))
             {
-                string finalMessage = "\r\n" + data[2];
+                string finalMessage = data[2] + "\r\n";
 
                 chatBox.Invoke((MethodInvoker)delegate ()
                 {
