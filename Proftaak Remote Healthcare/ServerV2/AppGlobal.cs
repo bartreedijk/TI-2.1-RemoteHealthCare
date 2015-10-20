@@ -101,6 +101,11 @@ namespace ServerV2
             return sslStream;
         }
 
+        //Save data to UserData.Json
+        private void saveData2Json()
+        {
+            File.WriteAllText(@"JSON Files\UserData.Json", JsonConvert.SerializeObject(users));
+        }
         
 
         private void receive(object obj)
@@ -177,7 +182,7 @@ namespace ServerV2
                     case "2":   //Livedata opvragen
                         currentUser = users.First(item => item.id == response[1]);
                         FietsLibrary.JsonConverter.GetLastMeasurement(currentUser.tests.Last());
-                        File.WriteAllText(@"JSON Files\UserData.Json", JsonConvert.SerializeObject(users));
+                        
                         break;
                     case "3":   //Nieuwe meetsessie aanmaken
                         if (response.Length == 6)
