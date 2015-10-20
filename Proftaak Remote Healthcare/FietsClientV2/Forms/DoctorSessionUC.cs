@@ -87,6 +87,8 @@ namespace FietsClient.Forms
             }
             else
             {
+                int actualMinutes = (int)(data.time / 60.0);
+                string actualTime = actualMinutes + ":" + (data.time - actualMinutes * 60).ToString();
                 //fill fields
                 pulseBox.Text = data.pulse.ToString();
                 rpmInfoBox.Text = data.rpm.ToString();
@@ -98,22 +100,31 @@ namespace FietsClient.Forms
                 actualBox.Text = data.actualPower.ToString();
 
                 //fill graph speed
-                this.speedChart.Series[0].Points.Clear();
+                speedPoints.Add(new DataPoint(Convert.ToDateTime(actualTime).ToOADate(), Convert.ToDouble(data.speed)));
+                speedChart.Series[0].Points.Clear();
                 for (int i = 0; i < speedPoints.Count; i++)
-                    this.speedChart.Series[0].Points.Add(speedPoints[i]);
-                this.speedChart.Update();
+                    speedChart.Series[0].Points.Add(speedPoints[i]);
+                if (speedPoints.Count > 25)
+                    speedPoints.RemoveAt(0);
+                speedChart.Update();
 
                 //fill graph pulse
-                this.bpmChart.Series[0].Points.Clear();
+                bpmPoints.Add(new DataPoint(Convert.ToDateTime(actualTime).ToOADate(), Convert.ToDouble(data.pulse)));
+                bpmChart.Series[0].Points.Clear();
                 for (int i = 0; i < bpmPoints.Count; i++)
-                    this.bpmChart.Series[0].Points.Add(bpmPoints[i]);
-                this.bpmChart.Update();
+                    bpmChart.Series[0].Points.Add(bpmPoints[i]);
+                if (bpmPoints.Count > 25)
+                    bpmPoints.RemoveAt(0);
+                speedChart.Update();
 
                 //fill graph rpm
-                this.rpmChart.Series[0].Points.Clear();
+                rpmPoints.Add(new DataPoint(Convert.ToDateTime(actualTime).ToOADate(), Convert.ToDouble(data.rpm)));
+                rpmChart.Series[0].Points.Clear();
                 for (int i = 0; i < rpmPoints.Count; i++)
-                    this.rpmChart.Series[0].Points.Add(rpmPoints[i]);
-                this.rpmChart.Update();
+                    rpmChart.Series[0].Points.Add(rpmPoints[i]);
+                if (rpmPoints.Count > 25)
+                    rpmPoints.RemoveAt(0);
+                rpmChart.Update();
             }
         }
     }
