@@ -135,6 +135,7 @@ namespace FietsClient
                 try
                 {
                     sslStream.Read(bytesFrom, 0, client.ReceiveBufferSize);
+                    
                 }
                 catch (IOException e)
                 {
@@ -381,19 +382,19 @@ namespace FietsClient
                 SendString("10|0|" + PatientUsername + "|" + currentData.GetUserID() + "|");
             
         }
-        public void SendDistance(int distance)
+        public void SendDistance(int distance, string user)
         {
-            SendString("20|" + userID + "|" + distance + "|");
+            SendString("20|" + user + "|" + distance + "|");
         }
 
-        public void SendTime(int Minutes, int seconds)
+        public void SendTime(int Minutes, int seconds, string user)
         {
-            SendString("21|" + userID + "|" + Minutes + ":" + seconds + "|");
+            SendString("21|" + user + "|" + Minutes + ":" + seconds + "|");
         }
 
-        public void SendPower(int power)
+        public void SendPower(int power, string user)
         {
-            SendString("22|" + userID + "|" + power + "|");
+            SendString("22|" + user + "|" + power + "|");
         }
 
 

@@ -19,13 +19,14 @@ namespace FietsClient.Forms
         {
             InitializeComponent();
             this.patientID = patientID;
+            nameBox.Text = patientID;
         }
 
         private void setDistanceButton_Click(object sender, EventArgs e)
         {
             int distance;
             Int32.TryParse(setDistanceBox.Text, out distance);
-            DoctorModel.doctorModel.tcpConnection.SendDistance(distance);
+            DoctorModel.doctorModel.tcpConnection.SendDistance(distance, patientID);
         }
 
         private void setTimeButton_Click(object sender, EventArgs e)
@@ -33,14 +34,14 @@ namespace FietsClient.Forms
             int minutes, seconds;
             Int32.TryParse(setTimeMinutesBox.Text, out minutes);
             Int32.TryParse(setTimeSecondsBox.Text, out seconds);
-            DoctorModel.doctorModel.tcpConnection.SendTime(minutes, seconds);
+            DoctorModel.doctorModel.tcpConnection.SendTime(minutes, seconds, patientID);
         }
 
         private void setPowerButton_Click(object sender, EventArgs e)
         {
             int power;
             Int32.TryParse(setPowerBox.Text, out power);
-            DoctorModel.doctorModel.tcpConnection.SendPower(power);
+            DoctorModel.doctorModel.tcpConnection.SendPower(power, patientID);
         }
 
         private void button1_Click(object sender, EventArgs e)
