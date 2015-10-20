@@ -84,10 +84,7 @@ namespace FietsClient
             }
             else if (int.TryParse(distanceBox.Text, out n))
             {
-                patientModel.setDistanceMode(distanceBox.Text);
-                patientModel.startAskingData();
-                this.sessionBox.Text = "Afstand: " + n;
-                this.label19.Text = "Sessie is gestart, u kunt nu gaan starten met fietsen.";
+                patientModel.setDistanceMode(distanceBox.Text, true);
             }
             else
             {
@@ -108,10 +105,7 @@ namespace FietsClient
             {
                 if (isNumericS)
                 {
-                    patientModel.setTimeMode($"{ minutes:00}{seconds:00}");
-                    patientModel.startAskingData();
-                    this.sessionBox.Text = "Tijd: " + minutes + ":" + seconds;
-                    this.label19.Text = "Sessie is gestart, u kunt nu gaan starten met fietsen.";
+                    patientModel.setTimeMode($"{ minutes:00}{seconds:00}", true);
                 }
                 else MessageBox.Show("Minutes is not a valid number.");
             }
@@ -251,16 +245,10 @@ namespace FietsClient
             Application.Exit();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _connection.StartNewSession(false, _connection.currentData.GetUserID());
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             _connection.StopSessoin();
-            this.sessionBox.Text = " ";
-            this.label19.Text = "Sessie gestopt";
+
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
