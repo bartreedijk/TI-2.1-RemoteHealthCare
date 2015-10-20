@@ -48,6 +48,7 @@ namespace FietsLibrary.JSONObjecten
             string[] timeArray = data[6].Split(':');
             time += (int.Parse(timeArray[0]) * 60);
             time += int.Parse(timeArray[1]);
+            this.time = time;
             actualPower = int.Parse(data[7]);
         }
     }
