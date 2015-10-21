@@ -282,8 +282,8 @@ namespace ServerV2
 
                         // BUG: er wordt teveel data verstuurd!!!!
                         //Console.WriteLine("send users");
-                        //string file = "9|" + FietsLibrary.JsonConverter.GetUsers(users);
-                        //Communication.Send(file, sslStream);
+                        string file = "9|" + FietsLibrary.JsonConverter.GetUsers(users);
+                        Communication.Send(file, sslStream);
                         break;
                     case "10":
                         if (response[1] == "1" || response[1] == "0") //start of stop sesie (met check)
