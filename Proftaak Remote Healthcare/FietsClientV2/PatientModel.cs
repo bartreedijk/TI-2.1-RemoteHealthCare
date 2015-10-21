@@ -21,7 +21,7 @@ namespace FietsClient
         public DataHandler dataHandler { get; private set; }
         private Thread workerThread;
 
-        private string powerLog;
+        public string powerLog;
         public Boolean askdata;
 
         public string CurrentDoctorID { get; set; }
@@ -78,12 +78,12 @@ namespace FietsClient
             while (askdata)
             {
                 Thread.Sleep(1000);
-
+                
                 if( (patientform.actualBox.Text != powerLog) && (powerLog != null) && (Int32.Parse(powerLog) >= 0) )
                 {
                     setPower(powerLog);
                 }
-
+                
                 try
                 {
                     if(askdata)

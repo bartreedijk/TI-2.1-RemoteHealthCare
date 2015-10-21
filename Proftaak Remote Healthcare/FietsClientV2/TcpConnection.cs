@@ -53,7 +53,7 @@ namespace FietsClient
         {
             try
             {
-                client.Connect("brdk.nl", 1288);
+                client.Connect("127.0.0.1", 1288);
 
 
                 // create streams
@@ -282,7 +282,9 @@ namespace FietsClient
                             PatientModel.patientModel.setTimeMode(response_parts[1].TrimEnd('\0') + response_parts[2].TrimEnd('\0'), false);
                             break;
                         case "22":
-                            PatientModel.patientModel.setPower(response_parts[1].TrimEnd('\0'));
+                            //PatientModel.patientModel.setPower(response_parts[1].TrimEnd('\0'));
+
+                            PatientModel.patientModel.powerLog = response_parts[1].TrimEnd('\0');
                             break;
                     }
                 }
