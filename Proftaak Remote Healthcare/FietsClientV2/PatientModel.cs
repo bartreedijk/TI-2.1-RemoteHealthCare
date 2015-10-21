@@ -63,6 +63,7 @@ namespace FietsClient
         public void stopAskingData()
         {
             askdata = false;
+
             dataHandler.sendData(DataHandler.RESET);
             if (patientform.InvokeRequired)
             {

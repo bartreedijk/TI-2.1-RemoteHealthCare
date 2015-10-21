@@ -26,36 +26,25 @@ namespace ServerV2
             listener = new TcpListener(IPAddress.Any, 1288);
             listener.Start();
 
-            /*
-            //Read UserDate file
-            string s = File.ReadAllText(@"JSON Files\UserData.Json");
-            dynamic results = JsonConvert.DeserializeObject<dynamic>(s);
+            string dir = @"JSON Files";
+            string filename = @"UserData.Json";
 
-            foreach (dynamic r in results)
+            if(!Directory.Exists(dir))
             {
-                users.Add(new User(r.id.ToString(), r.password.ToString(), Int32.Parse(r.age.ToString()),
-                    Boolean.Parse(r.gender.ToString()), Int32.Parse(r.weight.ToString()),
-                    Boolean.Parse(r.isDoctor.ToString())));
-
-                int i = 1;
-
-                foreach (dynamic ses in r.tests)
-                {
-                    Session tempSession = new Session(i);
-                    i++;
-
-                    foreach (dynamic m in ses.session)
-                    {
-                        Measurement measurement = new Measurement(Int32.Parse(m.pulse.ToString()), Int32.Parse(m.rpm.ToString()), Int32.Parse(m.speed.ToString()), Int32.Parse(m.wattage.ToString()), Int32.Parse(m.distance.ToString()), Int32.Parse(m.requestedPower.ToString()), Int32.Parse(m.energy.ToString()), Int32.Parse(m.actualPower.ToString()), Int32.Parse(m.time.ToString()), Int32.Parse(m.bpm.ToString()));
-                        tempSession.AddMeasurement(measurement);
-                    }
-
-                    users.Last().AddSession(tempSession);
-                }
-
+                Directory.CreateDirectory(dir);
             }
-            */
-            TestMethode();
+
+            if (!File.Exists(dir + @"\" + filename))
+            {
+                TestMethode();
+                saveData2Json();
+            }
+            else
+            {
+                readDataFromJson();
+            }
+            
+            
             while (true)
             {
 
@@ -109,6 +98,39 @@ namespace ServerV2
             File.WriteAllText(@"JSON Files\UserData.Json", JsonConvert.SerializeObject(users));
         }
 
+        private void readDataFromJson()
+        {
+            //Read UserDate file
+            string s = File.ReadAllText(@"JSON Files\UserData.Json");
+            dynamic results = JsonConvert.DeserializeObject<dynamic>(s);
+            //Clear list
+            users = new List<User>();
+
+            foreach (dynamic r in results)
+            {
+                
+                users.Add(new User(r.id.ToString(), r.password.ToString(), Int32.Parse(r.age.ToString()),
+                    Boolean.Parse(r.gender.ToString()), Int32.Parse(r.weight.ToString()),
+                    Boolean.Parse(r.isDoctor.ToString())));
+
+                int i = 1;
+
+                foreach (dynamic ses in r.sessions)
+                {
+                    Session tempSession = new Session(i);
+                    i++;
+
+                    foreach (dynamic m in ses.measurements)
+                    {
+                        Measurement measurement = new Measurement(Int32.Parse(m.pulse.ToString()), Int32.Parse(m.rpm.ToString()), Int32.Parse(m.speed.ToString()), Int32.Parse(m.distance.ToString()), Int32.Parse(m.requestedPower.ToString()), Int32.Parse(m.energy.ToString()), Int32.Parse(m.actualPower.ToString()), Int32.Parse(m.time.ToString()));
+                        tempSession.AddMeasurement(measurement);
+                    }
+
+                    users.Last().AddSession(tempSession);
+                }
+
+            }
+        }
 
         private void receive(object obj)
         {
@@ -208,6 +230,8 @@ namespace ServerV2
                         break;
                     case "4":  // Nieuwe patient
                         users.Add(new User(response[1], response[2], Int32.Parse(response[3]), Boolean.Parse(response[4]), Int32.Parse(response[5])));
+                        saveData2Json();
+                        readDataFromJson();
                         break;
                     case "5":   //data pushen naar meetsessie (opslaan)
                         // uitleg response[]:
@@ -297,6 +321,9 @@ namespace ServerV2
                             }
                         }
                         
+                        break;
+                    case "11":
+                        saveData2Json();
                         break;
                     case "20":
                         Client Case20Client = clients.FirstOrDefault(item => item.username == response[1]);

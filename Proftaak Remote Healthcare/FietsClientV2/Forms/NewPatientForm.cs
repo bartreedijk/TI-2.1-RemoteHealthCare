@@ -44,6 +44,7 @@ namespace FietsClient.Forms
                 User user = new User(textBox1.Text, passBox.Text, age, gender,
                     weight, false);
                 connection.SendNewPatient(user);
+                this.Visible = false;
             }
         }
     }

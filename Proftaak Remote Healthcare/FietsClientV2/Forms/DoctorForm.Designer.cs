@@ -42,6 +42,7 @@
             this.messageButton = new System.Windows.Forms.Button();
             this.doctorTabControl = new System.Windows.Forms.TabControl();
             this.tabPageSummary = new System.Windows.Forms.TabPage();
+            this.newPatientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doctorSummaryUC1 = new FietsClient.Forms.DoctorSummaryUC();
             this.menuStrip1.SuspendLayout();
             this.chatArea.SuspendLayout();
@@ -54,6 +55,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archiefToolStripMenuItem,
+            this.newPatientToolStripMenuItem,
             this.logoutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -162,6 +164,13 @@
             this.tabPageSummary.TabIndex = 0;
             this.tabPageSummary.Text = "Summary";
             // 
+            // newPatientToolStripMenuItem
+            // 
+            this.newPatientToolStripMenuItem.Name = "newPatientToolStripMenuItem";
+            this.newPatientToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.newPatientToolStripMenuItem.Text = "New Patient";
+            this.newPatientToolStripMenuItem.Click += new System.EventHandler(this.nieuwePatientToolStripMenuItem_Click);
+            // 
             // doctorSummaryUC1
             // 
             this.doctorSummaryUC1.BackColor = System.Drawing.SystemColors.Control;
@@ -215,6 +224,7 @@
         private System.Windows.Forms.ToolStripMenuItem selectSessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadUsersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newPatientToolStripMenuItem;
     }
 }
 

@@ -212,10 +212,6 @@ namespace FietsClient
                                 sessionUC.HandleSessionBikeData(outputMeasurement);
                             }
                                 break;
-                        case "3":
-                            
-                            
-                            break;
                         case "7":
                             //                                        sender              receiver          message
                             onIncomingChatMessage(new string[] { response_parts[1], response_parts[2], response_parts[3].TrimEnd('\0') });
@@ -316,6 +312,7 @@ namespace FietsClient
         public void StopSessoin()
         {
             PatientModel.patientModel.stopAskingData();
+            SendStopSessionPatient();
         }
 
         public void SendLogin(string username, string password)
@@ -367,8 +364,13 @@ namespace FietsClient
         {
             SendString("8|" + userID + "|");
         }
-	
-	public void requestUsers()
+
+        public void SendStopSessionPatient()
+        {
+            SendString("11|" + userID + "|");
+        }
+
+        public void requestUsers()
         {
             SendString("9|");
         }

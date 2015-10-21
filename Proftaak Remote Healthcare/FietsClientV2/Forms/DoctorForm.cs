@@ -131,80 +131,88 @@ namespace FietsClient
         private List<DataPoint> rpmPoints = new List<DataPoint>();
         private void selectSessionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Reset the point lists
+            speedPoints.Clear();
+            bpmPoints.Clear();
+            rpmPoints.Clear();
+
             //get measurments
             List<Measurement> measurments = new List<Measurement>();
-            User user = null;
-            foreach (User userx in users)
+            User user = users.First(item => item.id == PatientBox.Text);
+            List<Session> sessions = user.GetSessions();
+
+            if (sessionsBox.SelectedItem == null)
             {
-                user = userx;
-                if (PatientBox.Text == user.id)
+                MessageBox.Show("Please select a session");
+            }
+            else
+            {
+
+                foreach (Session session in sessions)
                 {
-                    List<Session> sessions = user.GetSessions();
-                    foreach (Session session in sessions)
+                    if (sessionsBox.Text == session.id.ToString())
                     {
-                        if (sessionsBox.Text == session.date.ToString())
-                        {
-                            measurments = session.measurements;
-                        }
+                        measurments = session.measurements;
                     }
                 }
-            }
-            //fill boxes
 
-            summaryUserControl.sessionBox.Text = user.id;
-            summaryUserControl.nameBox.Text = user.id;
-            summaryUserControl.pulseBox.Text = measurments[measurments.Count - 1].pulse.ToString();
-            summaryUserControl.rpmInfoBox.Text = measurments[measurments.Count - 1].rpm.ToString();
-            summaryUserControl.speedInfoBox.Text = measurments[measurments.Count - 1].speed.ToString();
-            summaryUserControl.distanceInfoBox.Text = measurments[measurments.Count - 1].distance.ToString();
-            summaryUserControl.requestedBox.Text = measurments[measurments.Count - 1].requestedPower.ToString();
-            summaryUserControl.energyInfoBox.Text = measurments[measurments.Count - 1].energy.ToString();
-            summaryUserControl.timeBox.Text = measurments[measurments.Count - 1].time.ToString();
-            summaryUserControl.actualBox.Text = measurments[measurments.Count - 1].actualPower.ToString();
+                //fill boxes
 
-            //fill speedpoints
-            for (int i = 0; i < measurments.Count; i++)
-            {
-                speedPoints.Add(new DataPoint(measurments[i].time, measurments[i].speed));
-            }
-            //fill speedgraph
-            summaryUserControl.speedChart.Series[0].Points.Clear();
-            for (int i = 0; i < speedPoints.Count; i++)
-                summaryUserControl.speedChart.Series[0].Points.Add(speedPoints[i]);
-            summaryUserControl.speedChart.Update();
+                summaryUserControl.sessionBox.Text = user.id;
+                summaryUserControl.nameBox.Text = user.id;
+                summaryUserControl.pulseBox.Text = measurments[measurments.Count - 1].pulse.ToString();
+                summaryUserControl.rpmInfoBox.Text = measurments[measurments.Count - 1].rpm.ToString();
+                summaryUserControl.speedInfoBox.Text = measurments[measurments.Count - 1].speed.ToString();
+                summaryUserControl.distanceInfoBox.Text = measurments[measurments.Count - 1].distance.ToString();
+                summaryUserControl.requestedBox.Text = measurments[measurments.Count - 1].requestedPower.ToString();
+                summaryUserControl.energyInfoBox.Text = measurments[measurments.Count - 1].energy.ToString();
+                summaryUserControl.timeBox.Text = measurments[measurments.Count - 1].time.ToString();
+                summaryUserControl.actualBox.Text = measurments[measurments.Count - 1].actualPower.ToString();
 
-            //fill bpm
-            for (int i = 0; i < measurments.Count; i++)
-            {
-                bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].pulse));
-            }
-            //fill bpmgraph
-            summaryUserControl.bpmChart.Series[0].Points.Clear();
-            for (int i = 0; i < bpmPoints.Count; i++)
-                summaryUserControl.bpmChart.Series[0].Points.Add(bpmPoints[i]);
-            summaryUserControl.bpmChart.Update();
+                //fill speedpoints
+                for (int i = 0; i < measurments.Count; i++)
+                {
+                    speedPoints.Add(new DataPoint(measurments[i].time, measurments[i].speed));
+                }
+                //fill speedgraph
+                summaryUserControl.speedChart.Series[0].Points.Clear();
+                for (int i = 0; i < speedPoints.Count; i++)
+                    summaryUserControl.speedChart.Series[0].Points.Add(speedPoints[i]);
+                summaryUserControl.speedChart.Update();
 
-            //fill rpm
-            for (int i = 0; i < measurments.Count; i++)
-            {
-                rpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].rpm));
+                //fill bpm
+                for (int i = 0; i < measurments.Count; i++)
+                {
+                    bpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].pulse));
+                }
+                //fill bpmgraph
+                summaryUserControl.bpmChart.Series[0].Points.Clear();
+                for (int i = 0; i < bpmPoints.Count; i++)
+                    summaryUserControl.bpmChart.Series[0].Points.Add(bpmPoints[i]);
+                summaryUserControl.bpmChart.Update();
+
+                //fill rpm
+                for (int i = 0; i < measurments.Count; i++)
+                {
+                    rpmPoints.Add(new DataPoint(measurments[i].time, measurments[i].rpm));
+                }
+                //fill rpmgraph
+                summaryUserControl.rpmChart.Series[0].Points.Clear();
+                for (int i = 0; i < rpmPoints.Count; i++)
+                    summaryUserControl.rpmChart.Series[0].Points.Add(rpmPoints[i]);
+                summaryUserControl.rpmChart.Update();
             }
-            //fill rpmgraph
-            summaryUserControl.rpmChart.Series[0].Points.Clear();
-            for (int i = 0; i < rpmPoints.Count; i++)
-                summaryUserControl.rpmChart.Series[0].Points.Add(rpmPoints[i]);
-            summaryUserControl.rpmChart.Update();
         }
 
         private void PatientBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (User user in users)
+            sessionsBox.Items.Clear();
+            sessionsBox.SelectedIndex = -1;
+            sessionsBox.Text = "";
+            User tempUser = users.First(item => item.id == PatientBox.Text);
+            foreach (Session session in tempUser.GetSessions())
             {
-                if (user.id == PatientBox.Text)
-                    foreach (Session session in user.GetSessions())
-                    {
-                        sessionsBox.Items.Add(session.date.ToString());
-                    }
+                sessionsBox.Items.Add(session.id.ToString());
             }
         }
 
@@ -215,7 +223,8 @@ namespace FietsClient
             sessionsBox.Items.Clear();
             foreach (User user in users)
             {
-                PatientBox.Items.Add(user.id);
+                if(user.isDoctor == false)
+                    PatientBox.Items.Add(user.id);
             }
         }
 
