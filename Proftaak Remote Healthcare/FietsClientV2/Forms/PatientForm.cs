@@ -248,7 +248,6 @@ namespace FietsClient
         private void button2_Click(object sender, EventArgs e)
         {
             _connection.StopSessoin();
-
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)

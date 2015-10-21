@@ -35,14 +35,15 @@
             this.PatientBox = new System.Windows.Forms.ToolStripComboBox();
             this.sessionsBox = new System.Windows.Forms.ToolStripComboBox();
             this.selectSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chatBox = new System.Windows.Forms.TextBox();
             this.messageBox = new System.Windows.Forms.TextBox();
             this.chatArea = new System.Windows.Forms.GroupBox();
             this.messageButton = new System.Windows.Forms.Button();
             this.doctorTabControl = new System.Windows.Forms.TabControl();
             this.tabPageSummary = new System.Windows.Forms.TabPage();
+            this.newPatientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doctorSummaryUC1 = new FietsClient.Forms.DoctorSummaryUC();
-            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.chatArea.SuspendLayout();
             this.doctorTabControl.SuspendLayout();
@@ -54,6 +55,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archiefToolStripMenuItem,
+            this.newPatientToolStripMenuItem,
             this.logoutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -96,6 +98,13 @@
             this.selectSessionToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.selectSessionToolStripMenuItem.Text = "Select session";
             this.selectSessionToolStripMenuItem.Click += new System.EventHandler(this.selectSessionToolStripMenuItem_Click);
+            // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.logoutToolStripMenuItem.Text = "Logout";
+            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // chatBox
             // 
@@ -155,21 +164,21 @@
             this.tabPageSummary.TabIndex = 0;
             this.tabPageSummary.Text = "Summary";
             // 
+            // newPatientToolStripMenuItem
+            // 
+            this.newPatientToolStripMenuItem.Name = "newPatientToolStripMenuItem";
+            this.newPatientToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.newPatientToolStripMenuItem.Text = "New Patient";
+            this.newPatientToolStripMenuItem.Click += new System.EventHandler(this.nieuwePatientToolStripMenuItem_Click);
+            // 
             // doctorSummaryUC1
             // 
             this.doctorSummaryUC1.BackColor = System.Drawing.SystemColors.Control;
             this.doctorSummaryUC1.Location = new System.Drawing.Point(0, 0);
-            this.doctorSummaryUC1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.doctorSummaryUC1.Margin = new System.Windows.Forms.Padding(4);
             this.doctorSummaryUC1.Name = "doctorSummaryUC1";
             this.doctorSummaryUC1.Size = new System.Drawing.Size(822, 640);
             this.doctorSummaryUC1.TabIndex = 0;
-            // 
-            // logoutToolStripMenuItem
-            // 
-            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.logoutToolStripMenuItem.Text = "Logout";
-            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // DoctorForm
             // 
@@ -215,6 +224,7 @@
         private System.Windows.Forms.ToolStripMenuItem selectSessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadUsersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newPatientToolStripMenuItem;
     }
 }
 
