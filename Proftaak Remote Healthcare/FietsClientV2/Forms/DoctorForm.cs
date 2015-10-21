@@ -211,6 +211,8 @@ namespace FietsClient
         private void loadUsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             users = doctorModel.tcpConnection.users;
+            PatientBox.Items.Clear();
+            sessionsBox.Items.Clear();
             foreach (User user in users)
             {
                 PatientBox.Items.Add(user.id);
