@@ -146,7 +146,15 @@ namespace FietsClient
                     rpmPoints.RemoveAt(0);
                 patientform.rpmChart.Update();
             }
-            SaveAndSendData(data);
+            try
+            {
+                SaveAndSendData(data);
+            }
+            catch (Exception e)
+            {
+
+            }
+            
         }
 
         private void SaveAndSendData(string[] data)
